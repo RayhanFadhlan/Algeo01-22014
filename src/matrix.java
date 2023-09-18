@@ -5,23 +5,61 @@ public class matrix{
     double [][] matrix;
     int row;
     int col;
-    public matrix(int row, int col){
-        this.row = row;
-        this.col = col;
-        matrix = new double[row][col];
+
+    // Constructor
+    public matrix(){
+        this.row = 0;
+        this.col = 0;
+        this.matrix = new double[this.row][this.col];
+    }
+
+    // Getters
+    public int getRow() {
+        // Mengembalikan nilai row
+        return this.row;
+    }
+
+    public int getCol() {
+        // Mengembalikan nilai col
+        return this.col;
+    }
+
+    // Setters
+    public void setRow(int value) {
+        // Memberi nilai row
+        this.row = value;
+    }
+
+    public void setCol(int value) {
+        // Memberi nilai col
+        this.col = value;
+    }
+
+    public void initializeMatrix(int row, int col){
+        // Inisialisasi matriks
+        this.matrix = new double[row][col];
+    }
+
+    public void setMatrix(int row, int col) {
+        // Memberika matriks nilai
+        setRow(row);
+        setCol(col);
+        initializeMatrix(this.row, this.col);
     }
 
 
-    public void set(int row, int col, double value){
-        matrix[row][col] = value;
+    // Methods
+    public void setMatrixValue(int row, int col, double value){
+        this.matrix[row][col] = value;
     }
 
 
     public matrix add(matrix m){
-        matrix result = new matrix(row, col);
+        matrix result = new matrix(); 
+        result.setMatrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                result.set(i, j, matrix[i][j] + m.matrix[i][j]);
+                result.setMatrixValue(i, j, matrix[i][j] + m.matrix[i][j]);
             }
         }
         return result;
@@ -31,14 +69,14 @@ public class matrix{
         double temp[] = m.matrix[i];
         m.matrix [i] = m.matrix[j];
         m.matrix[j] = temp;
-
     }
 
     public matrix copy(matrix m){
-        matrix result = new matrix(row, col);
+        matrix result = new matrix(); 
+        result.setMatrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                result.set(i, j, matrix[i][j]);
+                result.setMatrixValue(i, j, matrix[i][j]);
             }
         }
         return result;
@@ -46,10 +84,11 @@ public class matrix{
 
 
     public matrix transpose(matrix m){
-        matrix result = new matrix(col, row);
+        matrix result = new matrix(); 
+        result.setMatrix(row, col);        
         for(int i = 0; i < col; i++){
             for(int j = 0; j < row; j++){
-                result.set(i, j, matrix[j][i]);
+                result.setMatrixValue(i, j, matrix[j][i]);
             }
         }
         return result;
@@ -64,9 +103,8 @@ public class matrix{
                     return j;
                     
                 }
+            }
         }
-    
-    }
        return 0;
     }
   
@@ -151,30 +189,19 @@ public class matrix{
             System.out.println();
         }
     }
-    //input matrix
-    public static matrix input(){
+
+    public void bacaMatriks () {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter row and col: ");
         int row = sc.nextInt();
         int col = sc.nextInt();
-        matrix m = new matrix(row, col);
+        setMatrix(row, col);
         System.out.println("Enter matrix: ");
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                m.set(i, j, sc.nextDouble());
+                setMatrixValue(i, j, sc.nextDouble());
             }
         }
-        return m;
     }
-    // test obe and print
-    public static void main(String[] args){
-        matrix m = input();
-        m.print();
-        System.out.println("OBE: ");
-        matrix result = m.GaussJordan(m);
-        result.print();
-    }
-    
 }
-// test OBE and print
 
