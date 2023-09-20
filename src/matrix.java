@@ -66,12 +66,14 @@ public class matrix{
     }
 
     public void swap(matrix m, int i, int j){
+        // Menukar baris matriks
         double temp[] = m.matrix[i];
         m.matrix [i] = m.matrix[j];
         m.matrix[j] = temp;
     }
 
     public matrix copy(matrix m){
+        // Memberi salinan dari matriks m
         matrix result = new matrix(); 
         result.setMatrix(row, col);
         for(int i = 0; i < row; i++){
@@ -84,6 +86,7 @@ public class matrix{
 
 
     public matrix transpose(matrix m){
+        // Transpose matriks
         matrix result = new matrix(); 
         result.setMatrix(row, col);        
         for(int i = 0; i < col; i++){
@@ -95,13 +98,12 @@ public class matrix{
     }
 
     public int makeLeftNonZero(matrix m,int row){
-        // check if leftmost col not all 0
+        // Menukar baris dengan nilai nol paling banyak ke bawah.
         for(int j=row;j<m.col;j++){
             for(int i = row;i<m.row;i++){
                 if(m.matrix[i][j]!=0){
                     swap(m,row,i);
                     return j;
-                    
                 }
             }
         }
@@ -113,13 +115,30 @@ public class matrix{
         for(int i = row+1;i<m.row;i++){
             scale = m.matrix[i][col];
             for(int j = 0; j<m.col;j++){
-  
                 m.matrix[i][j]-=((m.matrix[row][j])*scale);
+            }
         }
-  
     }
+
+    public matrix identity() {
+        // Mengembalikan nilai matriks identitas NxN
+        matrix identitas = new matrix();
+        identitas.setMatrix(this.row, this.col);
+
+        for(int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                if (i == j) {
+                    identitas.setMatrixValue(i, j, 1);
+                } else {
+                    identitas.setMatrixValue(i, j, 0);                    
+                }
+            }
+        }
+        return identitas;
     }
+
     public boolean isRow0(matrix m,int row){
+        // Mengecek apakah nilai dari suatu baris bernilai 0
         for(int i = 0;i<m.col-1;i++){
             if(m.matrix[row][i]!=0){
                 return false;
@@ -127,7 +146,7 @@ public class matrix{
         }
         return true;
     }
-    public matrix OBE(matrix m){
+    public matrix Gauss(matrix m){
         matrix result = copy(m);
         for(int i = 0;i<result.row;i++){
             int pivotCol = makeLeftNonZero(result,i);
@@ -150,6 +169,7 @@ public class matrix{
         }
     
     public void eraseNon0(matrix m,int row,int col){
+        // Mengubah elemen diatas leading one menjadi 0
         for(int i= 0;i<row;i++){
             if(m.matrix[i][col]!=0){
                 double scale = m.matrix[i][col];
@@ -160,6 +180,7 @@ public class matrix{
         }
     }
     public int findLeading1(matrix m,int row){
+        // Mencari nilai leading one
         for(int i = 0;i<m.col;i++){
             if(m.matrix[row][i]==1){
                 return i;
@@ -169,7 +190,7 @@ public class matrix{
     }
     public matrix GaussJordan(matrix m){
         matrix result = copy(m);
-        result = OBE(result);
+        result = Gauss(result);
         for(int i = result.row-1;i>=0;i--){
             if(!isRow0(result, i)){
                 int leading1 = findLeading1(result, i);
@@ -179,12 +200,17 @@ public class matrix{
             return result;
         }
     
-    
-    //print matrix
+    public void inverseMatrix() {
+        // Meng-invers matriks
+
+    }
+
+
+    // Read or Write Matrix
     public void print(){
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                System.out.print(matrix[i][j] + " ");
+                System.out.printf("%.2f ",matrix[i][j]); // Print dua angka dibelakang desimal
             }
             System.out.println();
         }

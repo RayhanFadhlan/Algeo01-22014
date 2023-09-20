@@ -9,7 +9,7 @@ public class Main {
         System.out.println("Original: ");
         m.print();
         System.out.println("OBE: ");
-        matrix result = m.GaussJordan(m);
+        matrix result = m.identity();
         result.print();
     }
 }
