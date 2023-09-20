@@ -65,14 +65,14 @@ public class matrix{
         return result;
     }
 
-    public void swap(matrix m, int i, int j){
+    public void swaprow(matrix m, int i, int j){
         // Menukar baris matriks
         double temp[] = m.matrix[i];
         m.matrix [i] = m.matrix[j];
         m.matrix[j] = temp;
     }
 
-    public matrix copy(matrix m){
+    public matrix copyMatrix(matrix m){
         // Memberi salinan dari matriks m
         matrix result = new matrix(); 
         result.setMatrix(row, col);
@@ -102,7 +102,7 @@ public class matrix{
         for(int j=row;j<m.col;j++){
             for(int i = row;i<m.row;i++){
                 if(m.matrix[i][j]!=0){
-                    swap(m,row,i);
+                    swaprow(m,row,i);
                     return j;
                 }
             }
@@ -124,13 +124,12 @@ public class matrix{
         // Mengembalikan nilai matriks identitas NxN
         matrix identitas = new matrix();
         identitas.setMatrix(this.row, this.col);
-
         for(int i = 0; i < this.row; i++) {
             for (int j = 0; j < this.col; j++) {
                 if (i == j) {
                     identitas.setMatrixValue(i, j, 1);
                 } else {
-                    identitas.setMatrixValue(i, j, 0);                    
+                    identitas.setMatrixValue(i, j, 0);
                 }
             }
         }
@@ -147,7 +146,7 @@ public class matrix{
         return true;
     }
     public matrix Gauss(matrix m){
-        matrix result = copy(m);
+        matrix result = copyMatrix(m);
         for(int i = 0;i<result.row;i++){
             int pivotCol = makeLeftNonZero(result,i);
             // print pivot col = pivot col
@@ -166,7 +165,7 @@ public class matrix{
             }
         }
             return result;
-        }
+    }
     
     public void eraseNon0(matrix m,int row,int col){
         // Mengubah elemen diatas leading one menjadi 0
@@ -189,7 +188,7 @@ public class matrix{
         return 0;
     }
     public matrix GaussJordan(matrix m){
-        matrix result = copy(m);
+        matrix result = copyMatrix(m);
         result = Gauss(result);
         for(int i = result.row-1;i>=0;i--){
             if(!isRow0(result, i)){
