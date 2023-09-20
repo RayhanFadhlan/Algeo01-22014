@@ -40,6 +40,11 @@ public class matrix{
     public void initializeMatrix(int row, int col){
         // Inisialisasi matriks
         this.matrix = new double[row][col];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                this.matrix[i][j]=0;
+            }
+        }
     }
 
     public void setMatrix(int row, int col) {
@@ -65,6 +70,21 @@ public class matrix{
             }
         }
         return result;
+    }
+
+    public matrix perkalianMatrix(matrix a, matrix b){
+        /*matrix a . matrix b */
+        matrix hasil = new matrix();
+        int sum=0;
+        hasil.setMatrix(a.getRow(), b.getCol());
+        for(int i=0;i<a.getRow();i++){
+            for(int j=0;j<b.getCol();j++){
+                sum=0;
+                for(int k=0;k<b.getRow();k++) sum+=(a.matrix[i][k]*b.matrix[k][j]);
+                hasil.matrix[i][j]=sum;
+            }
+        }
+        return hasil;
     }
 
     public void swaprow(matrix m, int i, int j){
@@ -284,7 +304,6 @@ public class matrix{
      * 7 2 3
      */
 
-
     // Read or Write Matrix
     public void print(){
         for(int i = 0; i < row; i++){
@@ -297,6 +316,7 @@ public class matrix{
 
     public void bacaMatriks () {
         Scanner sc = new Scanner(System.in);
+        String dump;
         System.out.println("Enter row and col: ");
         int row = sc.nextInt();
         int col = sc.nextInt();
@@ -306,6 +326,60 @@ public class matrix{
             for(int j = 0; j < col; j++){
                 setMatrixValue(i, j, sc.nextDouble());
             }
+        }
+    }
+
+    public matrix matrixBicubicSpline(){
+        matrix aBic = new matrix();
+        aBic.setMatrix (16, 16);
+        int cnt;
+        cnt=0;
+        for(int i=0;i<=1;i++){
+            for(int j=0;j<=1;j++){
+                aBic.isiMatrixBicubic(j, i, cnt);
+                cnt++;
+            }
+        }
+        return aBic;
+    }
+
+    public void isiMatrixBicubic(int x,int y,int row){
+        int cnt=0;
+        for(int j=0;j<4;j++){
+            for(int i=0;i<4;i++){
+                this.setMatrixValue(row, cnt, pownolsatu(x,i)*pownolsatu(y,j));
+                cnt++;
+            }
+        }
+        cnt=0;
+        for(int j=0;j<4;j++){
+            for(int i=0;i<4;i++){
+                this.setMatrixValue(row+4, cnt,i*pownolsatu(x,i-1)*pownolsatu(y,j));
+                cnt++;
+            }
+        }
+        cnt=0;
+        for(int j=0;j<4;j++){
+            for(int i=0;i<4;i++){
+                this.setMatrixValue(row+8, cnt,j*pownolsatu(x,i)*pownolsatu(y,j-1));
+                cnt++;
+            }
+        }
+        cnt=0;
+        for(int j=0;j<4;j++){
+            for(int i=0;i<4;i++){
+                this.setMatrixValue(row+12, cnt,i*j*pownolsatu(x,i-1)*pownolsatu(y,j-1));
+                cnt++;
+            }
+        }
+    }
+    public int pownolsatu(int a,int b){
+        if(a==1){
+            return 1;
+        }
+        else{
+            if(b==0)return 1;
+            else return 0;
         }
     }
 }
