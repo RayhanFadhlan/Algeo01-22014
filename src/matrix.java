@@ -2,6 +2,9 @@ package src;
 
 import java.util.Scanner;
 public class matrix{
+    /*kelas matrix
+     * berisikan value matrix,row(baris),col(kolom)
+     */
     double [][] matrix;
     int row;
     int col;
@@ -13,11 +16,15 @@ public class matrix{
 
 
     public void set(int row, int col, double value){
+        /*memasukkan value kedalam matrix[row][col] */
         matrix[row][col] = value;
     }
 
 
-    public matrix add(matrix m){
+    public matrix add(matrix m){/
+        /*mengembalikan matrix yang 
+        setiap elemennya sudah ditambahkan oleh matrix m
+        pada indeks yang sama*/
         matrix result = new matrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
@@ -27,14 +34,16 @@ public class matrix{
         return result;
     }
 
-    public void swap(matrix m, int i, int j){
+    public void swaprow(matrix m, int i, int j){
+        /*menukar baris i dan j*/
         double temp[] = m.matrix[i];
         m.matrix [i] = m.matrix[j];
         m.matrix[j] = temp;
 
     }
 
-    public matrix copy(matrix m){
+    public matrix copyMatrix(matrix m){
+        /*mencopy matrix*/
         matrix result = new matrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
@@ -60,7 +69,7 @@ public class matrix{
         for(int j=row;j<m.col;j++){
             for(int i = row;i<m.row;i++){
                 if(m.matrix[i][j]!=0){
-                    swap(m,row,i);
+                    swaprow(m,row,i);
                     return j;
                     
                 }
@@ -90,7 +99,7 @@ public class matrix{
         return true;
     }
     public matrix OBE(matrix m){
-        matrix result = copy(m);
+        matrix result = copyMatrix(m);
         for(int i = 0;i<result.row;i++){
             int pivotCol = makeLeftNonZero(result,i);
             // print pivot col = pivot col
@@ -130,7 +139,7 @@ public class matrix{
         return 0;
     }
     public matrix GaussJordan(matrix m){
-        matrix result = copy(m);
+        matrix result = copyMatrix(m);
         result = OBE(result);
         for(int i = result.row-1;i>=0;i--){
             if(!isRow0(result, i)){
