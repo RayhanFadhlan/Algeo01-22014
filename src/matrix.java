@@ -1,6 +1,8 @@
 package src;
 
 import java.util.Scanner;
+
+import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
 public class matrix{
     double [][] matrix;
     int row;
@@ -120,6 +122,17 @@ public class matrix{
         }
     }
 
+    public void minusOBESExt(matrix m,int row,int col,matrix ident){
+        double scale;
+        for(int i = row+1;i<m.row;i++){
+            scale = m.matrix[i][col];
+            for(int j = 0; j<m.col;j++){
+                m.matrix[i][j]-=((m.matrix[row][j])*scale);
+                ident.matrix[i][j]-=((m.matrix[row][j])*scale);
+            }
+        }
+    }
+
     public matrix identity() {
         // Mengembalikan nilai matriks identitas NxN
         matrix identitas = new matrix();
@@ -178,6 +191,19 @@ public class matrix{
             }
         }
     }
+
+    public void eraseNon0Ext(matrix m,int row,int col,matrix ident){
+        // Mengubah elemen diatas leading one menjadi 0
+        for(int i= 0;i<row;i++){
+            if(m.matrix[i][col]!=0){
+                double scale = m.matrix[i][col];
+                for(int j = 0;j<m.col;j++){
+                    m.matrix[i][j]-=scale*m.matrix[row][j];
+                    ident.matrix[i][j]-=scale*m.matrix[row][j];
+                }
+            }
+        }
+    }
     public int findLeading1(matrix m,int row){
         // Mencari nilai leading one
         for(int i = 0;i<m.col;i++){
@@ -199,10 +225,64 @@ public class matrix{
             return result;
         }
     
-    public void inverseMatrix() {
+    public matrix inverseMatrix(matrix m) {
         // Meng-invers matriks
+        matrix identMatrix;
+        identMatrix = new matrix();
+        identMatrix.setMatrix(m.row, m.col);
+        // matrix copyMatrix;
+        // identMatrix = this.copy(this.matrix);
+        // identMatrix.setMatrix(this.row, this.col);
+        identMatrix = m.identity();
+        for (int n =0;n<this.row;n++) {
+            identMatrix.print();
+            System.out.println();
+            double pivot = m.matrix[n][n];
+            for (int j = 0; j < m.col; j++){
+                m.matrix[n][j]/=pivot;
+                identMatrix.matrix[n][j]/=pivot;
+            }
+            double scale;
+            for(int i = n+1;i<m.row;i++){
+                scale = m.matrix[i][n];
+                for(int j = 0; j<m.col;j++){
+                    m.matrix[i][j]-=((m.matrix[n][j])*scale);
+                    identMatrix.matrix[i][j]-=((identMatrix.matrix[n][j])*scale);
+                }
 
+            }
+        }       
+         for (int n=this.row-1;n>=0;n--){
+            for(int i= 0;i<n;i++){
+                if(m.matrix[i][n]!=0){
+                   double scale = m.matrix[i][n];
+                    for(int j = 0;j<m.col;j++){
+                        m.matrix[i][j]-=scale*m.matrix[n][j];
+                        identMatrix.matrix[i][j]-=scale*identMatrix.matrix[n][j];
+                    }
+                }
+           }
+        }  
+
+
+        // Print matriks
+                // for(int tesi = 0; tesi < m.row; tesi++){
+                //     for(int tesj = 0; tesj < m.col; tesj++){
+                //             System.out.printf("%.2f ",m.matrix[tesi][tesj]); // Print dua angka dibelakang desimal
+                // }
+                // System.out.println(); }
+                // identMatrix.print(m);
+        return identMatrix; 
     }
+    
+        
+        
+
+    /*
+     * 1 2 3
+     * 5 2 3
+     * 7 2 3
+     */
 
 
     // Read or Write Matrix

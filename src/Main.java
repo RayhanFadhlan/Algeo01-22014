@@ -8,8 +8,8 @@ public class Main {
         m.bacaMatriks();
         System.out.println("Original: ");
         m.print();
-        System.out.println("OBE: ");
-        matrix result = m.identity();
+        System.out.println("Eliminasi: ");
+        matrix result = m.inverseMatrix(m);
         result.print();
     }
 }
