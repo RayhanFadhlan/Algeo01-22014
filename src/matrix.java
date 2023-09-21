@@ -51,20 +51,22 @@ public class matrix{
     }
 
     public void setMatrix(int row, int col) {
-        // Memberika matriks nilai
+        // Memberikan matriks nilai baris dan kolom
         setRow(row);
         setCol(col);
         initializeMatrix(this.row, this.col);
     }
 
-
-    // Methods
     public void setMatrixValue(int row, int col, double value){
+        // Memberikan matriks nilai untuk baris dan kolom
         this.matrix[row][col] = value;
     }
 
+    // Methods
 
+    // OPERASI MATRIKS
     public matrix add(matrix m){
+        // Menjumlahkan matrik dengan elemennya sendiri 
         matrix result = new matrix(); 
         result.setMatrix(row, col);
         for(int i = 0; i < row; i++){
@@ -76,7 +78,7 @@ public class matrix{
     }
 
     public matrix perkalianMatrix(matrix a, matrix b){
-        /*matrix a . matrix b */
+        // Perkalian matriks
         matrix hasil = new matrix();
         int sum=0;
         hasil.setMatrix(a.getRow(), b.getCol());
@@ -135,7 +137,8 @@ public class matrix{
        return 0;
     }
   
-    public void minusOBE(matrix m,int row,int col){
+    public void forwardOBE(matrix m,int row,int col){
+        // OBE dengan langkah maju
         double scale;
         for(int i = row+1;i<m.row;i++){
             scale = m.matrix[i][col];
@@ -145,16 +148,6 @@ public class matrix{
         }
     }
 
-    public void minusOBESExt(matrix m,int row,int col,matrix ident){
-        double scale;
-        for(int i = row+1;i<m.row;i++){
-            scale = m.matrix[i][col];
-            for(int j = 0; j<m.col;j++){
-                m.matrix[i][j]-=((m.matrix[row][j])*scale);
-                ident.matrix[i][j]-=((m.matrix[row][j])*scale);
-            }
-        }
-    }
 
     public matrix identity() {
         // Mengembalikan nilai matriks identitas NxN
@@ -185,26 +178,19 @@ public class matrix{
         matrix result = copyMatrix(m);
         for(int i = 0;i<result.row;i++){
             int pivotCol = makeLeftNonZero(result,i);
-            // print pivot col = pivot col
-            // System.out.println("pivot col = " + pivotCol);
-
             double pivot = result.matrix[i][pivotCol];
-            //print pivot
-            // System.out.println("pivot = " + pivot);
-            // //print i
-            // System.out.println("i = " + i);
             if(!(isRow0(result, i))){
                 for(int j = pivotCol;j<result.col;j++){
                     result.matrix[i][j]/=pivot;
             }
-                minusOBE(result, i, pivotCol);
+                forwardOBE(result, i, pivotCol);
             }
         }
             return result;
     }
     
-    public void eraseNon0(matrix m,int row,int col){
-        // Mengubah elemen diatas leading one menjadi 0
+    public void reverseOBE(matrix m,int row,int col){
+        // Melakukan OBE dengan langkah mundur
         for(int i= 0;i<row;i++){
             if(m.matrix[i][col]!=0){
                 double scale = m.matrix[i][col];
@@ -215,18 +201,6 @@ public class matrix{
         }
     }
 
-    public void eraseNon0Ext(matrix m,int row,int col,matrix ident){
-        // Mengubah elemen diatas leading one menjadi 0
-        for(int i= 0;i<row;i++){
-            if(m.matrix[i][col]!=0){
-                double scale = m.matrix[i][col];
-                for(int j = 0;j<m.col;j++){
-                    m.matrix[i][j]-=scale*m.matrix[row][j];
-                    ident.matrix[i][j]-=scale*m.matrix[row][j];
-                }
-            }
-        }
-    }
     public int findLeading1(matrix m,int row){
         // Mencari nilai leading one
         for(int i = 0;i<m.col;i++){
@@ -242,23 +216,19 @@ public class matrix{
         for(int i = result.row-1;i>=0;i--){
             if(!isRow0(result, i)){
                 int leading1 = findLeading1(result, i);
-                eraseNon0(result, i, leading1);
+                reverseOBE(result, i, leading1);
             }
             }
             return result;
         }
     
     public matrix inverseMatrix(matrix m) {
-        // Meng-invers matriks
         matrix identMatrix;
         identMatrix = new matrix();
         identMatrix.setMatrix(m.row, m.col);
-        // matrix copyMatrix;
-        // identMatrix = this.copy(this.matrix);
-        // identMatrix.setMatrix(this.row, this.col);
         identMatrix = m.identity();
         for (int n =0;n<this.row;n++) {
-            identMatrix.print();
+            identMatrix.printMatriks();
             System.out.println();
             double pivot = m.matrix[n][n];
             for (int j = 0; j < m.col; j++){
@@ -286,29 +256,12 @@ public class matrix{
                 }
            }
         }  
-
-
-        // Print matriks
-                // for(int tesi = 0; tesi < m.row; tesi++){
-                //     for(int tesj = 0; tesj < m.col; tesj++){
-                //             System.out.printf("%.2f ",m.matrix[tesi][tesj]); // Print dua angka dibelakang desimal
-                // }
-                // System.out.println(); }
-                // identMatrix.print(m);
         return identMatrix; 
     }
     
-        
-        
-
-    /*
-     * 1 2 3
-     * 5 2 3
-     * 7 2 3
-     */
 
     // Read or Write Matrix
-    public void print(){
+    public void printMatriks(){
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
                 System.out.printf("%.2f ",matrix[i][j]); // Print dua angka dibelakang desimal
@@ -388,6 +341,7 @@ public class matrix{
         }
     }
 
+
     public void bacaFileMatrix(String lokasi,boolean bic){
         int row=0,col=0;
         double dumpd;
@@ -447,6 +401,8 @@ public class matrix{
     }
     public double bicMeasure(double x1, double y1){
         return 1;
+    public void determinantMatriks() {
+        // Mencari deteriminan matriks
     }
 }
 
