@@ -12,26 +12,43 @@ public class Main {
     }
     public static void MatBal(){
         Scanner sc = new Scanner(System.in);
+        matrix coba=new matrix();
+        coba.bacaFileMatrix("",false);
+        coba.print();
         
     }
+
     public static void IntPol(){
         return;
     }
-    public static void IntBic(){
-        /*ambil input
-         * buat dan isi matrix
-         * gunain matrix buat nentuin
-         */
+
+    public static void IntBic()
+    {
+        //deklarasi
         matrix xBic=new matrix();
-        xBic=xBic.matrixBicubicSpline();
-        xBic.printMatriks();
-        /*xBic diinvers 
-         * xBic dikali matrix input jadi matrix a;
-        */
+        matrix invxBic=new matrix();
         matrix aBic=new matrix();
+        matrix yBic=new matrix();
+        double hasil;
+
+        /*membuat matriks X dan inversnya */
+        xBic=xBic.matrixBicubicSpline();
+        xBic.print();
+        invxBic=xBic.inverseMatrix(invxBic);
+        
+        /*ambil data f, fx, fy, dan fxy*/
+        yBic.bacaFileMatrix("",true);
+        
+        //membuat matriks a
+        aBic=aBic.perkalianMatrix(invxBic, yBic);
+        aBic.print();
+        //hitung hasil
+        //hasil = aBic.bicMeasure(yBic.tx, yBic.ty);
+        //System.out.println(hasil);
 
         return;
     }
+
     public static void RegLin(){
         return;
     }
