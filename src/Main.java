@@ -24,7 +24,7 @@ public class Main {
          */
         matrix xBic=new matrix();
         xBic=xBic.matrixBicubicSpline();
-        xBic.print();
+        xBic.printMatriks();
         /*xBic diinvers 
          * xBic dikali matrix input jadi matrix a;
         */
