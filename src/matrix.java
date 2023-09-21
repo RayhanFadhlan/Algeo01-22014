@@ -1,5 +1,7 @@
 package src;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
@@ -7,6 +9,7 @@ public class matrix{
     double [][] matrix;
     int row;
     int col;
+    double tx,ty;
 
     // Constructor
     public matrix(){
@@ -326,7 +329,9 @@ public class matrix{
             for(int j = 0; j < col; j++){
                 setMatrixValue(i, j, sc.nextDouble());
             }
+            dump=sc.nextLine();
         }
+        sc.close();
     }
 
     public matrix matrixBicubicSpline(){
@@ -381,6 +386,67 @@ public class matrix{
             if(b==0)return 1;
             else return 0;
         }
+    }
+
+    public void bacaFileMatrix(String lokasi,boolean bic){
+        int row=0,col=0;
+        double dumpd;
+        String dumps;
+        Scanner sc= new Scanner(System.in);
+        if(lokasi==""){
+            System.out.printf("Masukkan nama file: ");
+            lokasi=sc.nextLine();
+        }
+        if(bic) row--;
+        try{
+            /*mengambil file */
+            File inp=new File(lokasi);
+            Scanner scf = new Scanner(inp);
+
+            /*mengambil 1 baris dan menghitung kolom */
+            Scanner cntcol = new Scanner(scf.nextLine());
+            row++;
+            while(cntcol.hasNextDouble()){
+                col++;
+                dumpd=cntcol.nextDouble();
+            }
+
+            /*menghitung baris */
+            while(scf.hasNextLine()){
+                dumps=scf.nextLine();
+                row++;
+            }
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        if(bic) setMatrix(16, 1);
+        else setMatrix(row, col);
+        //System.out.println(row+" "+col);
+        try{
+            File inp = new File(lokasi);
+            Scanner scf= new Scanner(inp);
+            int cnt=0;
+            for(int i=0;i<row;i++){
+                Scanner srow = new Scanner (scf.nextLine());
+                for(int j=0;j<col;j++){
+                    if(bic) this.matrix[cnt][0] = srow.nextDouble();
+                    else this.matrix[i][j] = srow.nextDouble();
+                }
+            }
+            if(bic){
+                Scanner srow = new Scanner (scf.nextLine());
+                this.tx = srow.nextDouble();
+                this.ty = srow.nextDouble();
+            }
+        }
+            
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    public double bicMeasure(double x1, double y1){
+        return 1;
     }
 }
 
