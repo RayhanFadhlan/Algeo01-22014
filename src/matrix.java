@@ -336,8 +336,33 @@ public class matrix{
         }
     }
 
-    public void determinantMatriks() {
-        // Mencari deteriminan matriks
-    }
+    public double determinantMatriks() {
+        // Mencari deteriminan menggunakan metode upper triangle
+
+        /* KASUS MENGGUNAKAN SWAP BELUM DIGUNAKAN! */
+        matrix result = new matrix();
+        result = copyMatrix(this);
+        for (int n=0;n<this.row;n++) {
+            for (int i = n + 1; i<this.row;i++) {
+                double pivot = result.matrix[n][n];
+                double scale = result.matrix[i][n] / pivot; 
+                for (int j=0;j<this.col;j++) {
+                    result.matrix[i][j] -= result.matrix[n][j] * scale;
+                }
+            }
+        } 
+
+        double determinant = 1;
+        for (int i=0;i<this.row;i++) {
+            determinant *= result.matrix[i][i];
+        }
+        return determinant;
+        } 
+
+    /*
+     * 5 2 3
+     * 4 5 6
+     * 7 8 9
+     */
 }
 
