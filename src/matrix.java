@@ -3,6 +3,7 @@ package src;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.lang.Math;
 
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
 public class matrix{
@@ -305,39 +306,39 @@ public class matrix{
         int cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row, cnt, pownolsatu(x,i)*pownolsatu(y,j));
+                this.setMatrixValue(row, cnt, pangkat(x,i)*pangkat(y,j));
                 cnt++;
             }
         }
         cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row+4, cnt,i*pownolsatu(x,i-1)*pownolsatu(y,j));
+                this.setMatrixValue(row+4, cnt,i*pangkat(x,i-1)*pangkat(y,j));
                 cnt++;
             }
         }
         cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row+8, cnt,j*pownolsatu(x,i)*pownolsatu(y,j-1));
+                this.setMatrixValue(row+8, cnt,j*pangkat(x,i)*pangkat(y,j-1));
                 cnt++;
             }
         }
         cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row+12, cnt,i*j*pownolsatu(x,i-1)*pownolsatu(y,j-1));
+                this.setMatrixValue(row+12, cnt,i*j*pangkat(x,i-1)*pangkat(y,j-1));
                 cnt++;
             }
         }
     }
-    public int pownolsatu(int a,int b){
-        if(a==1){
-            return 1;
-        }
-        else{
+    public double pangkat(double a,double b){
+        if(a==0){
             if(b==0)return 1;
             else return 0;
+        }
+        else{
+            return(Math.pow(a,b));
         }
     }
 
@@ -399,8 +400,19 @@ public class matrix{
             ex.printStackTrace();
         }
     }
-    public double bicMeasure(double x1, double y1){
-        return 1;
+    public double bicMeasure(matrix a){
+        double hasil;
+        int cnt;
+
+        hasil=0;
+        cnt=0;
+        for(int j=0;j<=3;j++){
+            for(int i=0;i<=3;i++){
+                hasil+=(a.matrix[cnt][0]*pangkat(this.tx, i)*pangkat(ty, j));
+            }
+        }
+        return hasil;
+    }
     public void determinantMatriks() {
         // Mencari deteriminan matriks
     }

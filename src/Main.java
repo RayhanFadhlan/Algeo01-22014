@@ -14,7 +14,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         matrix coba=new matrix();
         coba.bacaFileMatrix("",false);
-        coba.print();
+        coba.printMatriks();
         
     }
 
@@ -33,15 +33,18 @@ public class Main {
 
         /*membuat matriks X dan inversnya */
         xBic=xBic.matrixBicubicSpline();
-        xBic.print();
-        invxBic=xBic.inverseMatrix(invxBic);
+        xBic.printMatriks();
+        invxBic=xBic.inverseMatrix(xBic);
         
         /*ambil data f, fx, fy, dan fxy*/
         yBic.bacaFileMatrix("",true);
         
         //membuat matriks a
         aBic=aBic.perkalianMatrix(invxBic, yBic);
-        aBic.print();
+        //aBic.printMatriks();
+
+        hasil=xBic.bicMeasure(aBic);
+        System.out.println(hasil);
         //hitung hasil
         //hasil = aBic.bicMeasure(yBic.tx, yBic.ty);
         //System.out.println(hasil);
