@@ -228,6 +228,20 @@ public class matrix{
             identMatrix.printMatriks();
             System.out.println();
             double pivot = m.matrix[n][n];
+            for (int i = n + 1; i<this.row;i++) {
+                int newN = i;
+                if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
+                    while ((newN < row)) {
+                        swaprow(m, newN, n);
+                        swaprow(identMatrix, newN, n);
+                        pivot = m.matrix[n][n];
+                        if (pivot != 0) {
+                            break;
+                        }
+                        newN += 1;
+                    }
+                }
+            }
             for (int j = 0; j < m.col; j++){
                 m.matrix[n][j]/=pivot;
                 identMatrix.matrix[n][j]/=pivot;
@@ -373,6 +387,6 @@ public class matrix{
             determinant = 0;
         }
         return determinant;
-        } 
+    } 
 }
 
