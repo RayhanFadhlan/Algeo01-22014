@@ -455,9 +455,6 @@ public class matrix{
     }
     public double bicMeasure(double x1, double y1){
         return 1;
-    public void determinantMatriks() {
-        // Mencari deteriminan matriks
     }
-
 }
 
