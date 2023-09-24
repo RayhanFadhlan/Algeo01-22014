@@ -422,7 +422,7 @@ public class matrix{
         if(bic) row--;
         try{
             /*mengambil file */
-            File inp=new File(lokasi);
+            File inp = new File(lokasi);
             Scanner scf = new Scanner(inp);
 
             /*mengambil 1 baris dan menghitung kolom */
@@ -444,7 +444,7 @@ public class matrix{
         }
         if(bic) setMatrix(16, 1);
         else setMatrix(row, col);
-        //System.out.println(row+" "+col);
+        //System.out.println(this.row+" "+this.col);
         try{
             File inp = new File(lokasi);
             Scanner scf= new Scanner(inp);
@@ -454,6 +454,7 @@ public class matrix{
                 for(int j=0;j<col;j++){
                     if(bic) this.matrix[cnt][0] = srow.nextDouble();
                     else this.matrix[i][j] = srow.nextDouble();
+                    cnt++;
                 }
             }
             if(bic){
@@ -477,9 +478,83 @@ public class matrix{
         for(int j=0;j<=3;j++){
             for(int i=0;i<=3;i++){
                 hasil+=(a.matrix[cnt][0]*pangkat(this.tx, i)*pangkat(ty, j));
+                cnt++;
             }
         }
         return hasil;
     }
+    
+    public void reglinys(matrix parxy){
+        matrix xy= new matrix();
+        int c,r;
+        double sum;
+        xy.setMatrix(parxy.row, parxy.col);
+        xy=xy.copyMatrix(parxy);
+
+        //k jadi c
+        //n jadi r
+        c = xy.col;
+        r = xy.row;
+        setMatrix(c+1, 1);
+
+        for(int i=0;i<=c;i++){
+            sum=0;
+            for(int j=0;j<r;j++){
+                if(i==0){
+                    sum+=xy.matrix[j][c-1];
+                }
+                else{
+                    for(int k=0;k<r;k++){
+                        sum+=(xy.matrix[j][c-1]*xy.matrix[k][i-1]);
+                    }
+                }
+            }
+            this.matrix[i][0]=sum;
+        }
+    }
+
+    public void reglinxs(matrix parxy){
+        matrix xy= new matrix();
+        int c,r;
+        double sum;
+        xy.setMatrix(parxy.row, parxy.col);
+        xy=xy.copyMatrix(parxy);
+
+        //k jadi c
+        //n jadi r
+        c = xy.col;
+        r = xy.row;
+        setMatrix(c+1, c+1);
+        
+        //isi xs dan ys
+
+        //isi xs
+        for(int i=0;i<=c;i++){
+            for(int j=0;j<=c;j++){
+                if(i==0&&j==0) sum=r;
+                else{
+                    sum=0;
+                    if(i==0||j==0){
+                        for(int k=0;k<r;k++){
+                            sum+=xy.matrix[k][i+j-1];
+                        }    
+                    }
+                    else{
+                        for(int k=0;k<r;k++){
+                            for(int l=0;l<r;l++){
+                                sum+=(xy.matrix[k][i-1]*xy.matrix[l][j-1]);
+                            }
+                        }
+                    }
+                }
+                this.matrix[i][j]=sum;
+            }
+        }
+    }
+
+    public void formReglin(matrix xs,matrix ys,matrix parxy){
+        return;   
+    }
+
 }
 
