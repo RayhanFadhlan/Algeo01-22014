@@ -82,8 +82,7 @@ public class matrix{
         // Perkalian matriks5
 
         matrix hasil = new matrix();
-        int sum=0;
-
+        double sum=0;
         hasil.setMatrix(a.getRow(), b.getCol());
         for(int i=0;i<a.getRow();i++){
             for(int j=0;j<b.getCol();j++){
@@ -92,9 +91,9 @@ public class matrix{
                     sum+=(a.matrix[i][k]*b.matrix[k][j]);
                 }
                 hasil.matrix[i][j]=sum;
+                // hasil.printMatriks();
             }
         }
-        //hasil.printMatriks();
         return hasil;
     }
 
@@ -308,7 +307,7 @@ public class matrix{
             }
             dump=sc.nextLine();
         }
-        sc.close();
+        // sc.close();
     }
 
     public matrix matrixBicubicSpline(){
@@ -481,5 +480,69 @@ public class matrix{
         }
         return hasil;
     }
+
+    
+    public void interpolasiPolinomial() {
+        Scanner sc = new Scanner(System.in);
+        int n,banyakTitik;
+        System.out.println("Masukkan Banyak Titik:");
+        banyakTitik = sc.nextInt();
+        n = banyakTitik - 1;
+
+        matrix tabelMatrix = new matrix();
+        tabelMatrix.setMatrix(banyakTitik,banyakTitik+1);
+        tabelMatrix.printMatriks();
+        for(int i=0;i<banyakTitik;i++){
+            System.out.println("Titik X:");
+            float x = sc.nextFloat();
+            System.out.println("Titik Y:");
+            float y = sc.nextFloat();
+            for(int j=0;j<tabelMatrix.col;j++){
+                if (j != tabelMatrix.col - 1){
+                    tabelMatrix.matrix[i][j] = Math.pow(x,j);
+                } else {
+                    tabelMatrix.matrix[i][j] = y;   
+                }
+            }
+        }
+        tabelMatrix.printMatriks();
+        matrix resultMatrix = new matrix();
+        resultMatrix = tabelMatrix.copyMatrix(tabelMatrix);
+        resultMatrix = tabelMatrix.GaussJordan(tabelMatrix);
+        resultMatrix.printMatriks(); 
+
+        float inputX = sc.nextFloat();
+        float result;
+        result = 0;
+        for (int i=0;i<banyakTitik;i++){
+            result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX,i);
+        }
+        System.out.printf("Result: %f",result);
+    }
+
+
+    public void inverseSPL(){
+        matrix a,b;
+        a = new matrix();
+        b = new matrix();
+        a.bacaMatriks();
+        b.setMatrix(a.row, 1);
+        Scanner sc = new Scanner(System.in);
+        for (int i=0;i<a.row;i++){
+            b.matrix[i][0] = sc.nextDouble();
+        }
+
+        matrix inverseA = a.inverseMatrix(a);
+        System.out.println("Inverse A:");
+        inverseA.printMatriks();
+        System.out.println("Matriks b:");
+        b.printMatriks();
+
+        matrix result = inverseA.perkalianMatrix(inverseA, b);    
+        System.out.println("Result Matriks:");    
+        result.printMatriks();
+    }
+
+
 }
 
