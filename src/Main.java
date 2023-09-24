@@ -34,14 +34,20 @@ public class Main {
         /*membuat matriks X dan inversnya */
         xBic=xBic.matrixBicubicSpline();
         xBic.printMatriks();
-        invxBic=xBic.inverseMatrix(invxBic);
+
+        invxBic=xBic.inverseMatrix(xBic);
+
         
         /*ambil data f, fx, fy, dan fxy*/
         yBic.bacaFileMatrix("",true);
         
         //membuat matriks a
         aBic=aBic.perkalianMatrix(invxBic, yBic);
-        aBic.printMatriks();
+
+        //aBic.printMatriks();
+
+        hasil=xBic.bicMeasure(aBic);
+        System.out.println(hasil);
         //hitung hasil
         //hasil = aBic.bicMeasure(yBic.tx, yBic.ty);
         //System.out.println(hasil);
