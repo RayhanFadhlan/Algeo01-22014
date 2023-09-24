@@ -108,10 +108,10 @@ public class matrix{
     public matrix copyMatrix(matrix m){
         // Memberi salinan dari matriks m
         matrix result = new matrix(); 
-        result.setMatrix(row, col);
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                result.setMatrixValue(i, j, matrix[i][j]);
+        result.setMatrix(m.row, m.col);
+        for(int i = 0; i < m.row; i++){
+            for(int j = 0; j < m.col; j++){
+                result.setMatrixValue(i, j, m.matrix[i][j]);
             }
         }
         return result;
@@ -121,10 +121,10 @@ public class matrix{
     public matrix transpose(matrix m){
         // Transpose matriks
         matrix result = new matrix(); 
-        result.setMatrix(row, col);        
-        for(int i = 0; i < col; i++){
-            for(int j = 0; j < row; j++){
-                result.setMatrixValue(i, j, matrix[j][i]);
+        result.setMatrix(m.row, m.col);        
+        for(int i = 0; i < m.col; i++){
+            for(int j = 0; j < m.row; j++){
+                result.setMatrixValue(i, j, m.matrix[j][i]);
             }
         }
         return result;
@@ -552,10 +552,6 @@ public class matrix{
                 this.matrix[i][j]=sum;
             }
         }
-    }
-
-    public void formReglin(matrix xs,matrix ys,matrix parxy){
-        return;   
     }
 
 }

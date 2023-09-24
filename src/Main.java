@@ -73,12 +73,6 @@ public class Main {
             //xs.printMatriks();
             //ys.printMatriks();
 
-            
-
-
-
-
-
         return;
     }
     public static void main(String[] args) {
