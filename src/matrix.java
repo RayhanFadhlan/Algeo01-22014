@@ -79,17 +79,22 @@ public class matrix{
     }
 
     public matrix perkalianMatrix(matrix a, matrix b){
-        // Perkalian matriks
+        // Perkalian matriks5
+
         matrix hasil = new matrix();
         int sum=0;
+
         hasil.setMatrix(a.getRow(), b.getCol());
         for(int i=0;i<a.getRow();i++){
             for(int j=0;j<b.getCol();j++){
                 sum=0;
-                for(int k=0;k<b.getRow();k++) sum+=(a.matrix[i][k]*b.matrix[k][j]);
+                for(int k=0;k<b.getRow();k++){
+                    sum+=(a.matrix[i][k]*b.matrix[k][j]);
+                }
                 hasil.matrix[i][j]=sum;
             }
         }
+        //hasil.printMatriks();
         return hasil;
     }
 
@@ -223,14 +228,17 @@ public class matrix{
             return result;
         }
     
-    public matrix inverseMatrix(matrix m) {
+    public matrix inverseMatrix(matrix par) {
+        matrix m=new matrix();
+        m.setMatrix(par.row, par.col);
+        m=par.copyMatrix(par);
         matrix identMatrix;
         identMatrix = new matrix();
         identMatrix.setMatrix(m.row, m.col);
         identMatrix = m.identity();
         for (int n =0;n<this.row;n++) {
-            identMatrix.printMatriks();
-            System.out.println();
+            //identMatrix.printMatriks();
+            //System.out.println();
             double pivot = m.matrix[n][n];
             for (int i = n + 1; i<this.row;i++) {
                 int newN = i;
@@ -270,7 +278,8 @@ public class matrix{
                     }
                 }
            }
-        }  
+
+        }
         return identMatrix; 
     }
     
@@ -382,8 +391,8 @@ public class matrix{
                 for (int j=0;j<this.col;j++) {
                     result.matrix[i][j] -= result.matrix[n][j] * scale;
                 }
-                result.printMatriks();
-                System.out.printf("\n");
+                //result.printMatriks();
+                //System.out.printf("\n");
             }
         } 
 
@@ -397,11 +406,15 @@ public class matrix{
     } 
 
 
-    public void bacaFileMatrix(String lokasi,boolean bic){
+    public void bacaFileMatrix(String parlokasi,boolean parbic){
         int row=0,col=0;
         double dumpd;
-        String dumps;
+        String lokasi,dumps;
+        boolean bic;
         Scanner sc= new Scanner(System.in);
+
+        lokasi=parlokasi;
+        bic=parbic;
         if(lokasi==""){
             System.out.printf("Masukkan nama file: ");
             lokasi=sc.nextLine();
@@ -467,9 +480,6 @@ public class matrix{
             }
         }
         return hasil;
-    }
-    public void determinantMatriks() {
-        // Mencari deteriminan matriks
     }
 }
 

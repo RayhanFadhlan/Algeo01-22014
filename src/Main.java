@@ -1,5 +1,6 @@
 package src;
 
+import java.time.format.SignStyle;
 import java.util.Scanner;
 import src.matrix;
 public class Main {
@@ -34,22 +35,24 @@ public class Main {
         /*membuat matriks X dan inversnya */
         xBic=xBic.matrixBicubicSpline();
         xBic.printMatriks();
+        System.out.println();
 
         invxBic=xBic.inverseMatrix(xBic);
-
+        invxBic.printMatriks();
+        System.out.println();
         
         /*ambil data f, fx, fy, dan fxy*/
         yBic.bacaFileMatrix("",true);
-        
+        yBic.printMatriks();
+        System.out.println();
+
         //membuat matriks a
         aBic=aBic.perkalianMatrix(invxBic, yBic);
-
         //aBic.printMatriks();
 
-        hasil=xBic.bicMeasure(aBic);
-        System.out.println(hasil);
+        //System.out.println(hasil);
         //hitung hasil
-        //hasil = aBic.bicMeasure(yBic.tx, yBic.ty);
+        //hasil=xBic.bicMeasure(aBic);
         //System.out.println(hasil);
 
         return;
