@@ -232,6 +232,20 @@ public class matrix{
             identMatrix.printMatriks();
             System.out.println();
             double pivot = m.matrix[n][n];
+            for (int i = n + 1; i<this.row;i++) {
+                int newN = i;
+                if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
+                    while ((newN < row)) {
+                        swaprow(m, newN, n);
+                        swaprow(identMatrix, newN, n);
+                        pivot = m.matrix[n][n];
+                        if (pivot != 0) {
+                            break;
+                        }
+                        newN += 1;
+                    }
+                }
+            }
             for (int j = 0; j < m.col; j++){
                 m.matrix[n][j]/=pivot;
                 identMatrix.matrix[n][j]/=pivot;
@@ -343,6 +357,46 @@ public class matrix{
     }
 
 
+    public double determinantMatriks() {
+        // Mencari deteriminan menggunakan metode upper triangle
+        double determinant = 1;
+        matrix result = new matrix();
+        result = copyMatrix(this);
+        for (int n=0;n<this.row;n++) {
+            for (int i = n + 1; i<this.row;i++) {
+                double pivot = result.matrix[n][n];
+                int newN = i;
+
+                if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
+                    while ((newN < row)) {
+                        swaprow(result, newN, n);
+                        pivot = result.matrix[n][n];
+                        System.out.printf("Pivot Modified: %f\n",pivot);
+                        if (pivot != 0) {
+                            break;
+                        }
+                        newN += 1;
+                    }
+                }
+                double scale = result.matrix[i][n] / pivot; 
+                for (int j=0;j<this.col;j++) {
+                    result.matrix[i][j] -= result.matrix[n][j] * scale;
+                }
+                result.printMatriks();
+                System.out.printf("\n");
+            }
+        } 
+
+        for (int i=0;i<this.row;i++) { // Mengalikan determinan secara diagonal
+            determinant *= result.matrix[i][i];
+        }
+        if (determinant == 0) {
+            determinant = 0;
+        }
+        return determinant;
+    } 
+
+
     public void bacaFileMatrix(String lokasi,boolean bic){
         int row=0,col=0;
         double dumpd;
@@ -400,6 +454,7 @@ public class matrix{
             ex.printStackTrace();
         }
     }
+
     public double bicMeasure(matrix a){
         double hasil;
         int cnt;
