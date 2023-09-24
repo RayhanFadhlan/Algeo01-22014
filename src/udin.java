@@ -7,9 +7,9 @@ public class udin {
         matrix m = new matrix();
         m.bacaMatriks();
         System.out.println("Original: ");
-        m.print();
-        System.out.println("OBE: ");
-        matrix result = m.identity();
-        result.print();
+        m.printMatriks();
+        System.out.println("Cramer: ");
+        matrix result = m.getCramerSol(m);
+        result.printMatriks();
     }
 }

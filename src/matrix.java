@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.lang.Math;
-
+import java.util.Arrays;
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
 public class matrix{
     double [][] matrix;
@@ -282,7 +282,40 @@ public class matrix{
         }
         return identMatrix; 
     }
+    public boolean isSPLUnique(matrix m){
+        return (m.determinantMatriks()!=0);
+    }
+    // mengganti satu kolom matriks dengan matriks lain
     
+    
+    // make cramer to get linear equation
+    public matrix getCramerSol(matrix m){
+        matrix square = new matrix();
+        square.setMatrix(m.row, m.col-1);
+        for(int i = 0; i < m.row; i++){
+            for(int j = 0; j < m.col-1; j++){
+                square.matrix[i][j] = m.matrix[i][j];
+            }
+        }
+
+        matrix result = new matrix();
+        result.setMatrix(square.row, 1);
+        double det = square.determinantMatriks();
+
+        // replace column dgn solusi dan cari determinan
+        for(int i = 0; i < square.row; i++){
+            matrix temp = new matrix();
+            temp.setMatrix(square.row, square.col);
+            temp = copyMatrix(square);
+            for(int j = 0; j < m.row; j++){
+                temp.matrix[j][i] = m.matrix[j][m.col-1];
+            }
+            result.matrix[i][0] = temp.determinantMatriks()/det;
+        }
+        return result;
+    }
+
+
 
     // Read or Write Matrix
     public void printMatriks(){
@@ -380,7 +413,6 @@ public class matrix{
                     while ((newN < row)) {
                         swaprow(result, newN, n);
                         pivot = result.matrix[n][n];
-                        System.out.printf("Pivot Modified: %f\n",pivot);
                         if (pivot != 0) {
                             break;
                         }
