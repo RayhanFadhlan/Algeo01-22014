@@ -82,7 +82,7 @@ public class matrix{
         // Perkalian matriks5
 
         matrix hasil = new matrix();
-        int sum=0;
+        double sum=0;
 
         hasil.setMatrix(a.getRow(), b.getCol());
         for(int i=0;i<a.getRow();i++){
@@ -488,12 +488,13 @@ public class matrix{
         matrix xy= new matrix();
         int c,r;
         double sum;
-        xy.setMatrix(parxy.row, parxy.col);
-        xy=xy.copyMatrix(parxy);
 
+        xy = parxy.copyMatrix(parxy);
+        xy.printMatriks();
+        System.out.println();
         //k jadi c
         //n jadi r
-        c = xy.col;
+        c = xy.col-1;
         r = xy.row;
         setMatrix(c+1, 1);
 
@@ -501,11 +502,11 @@ public class matrix{
             sum=0;
             for(int j=0;j<r;j++){
                 if(i==0){
-                    sum+=xy.matrix[j][c-1];
+                    sum+=xy.matrix[j][c];
                 }
                 else{
                     for(int k=0;k<r;k++){
-                        sum+=(xy.matrix[j][c-1]*xy.matrix[k][i-1]);
+                        sum+=(xy.matrix[j][c]*xy.matrix[k][i-1]);
                     }
                 }
             }
@@ -518,11 +519,12 @@ public class matrix{
         int c,r;
         double sum;
         xy.setMatrix(parxy.row, parxy.col);
-        xy=xy.copyMatrix(parxy);
-
+        xy = parxy.copyMatrix(parxy);
+        // xy.printMatriks();
+        // System.out.println();
         //k jadi c
         //n jadi r
-        c = xy.col;
+        c = xy.col-1;
         r = xy.row;
         setMatrix(c+1, c+1);
         

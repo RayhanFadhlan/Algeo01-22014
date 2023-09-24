@@ -61,15 +61,19 @@ public class Main {
             matrix ys = new matrix();
             matrix xs = new matrix();
             matrix bs = new matrix();
+            matrix invxs = new matrix();
 
             xy.bacaFileMatrix("", false);
-            ys.reglinys(xy);
             xs.reglinxs(xy);
-            xs.printMatriks();
-            ys.printMatriks();
+            ys.reglinys(xy);
+            invxs = xs.inverseMatrix(xs);
+            //invxs.printMatriks();
+            bs = bs.perkalianMatrix(invxs, ys);
+            bs.printMatriks();
+            //xs.printMatriks();
+            //ys.printMatriks();
 
-
-
+            
 
 
 
