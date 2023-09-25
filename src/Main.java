@@ -2,7 +2,7 @@ package src;
 
 import java.time.format.SignStyle;
 import java.util.Scanner;
-import src.matrix;
+import src.Matrix;
 public class Main {
 
     public static void SPL(){
@@ -13,7 +13,7 @@ public class Main {
     }
     public static void MatBal(){
         Scanner sc = new Scanner(System.in);
-        matrix coba=new matrix();
+        Matrix coba=new Matrix();
         coba.bacaFileMatrix("",false);
         coba.printMatriks();
         
@@ -26,10 +26,10 @@ public class Main {
     public static void IntBic()
     {
         //deklarasi
-        matrix xBic=new matrix();
-        matrix invxBic=new matrix();
-        matrix aBic=new matrix();
-        matrix yBic=new matrix();
+        Matrix invxBic=new Matrix();
+        Matrix xBic=new Matrix();
+        Matrix aBic=new Matrix();
+        Matrix yBic=new Matrix();
         double hasil;
 
         /*membuat matriks X dan inversnya */
