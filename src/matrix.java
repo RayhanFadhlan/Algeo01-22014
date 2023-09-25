@@ -6,14 +6,14 @@ import java.util.Scanner;
 import java.lang.Math;
 
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
-public class matrix{
+public class Matrix{
     double [][] matrix;
     int row;
     int col;
     double tx,ty;
 
     // Constructor
-    public matrix(){
+    public Matrix(){
         this.row = 0;
         this.col = 0;
         this.matrix = new double[this.row][this.col];
@@ -66,9 +66,9 @@ public class matrix{
     // Methods
 
     // OPERASI MATRIKS
-    public matrix add(matrix m){
+    public Matrix add(Matrix m){
         // Menjumlahkan matrik dengan elemennya sendiri 
-        matrix result = new matrix(); 
+        Matrix result = new Matrix(); 
         result.setMatrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
@@ -78,12 +78,11 @@ public class matrix{
         return result;
     }
 
-    public matrix perkalianMatrix(matrix a, matrix b){
-        // Perkalian matriks5
+    public Matrix perkalianMatrix(Matrix a, Matrix b){
+        // Perkalian matriks
 
-        matrix hasil = new matrix();
-        int sum=0;
-
+        Matrix hasil = new Matrix();
+        double sum=0;
         hasil.setMatrix(a.getRow(), b.getCol());
         for(int i=0;i<a.getRow();i++){
             for(int j=0;j<b.getCol();j++){
@@ -94,20 +93,19 @@ public class matrix{
                 hasil.matrix[i][j]=sum;
             }
         }
-        //hasil.printMatriks();
         return hasil;
     }
 
-    public void swaprow(matrix m, int i, int j){
+    public void swaprow(Matrix m, int i, int j){
         // Menukar baris matriks
         double temp[] = m.matrix[i];
         m.matrix [i] = m.matrix[j];
         m.matrix[j] = temp;
     }
 
-    public matrix copyMatrix(matrix m){
+    public Matrix copyMatrix(Matrix m){
         // Memberi salinan dari matriks m
-        matrix result = new matrix(); 
+        Matrix result = new Matrix(); 
         result.setMatrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
@@ -118,9 +116,9 @@ public class matrix{
     }
 
 
-    public matrix transpose(matrix m){
+    public Matrix transpose(Matrix m){
         // Transpose matriks
-        matrix result = new matrix(); 
+        Matrix result = new Matrix(); 
         result.setMatrix(row, col);        
         for(int i = 0; i < col; i++){
             for(int j = 0; j < row; j++){
@@ -130,7 +128,7 @@ public class matrix{
         return result;
     }
 
-    public int makeLeftNonZero(matrix m,int row){
+    public int makeLeftNonZero(Matrix m,int row){
         // Menukar baris dengan nilai nol paling banyak ke bawah.
         for(int j=row;j<m.col;j++){
             for(int i = row;i<m.row;i++){
@@ -143,7 +141,7 @@ public class matrix{
        return 0;
     }
   
-    public void forwardOBE(matrix m,int row,int col){
+    public void forwardOBE(Matrix m,int row,int col){
         // OBE dengan langkah maju
         double scale;
         for(int i = row+1;i<m.row;i++){
@@ -155,9 +153,9 @@ public class matrix{
     }
 
 
-    public matrix identity() {
+    public Matrix identity() {
         // Mengembalikan nilai matriks identitas NxN
-        matrix identitas = new matrix();
+        Matrix identitas = new Matrix();
         identitas.setMatrix(this.row, this.col);
         for(int i = 0; i < this.row; i++) {
             for (int j = 0; j < this.col; j++) {
@@ -171,7 +169,7 @@ public class matrix{
         return identitas;
     }
 
-    public boolean isRow0(matrix m,int row){
+    public boolean isRow0(Matrix m,int row){
         // Mengecek apakah nilai dari suatu baris bernilai 0
         for(int i = 0;i<m.col-1;i++){
             if(m.matrix[row][i]!=0){
@@ -180,8 +178,8 @@ public class matrix{
         }
         return true;
     }
-    public matrix Gauss(matrix m){
-        matrix result = copyMatrix(m);
+    public Matrix Gauss(Matrix m){
+        Matrix result = copyMatrix(m);
         for(int i = 0;i<result.row;i++){
             int pivotCol = makeLeftNonZero(result,i);
             double pivot = result.matrix[i][pivotCol];
@@ -195,7 +193,7 @@ public class matrix{
             return result;
     }
     
-    public void reverseOBE(matrix m,int row,int col){
+    public void reverseOBE(Matrix m,int row,int col){
         // Melakukan OBE dengan langkah mundur
         for(int i= 0;i<row;i++){
             if(m.matrix[i][col]!=0){
@@ -207,7 +205,7 @@ public class matrix{
         }
     }
 
-    public int findLeading1(matrix m,int row){
+    public int findLeading1(Matrix m,int row){
         // Mencari nilai leading one
         for(int i = 0;i<m.col;i++){
             if(m.matrix[row][i]==1){
@@ -216,8 +214,8 @@ public class matrix{
         }
         return 0;
     }
-    public matrix GaussJordan(matrix m){
-        matrix result = copyMatrix(m);
+    public Matrix GaussJordan(Matrix m){
+        Matrix result = copyMatrix(m);
         result = Gauss(result);
         for(int i = result.row-1;i>=0;i--){
             if(!isRow0(result, i)){
@@ -228,12 +226,12 @@ public class matrix{
             return result;
         }
     
-    public matrix inverseMatrix(matrix par) {
-        matrix m=new matrix();
+    public Matrix inverseMatrix(Matrix par) {
+        Matrix m = new Matrix();
         m.setMatrix(par.row, par.col);
         m=par.copyMatrix(par);
-        matrix identMatrix;
-        identMatrix = new matrix();
+        Matrix identMatrix;
+        identMatrix = new Matrix();
         identMatrix.setMatrix(m.row, m.col);
         identMatrix = m.identity();
         for (int n =0;n<this.row;n++) {
@@ -308,11 +306,11 @@ public class matrix{
             }
             dump=sc.nextLine();
         }
-        sc.close();
+        // sc.close();
     }
 
-    public matrix matrixBicubicSpline(){
-        matrix aBic = new matrix();
+    public Matrix matrixBicubicSpline(){
+        Matrix aBic = new Matrix();
         aBic.setMatrix (16, 16);
         int cnt;
         cnt=0;
@@ -369,7 +367,7 @@ public class matrix{
     public double determinantMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
         double determinant = 1;
-        matrix result = new matrix();
+        Matrix result = new Matrix();
         result = copyMatrix(this);
         for (int n=0;n<this.row;n++) {
             for (int i = n + 1; i<this.row;i++) {
@@ -468,7 +466,7 @@ public class matrix{
         }
     }
 
-    public double bicMeasure(matrix a){
+    public double bicMeasure(Matrix a){
         double hasil;
         int cnt;
 
@@ -481,5 +479,69 @@ public class matrix{
         }
         return hasil;
     }
+
+    
+    public void interpolasiPolinomial() {
+        Scanner sc = new Scanner(System.in);
+        int n,banyakTitik;
+        System.out.println("Masukkan Banyak Titik:");
+        banyakTitik = sc.nextInt();
+        n = banyakTitik - 1;
+
+        Matrix tabelMatrix = new Matrix();
+        tabelMatrix.setMatrix(banyakTitik,banyakTitik+1);
+        tabelMatrix.printMatriks();
+        for(int i=0;i<banyakTitik;i++){
+            System.out.println("Titik X:");
+            float x = sc.nextFloat();
+            System.out.println("Titik Y:");
+            float y = sc.nextFloat();
+            for(int j=0;j<tabelMatrix.col;j++){
+                if (j != tabelMatrix.col - 1){
+                    tabelMatrix.matrix[i][j] = Math.pow(x,j);
+                } else {
+                    tabelMatrix.matrix[i][j] = y;   
+                }
+            }
+        }
+        tabelMatrix.printMatriks();
+        Matrix resultMatrix = new Matrix();
+        resultMatrix = tabelMatrix.copyMatrix(tabelMatrix);
+        resultMatrix = tabelMatrix.GaussJordan(tabelMatrix);
+        resultMatrix.printMatriks(); 
+
+        float inputX = sc.nextFloat();
+        float result;
+        result = 0;
+        for (int i=0;i<banyakTitik;i++){
+            result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX,i);
+        }
+        System.out.printf("Result: %f",result);
+    }
+
+
+    public void inverseSPL(){
+        Matrix a,b;
+        a = new Matrix();
+        b = new Matrix();
+        a.bacaMatriks();
+        b.setMatrix(a.row, 1);
+        Scanner sc = new Scanner(System.in);
+        for (int i=0;i<a.row;i++){
+            b.matrix[i][0] = sc.nextDouble();
+        }
+
+        Matrix inverseA = a.inverseMatrix(a);
+        System.out.println("Inverse A:");
+        inverseA.printMatriks();
+        System.out.println("Matriks b:");
+        b.printMatriks();
+
+        Matrix result = inverseA.perkalianMatrix(inverseA, b);    
+        System.out.println("Result Matriks:");    
+        result.printMatriks();
+    }
+
+
 }
 
