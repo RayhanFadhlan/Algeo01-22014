@@ -179,6 +179,7 @@ public class Matrix {
         }
         return true;
     }
+
     
     public static Matrix gauss(Matrix m){
         Matrix result = copyMatrix(m);
@@ -306,7 +307,7 @@ public class Matrix {
                 }
 
             }
-        }       
+        }              
          for (int n=this.row-1;n>=0;n--){
             for(int i= 0;i<n;i++){
                 if(m.matrix[i][n]!=0){
@@ -572,20 +573,6 @@ public class Matrix {
         r = xy.row;
         setMatrix(c+1, 1);
 
-        for(int i=0;i<=c;i++){
-            sum=0;
-            for(int j=0;j<r;j++){
-                if(i==0){
-                    sum+=xy.matrix[j][c];
-                }
-                else{
-                    for(int k=0;k<r;k++){
-                        sum+=(xy.matrix[j][c]*xy.matrix[k][i-1]);
-                    }
-                }
-            }
-            this.matrix[i][0]=sum;
-        }
     }
 
     public void reglinxs(Matrix parxy){
@@ -598,15 +585,17 @@ public class Matrix {
         // System.out.println();
         //k jadi c
         //n jadi r
-        c = xy.col-1;
+        c = xy.col;
         r = xy.row;
-        setMatrix(c+1, c+1);
+        setMatrix(c, c+1);
         
         //isi xs dan ys
 
         //isi xs
-        for(int i=0;i<=c;i++){
-            for(int j=0;j<=c;j++){
+        for(int i=0;i<c;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
                 if(i==0&&j==0) sum=r;
                 else{
                     sum=0;
@@ -626,7 +615,20 @@ public class Matrix {
                 this.matrix[i][j]=sum;
             }
         }
+        for(int i=0;i<=c;i++){
+            sum=0;
+            for(int j=0;j<r;j++){
+                if(i==0){
+                    sum+=xy.matrix[j][c-1];
+                }
+                else{
+                    for(int k=0;k<r;k++){
+                        sum+=(xy.matrix[j][c]*xy.matrix[k][i-1]);
+                    }
+                }
+            }
+            this.matrix[i][c]=sum;
+        }
     }
-
 }
 
