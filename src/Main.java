@@ -2,49 +2,47 @@ package src;
 
 import java.time.format.SignStyle;
 import java.util.Scanner;
-import src.matrix;
+import src.Matrix;
 public class Main {
 
-    public static void SPL(){
+    public static void spl(){
         return;
     }
-    public static void Determinan(){
+    public static void determinant(){
         return;
     }
-    public static void MatBal(){
+    public static void matBal(){
         Scanner sc = new Scanner(System.in);
-        matrix coba=new matrix();
+        Matrix coba=new Matrix();
         coba.bacaFileMatrix("",false);
         coba.printMatriks();
         
     }
 
-    public static void IntPol(){
+    public static void intPol(){
         return;
     }
 
-    public static void IntBic()
+    public static void intBic()
     {
         //deklarasi
-        matrix xBic=new matrix();
-        matrix invxBic=new matrix();
-        matrix aBic=new matrix();
-        matrix yBic=new matrix();
+        Matrix invxBic=new Matrix();
+        Matrix xBic=new Matrix();
+        Matrix aBic=new Matrix();
+        Matrix yBic=new Matrix();
         double hasil;
 
         /*membuat matriks X dan inversnya */
         xBic=xBic.matrixBicubicSpline();
-        xBic.printMatriks();
-        System.out.println();
+        //xBic.printMatriks();
+        //System.out.println();
 
         invxBic=xBic.inverseMatrix(xBic);
-        invxBic.printMatriks();
-        System.out.println();
+        //invxBic.printMatriks();
+        //System.out.println();
         
         /*ambil data f, fx, fy, dan fxy*/
         yBic.bacaFileMatrix("",true);
-        yBic.printMatriks();
-        System.out.println();
 
         //membuat matriks a
         aBic=aBic.perkalianMatrix(invxBic, yBic);
@@ -52,13 +50,27 @@ public class Main {
 
         //System.out.println(hasil);
         //hitung hasil
-        //hasil=xBic.bicMeasure(aBic);
-        //System.out.println(hasil);
+        hasil = yBic.bicMeasure(aBic);
+        System.out.println(hasil);
 
         return;
     }
 
-    public static void RegLin(){
+    public static void regLin(){
+            Matrix xy = new Matrix();
+            Matrix xs = new Matrix();
+            Matrix bs = new Matrix();
+            Matrix invxs = new Matrix();
+
+            xy.bacaFileMatrix("", false);
+            xs.formReglin(xy);
+            invxs = xs.inverseMatrix(xs);
+            //invxs.printMatriks();
+            bs = bs.perkalianMatrix(invxs, ys);
+            bs.printMatriks();
+            //xs.printMatriks();
+            //ys.printMatriks();
+
         return;
     }
     public static void main(String[] args) {
@@ -77,22 +89,22 @@ public class Main {
         while(true){
             switch (inpmain){
                 case 1:
-                    SPL();
+                    spl();
                     break;
                 case 2:
-                    Determinan();
+                    determinant();
                     break;
                 case 3:
-                    MatBal();
+                    matBal();
                     break;
                 case 4:
-                    IntPol();
+                    intPol();
                     break;
                 case 5:
-                    IntBic();
+                    intBic();
                     break;
                 case 6:
-                    RegLin();
+                    regLin();
                     break;
                 case 7:
                     sc.close();
