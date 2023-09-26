@@ -373,15 +373,7 @@ public class Matrix {
         }
     }
 
-    public double pangkat(double a,double b){
-        if(a==0){
-            if(b==0)return 1;
-            else return 0;
-        }
-        else{
-            return(Math.pow(a,b));
-        }
-    }
+
     
 
     public double determinantGaussMatriks() {
@@ -503,35 +495,32 @@ public class Matrix {
         return hasil;
     }
 
-    public boolean isSPLUnique(matrix m){
-        return (m.determinantMatriks()!=0);
-    }
     // mengganti satu kolom matriks dengan matriks lain
     
-    
     // make cramer to get linear equation
-    public matrix getCramerSol(matrix m){
-        matrix square = new matrix();
-        square.setMatrix(m.row, m.col-1);
-        for(int i = 0; i < m.row; i++){
-            for(int j = 0; j < m.col-1; j++){
-                square.matrix[i][j] = m.matrix[i][j];
+    public Matrix getCramerSol(){
+        
+        Matrix square = new Matrix();
+        square.setMatrix(this.row, this.col-1);
+        for(int i = 0; i < this.row; i++){
+            for(int j = 0; j < this.col-1; j++){
+                square.matrix[i][j] = this.matrix[i][j];
             }
         }
 
-        matrix result = new matrix();
+        Matrix result = new Matrix();
         result.setMatrix(square.row, 1);
-        double det = square.determinantMatriks();
+        double det = square.determinantGaussMatriks();
 
         // replace column dgn solusi dan cari determinan
         for(int i = 0; i < square.row; i++){
-            matrix temp = new matrix();
+            Matrix temp = new Matrix();
             temp.setMatrix(square.row, square.col);
             temp = copyMatrix(square);
-            for(int j = 0; j < m.row; j++){
-                temp.matrix[j][i] = m.matrix[j][m.col-1];
+            for(int j = 0; j < this.row; j++){
+                temp.matrix[j][i] = this.matrix[j][this.col-1];
             }
-            result.matrix[i][0] = temp.determinantMatriks()/det;
+            result.matrix[i][0] = temp.determinantGaussMatriks()/det;
         }
         return result;
     }
@@ -544,7 +533,7 @@ public class Matrix {
             float det = 0;
             int i,j,k;
             for (i = 0; i < this.row; i++){
-                matrix mTemp = new matrix();
+                Matrix mTemp = new Matrix();
                 mTemp.setMatrix(this.row -1, this.col);
                 // createMatrix(ROW_EFF(m) - 1,COL_EFF(m) - 1,&mTemp);
                 for (j = 1; j < this.row; j++){
@@ -606,13 +595,13 @@ public class Matrix {
     }
 
 
-    public matrix getSPLGauss(){
+    public Matrix getSPLGauss(){
         if(isSPLUnique()){
-            matrix result = new matrix();
+            Matrix result = new Matrix();
             int sumOfSolution = this.getCol() -1;
             result.setMatrix(sumOfSolution, 1);
             for(int i = sumOfSolution -1 ; i>= 0;i--){
-                System.out.println(i);
+
                 result.matrix[i][0] = this.matrix[i][sumOfSolution];
                 
                 for(int j = i+1;j<this.col-1;j++){
