@@ -9,7 +9,7 @@ import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
 public class matrix{
     double [][] matrix;
     int row;
-    int col;
+    int col; 
     double tx,ty;
 
     // Constructor
@@ -282,41 +282,8 @@ public class matrix{
         }
         return identMatrix; 
     }
-    public boolean isSPLUnique(matrix m){
-        return (m.determinantMatriks()!=0);
-    }
-    // mengganti satu kolom matriks dengan matriks lain
     
     
-    // make cramer to get linear equation
-    public matrix getCramerSol(matrix m){
-        matrix square = new matrix();
-        square.setMatrix(m.row, m.col-1);
-        for(int i = 0; i < m.row; i++){
-            for(int j = 0; j < m.col-1; j++){
-                square.matrix[i][j] = m.matrix[i][j];
-            }
-        }
-
-        matrix result = new matrix();
-        result.setMatrix(square.row, 1);
-        double det = square.determinantMatriks();
-
-        // replace column dgn solusi dan cari determinan
-        for(int i = 0; i < square.row; i++){
-            matrix temp = new matrix();
-            temp.setMatrix(square.row, square.col);
-            temp = copyMatrix(square);
-            for(int j = 0; j < m.row; j++){
-                temp.matrix[j][i] = m.matrix[j][m.col-1];
-            }
-            result.matrix[i][0] = temp.determinantMatriks()/det;
-        }
-        return result;
-    }
-
-
-
     // Read or Write Matrix
     public void printMatriks(){
         for(int i = 0; i < row; i++){
@@ -397,7 +364,7 @@ public class matrix{
             return(Math.pow(a,b));
         }
     }
-
+    
 
     public double determinantMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
@@ -513,5 +480,157 @@ public class matrix{
         }
         return hasil;
     }
+    // public double determinant(matrix m){
+    //     if (m.getRow() == 1){
+    //         return m.matrix[0][0];
+    //     } else {
+    //         float det = 0;
+    //         int i,j,k;
+    //         for (i = 0; i < m.getRow(); i++){
+    //             matrix mTemp = new matrix();
+    //             mTemp.setMatrix(m.getRow()-1, m.getCol());
+    //             // createMatrix(ROW_EFF(m) - 1,COL_EFF(m) - 1,&mTemp);
+    //             for (j = 1; j < m.getRow(); j++){
+        //                 for (k = 0; k < m.getCol(); k++){
+            //                     if (k < i){
+                //                         mTemp.matrix[j-1][k] = m.matrix[j][k];
+                //                         // ELMT(mTemp,j-1,k) = ELMT(m,j,k);
+                //                     } else if (k > i){
+                    //                         mTemp.matrix[j-1][k-1] = m.matrix[j][k];
+                    //                         // ELMT(mTemp,j-1,k-1) = ELMT(m,j,k);
+                    //                     }
+                    //                 }
+                    //             }
+                    //             det += m.matrix[0][i] * determinant(mTemp) * (i % 2 == 0 ? 1 : -1);
+                    //             // det += ELMT(m,0,i) * determinant(mTemp) * (i % 2 == 0 ? 1 : -1);
+                    //         }
+                    //         return det;
+                    //     }
+    public boolean isSPLUnique(matrix m){
+        return (m.determinantMatriks()!=0);
+    }
+    // mengganti satu kolom matriks dengan matriks lain
+    
+    
+    // make cramer to get linear equation
+    public matrix getCramerSol(matrix m){
+        matrix square = new matrix();
+        square.setMatrix(m.row, m.col-1);
+        for(int i = 0; i < m.row; i++){
+            for(int j = 0; j < m.col-1; j++){
+                square.matrix[i][j] = m.matrix[i][j];
+            }
+        }
+
+        matrix result = new matrix();
+        result.setMatrix(square.row, 1);
+        double det = square.determinantMatriks();
+
+        // replace column dgn solusi dan cari determinan
+        for(int i = 0; i < square.row; i++){
+            matrix temp = new matrix();
+            temp.setMatrix(square.row, square.col);
+            temp = copyMatrix(square);
+            for(int j = 0; j < m.row; j++){
+                temp.matrix[j][i] = m.matrix[j][m.col-1];
+            }
+            result.matrix[i][0] = temp.determinantMatriks()/det;
+        }
+        return result;
+    }
+            
+                    // }
+    public double getDeterminantCofactor(){
+        if (this.row == 1){
+            return this.matrix[0][0];
+        } else {
+            float det = 0;
+            int i,j,k;
+            for (i = 0; i < this.row; i++){
+                matrix mTemp = new matrix();
+                mTemp.setMatrix(this.row -1, this.col);
+                // createMatrix(ROW_EFF(m) - 1,COL_EFF(m) - 1,&mTemp);
+                for (j = 1; j < this.row; j++){
+                    for (k = 0; k < this.col; k++){
+                        if (k < i){
+                            mTemp.matrix[j-1][k] = this.matrix[j][k];
+                            // ELMT(mTemp,j-1,k) = ELMT(m,j,k);
+                        } else if (k > i){
+                            mTemp.matrix[j-1][k-1] = this.matrix[j][k];
+                            // ELMT(mTemp,j-1,k-1) = ELMT(m,j,k);
+                        }
+                    }
+                }
+                det += this.matrix[0][i] * mTemp.getDeterminantCofactor() * (i % 2 == 0 ? 1 : -1);
+                // det += ELMT(m,0,i) * determinant(mTemp) * (i % 2 == 0 ? 1 : -1);
+            }
+            return det;
+        }
+    }
+
+    public int getSumOfLeading1(){
+        int sum = 0;
+        for (int i = 0; i < this.row; i++){
+            for (int j = 0; j < this.col-1; j++){
+                if (this.matrix[i][j] == 1){
+                    sum++;
+                    break;
+                }
+                else if (this.matrix[i][j] != 0){
+                    break;
+                }
+            }
+        }
+        return sum;
+    }
+
+    public boolean isSPLUnique(){
+        return (this.getSumOfLeading1() >= this.col -1);
+    }
+
+    public boolean isRowInvalidSol(int row){
+        for(int i = 0;i<this.col-1;i++){
+            if(this.matrix[row][i]!=0){
+                return false;
+            }
+        }
+        if(this.matrix[row][this.col-1]!=0){
+            return true;
+        }
+        return false;
+    }
+    public boolean isSPLInfiniteSol(){
+        for(int i = 0;i<this.row;i++){
+            if(isRowInvalidSol(i)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public matrix getSPLGauss(){
+        if(isSPLUnique()){
+            matrix result = new matrix();
+            int sumOfSolution = this.getCol() -1;
+            result.setMatrix(sumOfSolution, 1);
+            for(int i = sumOfSolution -1 ; i>= 0;i--){
+                System.out.println(i);
+                result.matrix[i][0] = this.matrix[i][sumOfSolution];
+                
+                for(int j = i+1;j<this.col-1;j++){
+                    result.matrix[i][0]-=this.matrix[i][j]*result.matrix[j][0];
+                }
+                result.matrix[i][0] /= this.matrix[i][i];
+            }
+            return result;
+        }
+        else{
+            return null;
+        }
 }
+
+}
+
+
 
