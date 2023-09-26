@@ -66,9 +66,7 @@ public class Main {
             xs.formReglin(xy);
             invxs = xs.inverseMatrix(xs);
             //invxs.printMatriks();
-            bs = bs.perkalianMatrix(invxs, ys);
-            bs.printMatriks();
-            //xs.printMatriks();
+            xs.printMatriks();
             //ys.printMatriks();
 
         return;
