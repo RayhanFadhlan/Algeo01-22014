@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.lang.Math;
 
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+
 public class Matrix{
     double [][] matrix;
     int row;
@@ -546,64 +547,38 @@ public class Matrix{
     }
 
 
-
-    public void reglinys(Matrix parxy){
-        Matrix xy= new Matrix();
-        int c,r;
-        double sum;
-
-        xy = copyMatrix(parxy);
-        xy.printMatriks();
-        System.out.println();
-        //k jadi c
-        //n jadi r
-        c = xy.col-1;
-        r = xy.row;
-        setMatrix(c+1, 1);
-
-    }
-
-    public void reglinxs(Matrix parxy){
+    public void formReglin(Matrix parxy){
         Matrix xy= new Matrix();
         int c,r;
         double sum;
         xy.setMatrix(parxy.row, parxy.col);
         xy = copyMatrix(parxy);
-        // xy.printMatriks();
-        // System.out.println();
         //k jadi c
         //n jadi r
         c = xy.col;
         r = xy.row;
         setMatrix(c, c+1);
-        
-        //isi xs dan ys
-
-        //isi xs
-        for(int i=0;i<c;i++)
-        {
-            for(int j=0;j<c;j++)
-            {
-                if(i==0&&j==0) sum=r;
-                else{
-                    sum=0;
-                    if(i==0||j==0){
-                        for(int k=0;k<r;k++){
-                            sum+=xy.matrix[k][i+j-1];
-                        }    
-                    }
-                    else{
-                        for(int k=0;k<r;k++){
-                            for(int l=0;l<r;l++){
-                                sum+=(xy.matrix[k][i-1]*xy.matrix[l][j-1]);
-                            }
+        setMatrixValue(0,0,r);
+        for(int i=1;i<c;i++){
+            sum=0;
+            for(int k=0;k<r;k++){
+                sum+=xy.matrix[k][i-1];
+            }
+            setMatrixValue(i, 0, sum);
+            setMatrixValue(0, i, sum);
+        }
+        for(int i=1;i<c;i++){
+            for(int j=1;j<c;j++){
+                sum=0;
+                    for(int k=0;k<r;k++){
+                        for(int l=0;l<r;l++){
+                            sum+=(xy.matrix[k][i-1]*xy.matrix[l][j-1]);
                         }
                     }
-                }
                 this.matrix[i][j]=sum;
             }
         }
-        for(int i=0;i<=c;i++){
+        for(int i=0;i<c;i++){
             sum=0;
             for(int j=0;j<r;j++){
                 if(i==0){
@@ -611,12 +586,13 @@ public class Matrix{
                 }
                 else{
                     for(int k=0;k<r;k++){
-                        sum+=(xy.matrix[j][c]*xy.matrix[k][i-1]);
+                        sum+=(xy.matrix[j][c-1]*xy.matrix[k][i-1]);
                     }
                 }
             }
             this.matrix[i][c]=sum;
         }
     }
+    
 }
 
