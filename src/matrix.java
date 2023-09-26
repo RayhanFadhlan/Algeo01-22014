@@ -52,7 +52,8 @@ public class Matrix{
         }
     }
 
-    public void setMatrix(int nrow, int ncol) {
+
+    public void createMatrix(int row, int col) {
         // Memberikan matriks nilai baris dan kolom
         setRow(nrow);
         setCol(ncol);
@@ -66,11 +67,11 @@ public class Matrix{
 
     // Methods
 
-    // OPERASI MATRIKS
+    /*OPERASI MATRIKS*/
     public Matrix add(Matrix m){
         // Menjumlahkan matrik dengan elemennya sendiri 
         Matrix result = new Matrix(); 
-        result.setMatrix(row, col);
+        result.createMatrix(row, col);
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
                 result.setMatrixValue(i, j, matrix[i][j] + m.matrix[i][j]);
@@ -84,7 +85,7 @@ public class Matrix{
 
         Matrix hasil = new Matrix();
         double sum=0;
-        hasil.setMatrix(a.getRow(), b.getCol());
+        hasil.createMatrix(a.getRow(), b.getCol());
         for(int i=0;i<a.getRow();i++){
             for(int j=0;j<b.getCol();j++){
                 sum=0;
@@ -107,10 +108,10 @@ public class Matrix{
     public static Matrix copyMatrix(Matrix m){
         // Memberi salinan dari matriks m
         Matrix result = new Matrix(); 
-        result.setMatrix(m.row, m.col);
-        for(int i = 0; i < m.row; i++){
-            for(int j = 0; j < m.col; j++){
-                result.setMatrixValue(i, j, m.matrix[i][j]);
+        result.createMatrix(row, col);
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                result.setMatrixValue(i, j, matrix[i][j]);
             }
         }
         return result;
@@ -120,10 +121,10 @@ public class Matrix{
     public static Matrix transpose(Matrix m){
         // Transpose matriks
         Matrix result = new Matrix(); 
-        result.setMatrix(m.row, m.col);        
-        for(int i = 0; i < m.col; i++){
-            for(int j = 0; j < m.row; j++){
-                result.setMatrixValue(i, j, m.matrix[j][i]);
+        result.createMatrix(row, col);        
+        for(int i = 0; i < col; i++){
+            for(int j = 0; j < row; j++){
+                result.setMatrixValue(i, j, matrix[j][i]);
             }
         }
         return result;
@@ -157,7 +158,7 @@ public class Matrix{
     public Matrix identity() {
         // Mengembalikan nilai matriks identitas NxN
         Matrix identitas = new Matrix();
-        identitas.setMatrix(this.row, this.col);
+        identitas.createMatrix(this.row, this.col);
         for(int i = 0; i < this.row; i++) {
             for (int j = 0; j < this.col; j++) {
                 if (i == j) {
@@ -179,7 +180,9 @@ public class Matrix{
         }
         return true;
     }
+
     public static Matrix gauss(Matrix m){
+
         Matrix result = copyMatrix(m);
         for(int i = 0;i<result.row;i++){
             int pivotCol = result.swapZeroToBottom(i);
@@ -223,21 +226,131 @@ public class Matrix{
                 int leading1 = findLeading1(result, i);
                 result.reverseOBE(i, leading1);
             }
+        }
+        return result;
+    }
+
+    public double pangkat(double a,double b){
+        if(a==0){
+            if(b==0)return 1;
+            else return 0;
+        }
+        else{
+            return(Math.pow(a,b));
+        }
+    }
+
+    /* CHECK STATE */
+    public boolean isRow0(Matrix m,int row){
+        // Mengecek apakah nilai dari suatu baris bernilai 0
+        for(int i = 0;i<m.col-1;i++){
+            if(m.matrix[row][i]!=0){
+                return false;
             }
-            return result;
+        }
+        return true;
+    }
+
+    /* BACA ATAU TULIS MATRIKS */
+    public void printMatriks(){
+        // Read or Write Matrix
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                System.out.printf("%.2f ",matrix[i][j]); // Print dua angka dibelakang desimal
+            }
+            System.out.println();
+        }
+    }
+
+    public void bacaMatriks () {
+        Scanner sc = new Scanner(System.in);
+        String dump;
+        System.out.println("Enter row and col: ");
+        int row = sc.nextInt();
+        int col = sc.nextInt();
+        createMatrix(row, col);
+        System.out.println("Enter matrix: ");
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                setMatrixValue(i, j, sc.nextDouble());
+            }
+            dump=sc.nextLine();
+        }
     }
     
+    public void bacaFileMatrix(String parlokasi,boolean parbic){
+        int row=0,col=0;
+        double dumpd;
+        String lokasi,dumps;
+        boolean bic;
+        Scanner sc= new Scanner(System.in);
+
+        lokasi=parlokasi;
+        bic=parbic;
+        if(lokasi==""){
+            System.out.printf("Masukkan nama file: ");
+            lokasi=sc.nextLine();
+        }
+        if(bic) row--;
+        try{
+            /*mengambil file */
+            File inp=new File(lokasi);
+            Scanner scf = new Scanner(inp);
+
+            /*mengambil 1 baris dan menghitung kolom */
+            Scanner cntcol = new Scanner(scf.nextLine());
+            row++;
+            while(cntcol.hasNextDouble()){
+                col++;
+                dumpd=cntcol.nextDouble();
+            }
+
+            /*menghitung baris */
+            while(scf.hasNextLine()){
+                dumps=scf.nextLine();
+                row++;
+            }
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        if(bic) createMatrix(16, 1);
+        else createMatrix(row, col);
+        //System.out.println(row+" "+col);
+        try{
+            File inp = new File(lokasi);
+            Scanner scf= new Scanner(inp);
+            int cnt=0;
+            for(int i=0;i<row;i++){
+                Scanner srow = new Scanner (scf.nextLine());
+                for(int j=0;j<col;j++){
+                    if(bic) this.matrix[cnt][0] = srow.nextDouble();
+                    else this.matrix[i][j] = srow.nextDouble();
+                }
+            }
+            if(bic){
+                Scanner srow = new Scanner (scf.nextLine());
+                this.tx = srow.nextDouble();
+                this.ty = srow.nextDouble();
+            }
+        }
+            
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+     
+    /* MAIN OPERATION */
     public Matrix inverseMatrix(Matrix par) {
         Matrix m = new Matrix();
         m.setMatrix(par.row, par.col);
         m = copyMatrix(par);
         Matrix identMatrix;
         identMatrix = new Matrix();
-        identMatrix.setMatrix(m.row, m.col);
+        identMatrix.createMatrix(m.row, m.col);
         identMatrix = m.identity();
         for (int n =0;n<this.row;n++) {
-            //identMatrix.printMatriks();
-            //System.out.println();
             double pivot = m.matrix[n][n];
             for (int i = n + 1; i<this.row;i++) {
                 int newN = i;
@@ -310,9 +423,10 @@ public class Matrix{
         // sc.close();
     }
 
+
     public Matrix matrixBicubicSpline(){
         Matrix aBic = new Matrix();
-        aBic.setMatrix (16, 16);
+        aBic.createMatrix (16, 16);
         int cnt;
         cnt=0;
         for(int i=0;i<=1;i++){
@@ -355,18 +469,10 @@ public class Matrix{
             }
         }
     }
-    public double pangkat(double a,double b){
-        if(a==0){
-            if(b==0)return 1;
-            else return 0;
-        }
-        else{
-            return(Math.pow(a,b));
-        }
-    }
+    
 
 
-    public double determinantMatriks() {
+    public double determinantGaussMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
         double determinant = 1;
         Matrix result = new Matrix();
@@ -383,27 +489,50 @@ public class Matrix{
                         System.out.printf("Pivot Modified: %f\n",pivot);
                         if (pivot != 0) {
                             break;
+            double determinant = 1;
+            Matrix result = new Matrix();
+            result = copyMatrix(this);
+            for (int n=0;n<this.row;n++) {
+                for (int i = n + 1; i<this.row;i++) {
+                    double pivot = result.matrix[n][n];
+                    int newN = i;
+    
+                    if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
+                        while ((newN < row)) {
+                            swaprow(result, newN, n);
+                            pivot = result.matrix[n][n];
+                            if (pivot != 0) {
+                                break;
+                            }
+                            newN += 1;
+
                         }
-                        newN += 1;
+                    }
+                    double scale = result.matrix[i][n] / pivot; 
+                    for (int j=0;j<this.col;j++) {
+                        result.matrix[i][j] -= result.matrix[n][j] * scale;
                     }
                 }
-                double scale = result.matrix[i][n] / pivot; 
-                for (int j=0;j<this.col;j++) {
-                    result.matrix[i][j] -= result.matrix[n][j] * scale;
-                }
-                //result.printMatriks();
-                //System.out.printf("\n");
+            } 
+    
+            for (int i=0;i<this.row;i++) { // Mengalikan determinan secara diagonal
+                determinant *= result.matrix[i][i];
             }
+            if (determinant == 0) {
+                determinant = 0;
+            }
+            return determinant;
         } 
-
-        for (int i=0;i<this.row;i++) { // Mengalikan determinan secara diagonal
-            determinant *= result.matrix[i][i];
+        catch(ArrayIndexOutOfBoundsException n) {
+            System.out.println("error");
+            return 0;
         }
-        if (determinant == 0) {
-            determinant = 0;
-        }
-        return determinant;
     } 
+
+    public double determinantCofacMatrix(){
+        // Mencari determinant matriks menggunakan kofaktor
+        
+        return 0.0;
 
 
     public void bacaFileMatrix(String parlokasi,boolean parbic){
@@ -469,6 +598,7 @@ public class Matrix{
         }
     }
 
+
     public double bicMeasure(Matrix a){
         double hasil;
         int cnt;
@@ -493,7 +623,7 @@ public class Matrix{
         n = banyakTitik - 1;
 
         Matrix tabelMatrix = new Matrix();
-        tabelMatrix.setMatrix(banyakTitik,banyakTitik+1);
+        tabelMatrix.createMatrix(banyakTitik,banyakTitik+1);
         tabelMatrix.printMatriks();
         for(int i=0;i<banyakTitik;i++){
             System.out.println("Titik X:");
@@ -529,7 +659,7 @@ public class Matrix{
         a = new Matrix();
         b = new Matrix();
         a.bacaMatriks();
-        b.setMatrix(a.row, 1);
+        b.createMatrix(a.row, 1);
         Scanner sc = new Scanner(System.in);
         for (int i=0;i<a.row;i++){
             b.matrix[i][0] = sc.nextDouble();
