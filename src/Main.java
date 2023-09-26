@@ -57,11 +57,11 @@ public class Main {
     }
 
     public static void regLin(){
-            matrix xy = new matrix();
-            matrix ys = new matrix();
-            matrix xs = new matrix();
-            matrix bs = new matrix();
-            matrix invxs = new matrix();
+            Matrix xy = new Matrix();
+            Matrix ys = new Matrix();
+            Matrix xs = new Matrix();
+            Matrix bs = new Matrix();
+            Matrix invxs = new Matrix();
 
             xy.bacaFileMatrix("", false);
             xs.reglinxs(xy);

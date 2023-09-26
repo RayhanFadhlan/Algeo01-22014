@@ -51,16 +51,16 @@ public class Matrix{
         }
     }
 
-    public void setMatrix(int row, int col) {
+    public void setMatrix(int nrow, int ncol) {
         // Memberikan matriks nilai baris dan kolom
-        setRow(row);
-        setCol(col);
+        setRow(nrow);
+        setCol(ncol);
         initializeMatrix(this.row, this.col);
     }
 
-    public void setMatrixValue(int row, int col, double value){
+    public void setMatrixValue(int nrow, int ncol, double value){
         // Memberikan matriks nilai untuk baris dan kolom
-        this.matrix[row][col] = value;
+        this.matrix[nrow][ncol] = value;
     }
 
     // Methods
@@ -78,7 +78,7 @@ public class Matrix{
         return result;
     }
 
-    public Matrix perkalianMatrix(Matrix a, Matrix b){
+    public static Matrix perkalianMatrix(Matrix a, Matrix b){
         // Perkalian matriks
 
         Matrix hasil = new Matrix();
@@ -96,44 +96,44 @@ public class Matrix{
         return hasil;
     }
 
-    public void swaprow(Matrix m, int i, int j){
+    public static void swaprow(Matrix m, int i, int j){
         // Menukar baris matriks
         double temp[] = m.matrix[i];
         m.matrix [i] = m.matrix[j];
         m.matrix[j] = temp;
     }
 
-    public Matrix copyMatrix(Matrix m){
+    public static Matrix copyMatrix(Matrix m){
         // Memberi salinan dari matriks m
         Matrix result = new Matrix(); 
-        result.setMatrix(row, col);
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                result.setMatrixValue(i, j, matrix[i][j]);
+        result.setMatrix(m.row, m.col);
+        for(int i = 0; i < m.row; i++){
+            for(int j = 0; j < m.col; j++){
+                result.setMatrixValue(i, j, m.matrix[i][j]);
             }
         }
         return result;
     }
 
 
-    public Matrix transpose(Matrix m){
+    public static Matrix transpose(Matrix m){
         // Transpose matriks
         Matrix result = new Matrix(); 
-        result.setMatrix(row, col);        
-        for(int i = 0; i < col; i++){
-            for(int j = 0; j < row; j++){
-                result.setMatrixValue(i, j, matrix[j][i]);
+        result.setMatrix(m.row, m.col);        
+        for(int i = 0; i < m.col; i++){
+            for(int j = 0; j < m.row; j++){
+                result.setMatrixValue(i, j, m.matrix[j][i]);
             }
         }
         return result;
     }
 
-    public int makeLeftNonZero(Matrix m,int row){
+    public int swapZeroToBottom (int nrow){
         // Menukar baris dengan nilai nol paling banyak ke bawah.
-        for(int j=row;j<m.col;j++){
-            for(int i = row;i<m.row;i++){
-                if(m.matrix[i][j]!=0){
-                    swaprow(m,row,i);
+        for(int j=nrow;j<this.col;j++){
+            for(int i = nrow;i<this.row;i++){
+                if(this.matrix[i][j]!=0){
+                    swaprow(this,nrow,i);
                     return j;
                 }
             }
@@ -141,13 +141,13 @@ public class Matrix{
        return 0;
     }
   
-    public void forwardOBE(Matrix m,int row,int col){
+    public void forwardOBE(int nrow,int ncol){
         // OBE dengan langkah maju
         double scale;
-        for(int i = row+1;i<m.row;i++){
-            scale = m.matrix[i][col];
-            for(int j = 0; j<m.col;j++){
-                m.matrix[i][j]-=((m.matrix[row][j])*scale);
+        for(int i = nrow+1;i<row;i++){
+            scale = matrix[i][ncol];
+            for(int j = 0; j<col;j++){
+                matrix[i][j]-=((matrix[nrow][j])*scale);
             }
         }
     }
@@ -169,67 +169,67 @@ public class Matrix{
         return identitas;
     }
 
-    public boolean isRow0(Matrix m,int row){
+    public static boolean isRow0(Matrix m,int nrow){
         // Mengecek apakah nilai dari suatu baris bernilai 0
         for(int i = 0;i<m.col-1;i++){
-            if(m.matrix[row][i]!=0){
+            if(m.matrix[nrow][i]!=0){
                 return false;
             }
         }
         return true;
     }
-    public Matrix Gauss(Matrix m){
+    public Matrix gauss(Matrix m){
         Matrix result = copyMatrix(m);
         for(int i = 0;i<result.row;i++){
-            int pivotCol = makeLeftNonZero(result,i);
+            int pivotCol = result.swapZeroToBottom(i);
             double pivot = result.matrix[i][pivotCol];
             if(!(isRow0(result, i))){
                 for(int j = pivotCol;j<result.col;j++){
                     result.matrix[i][j]/=pivot;
             }
-                forwardOBE(result, i, pivotCol);
+                result.forwardOBE(i, pivotCol);
             }
         }
             return result;
     }
     
-    public void reverseOBE(Matrix m,int row,int col){
+    public void reverseOBE(int nrow,int ncol){
         // Melakukan OBE dengan langkah mundur
-        for(int i= 0;i<row;i++){
-            if(m.matrix[i][col]!=0){
-                double scale = m.matrix[i][col];
-                for(int j = 0;j<m.col;j++){
-                    m.matrix[i][j]-=scale*m.matrix[row][j];
+        for(int i= 0;i<nrow;i++){
+            if(this.matrix[i][ncol]!=0){
+                double scale = this.matrix[i][ncol];
+                for(int j = 0;j<this.col;j++){
+                    this.matrix[i][j]-=scale*this.matrix[nrow][j];
                 }
             }
         }
     }
 
-    public int findLeading1(Matrix m,int row){
+    public static int findLeading1(Matrix m,int nrow){
         // Mencari nilai leading one
         for(int i = 0;i<m.col;i++){
-            if(m.matrix[row][i]==1){
+            if(m.matrix[nrow][i]==1){
                 return i;
             }
         }
         return 0;
     }
-    public Matrix GaussJordan(Matrix m){
+    public static Matrix gaussJordan(Matrix m){
         Matrix result = copyMatrix(m);
-        result = Gauss(result);
+        result = gauss(result);
         for(int i = result.row-1;i>=0;i--){
             if(!isRow0(result, i)){
                 int leading1 = findLeading1(result, i);
-                reverseOBE(result, i, leading1);
+                result.reverseOBE(i, leading1);
             }
             }
             return result;
-        }
+    }
     
     public Matrix inverseMatrix(Matrix par) {
         Matrix m = new Matrix();
         m.setMatrix(par.row, par.col);
-        m=par.copyMatrix(par);
+        m = copyMatrix(par);
         Matrix identMatrix;
         identMatrix = new Matrix();
         identMatrix.setMatrix(m.row, m.col);
@@ -241,7 +241,7 @@ public class Matrix{
             for (int i = n + 1; i<this.row;i++) {
                 int newN = i;
                 if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
-                    while ((newN < row)) {
+                    while ((newN < this.row)) {
                         swaprow(m, newN, n);
                         swaprow(identMatrix, newN, n);
                         pivot = m.matrix[n][n];
@@ -296,12 +296,12 @@ public class Matrix{
         Scanner sc = new Scanner(System.in);
         String dump;
         System.out.println("Enter row and col: ");
-        int row = sc.nextInt();
-        int col = sc.nextInt();
-        setMatrix(row, col);
+        int nrow = sc.nextInt();
+        int ncol = sc.nextInt();
+        setMatrix(nrow, ncol);
         System.out.println("Enter matrix: ");
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
+        for(int i = 0; i < nrow; i++){
+            for(int j = 0; j < ncol; j++){
                 setMatrixValue(i, j, sc.nextDouble());
             }
             dump=sc.nextLine();
@@ -323,32 +323,33 @@ public class Matrix{
         return aBic;
     }
 
-    public void isiMatrixBicubic(int x,int y,int row){
+    public void isiMatrixBicubic(int x,int y,int nrow){
         int cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row, cnt, pangkat(x,i)*pangkat(y,j));
+                this.setMatrixValue(nrow, cnt, pangkat(x,i)*pangkat(y,j));
                 cnt++;
             }
         }
         cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row+4, cnt,i*pangkat(x,i-1)*pangkat(y,j));
+                this.setMatrixValue(nrow+4, cnt,i*pangkat(x,i-1)*pangkat(y,j));
                 cnt++;
             }
         }
         cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row+8, cnt,j*pangkat(x,i)*pangkat(y,j-1));
+                this.setMatrixValue(nrow+8, cnt,j*pangkat(x,i)*pangkat(y,j-1));
                 cnt++;
+
             }
         }
         cnt=0;
         for(int j=0;j<4;j++){
             for(int i=0;i<4;i++){
-                this.setMatrixValue(row+12, cnt,i*j*pangkat(x,i-1)*pangkat(y,j-1));
+                this.setMatrixValue(nrow+12, cnt,i*j*pangkat(x,i-1)*pangkat(y,j-1));
                 cnt++;
             }
         }
@@ -375,7 +376,7 @@ public class Matrix{
                 int newN = i;
 
                 if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
-                    while ((newN < row)) {
+                    while ((newN < this.row)) {
                         swaprow(result, newN, n);
                         pivot = result.matrix[n][n];
                         System.out.printf("Pivot Modified: %f\n",pivot);
@@ -405,7 +406,7 @@ public class Matrix{
 
 
     public void bacaFileMatrix(String parlokasi,boolean parbic){
-        int row=0,col=0;
+        int nrow=0,ncol=0;
         double dumpd;
         String lokasi,dumps;
         boolean bic;
@@ -417,7 +418,7 @@ public class Matrix{
             System.out.printf("Masukkan nama file: ");
             lokasi=sc.nextLine();
         }
-        if(bic) row--;
+        if(bic) nrow--;
         try{
             /*mengambil file */
             File inp = new File(lokasi);
@@ -425,31 +426,31 @@ public class Matrix{
 
             /*mengambil 1 baris dan menghitung kolom */
             Scanner cntcol = new Scanner(scf.nextLine());
-            row++;
+            nrow++;
             while(cntcol.hasNextDouble()){
-                col++;
+                ncol++;
                 dumpd=cntcol.nextDouble();
             }
 
             /*menghitung baris */
             while(scf.hasNextLine()){
                 dumps=scf.nextLine();
-                row++;
+                nrow++;
             }
         }
         catch(Exception ex) {
             ex.printStackTrace();
         }
         if(bic) setMatrix(16, 1);
-        else setMatrix(row, col);
+        else setMatrix(nrow, ncol);
         //System.out.println(this.row+" "+this.col);
         try{
             File inp = new File(lokasi);
             Scanner scf= new Scanner(inp);
             int cnt=0;
-            for(int i=0;i<row;i++){
+            for(int i=0;i<nrow;i++){
                 Scanner srow = new Scanner (scf.nextLine());
-                for(int j=0;j<col;j++){
+                for(int j=0;j<ncol;j++){
                     if(bic) this.matrix[cnt][0] = srow.nextDouble();
                     else this.matrix[i][j] = srow.nextDouble();
                     cnt++;
@@ -508,8 +509,8 @@ public class Matrix{
         }
         tabelMatrix.printMatriks();
         Matrix resultMatrix = new Matrix();
-        resultMatrix = tabelMatrix.copyMatrix(tabelMatrix);
-        resultMatrix = tabelMatrix.GaussJordan(tabelMatrix);
+        resultMatrix = copyMatrix(tabelMatrix);
+        resultMatrix = gaussJordan(tabelMatrix);
         resultMatrix.printMatriks(); 
 
         float inputX = sc.nextFloat();
@@ -539,7 +540,7 @@ public class Matrix{
         System.out.println("Matriks b:");
         b.printMatriks();
 
-        Matrix result = inverseA.perkalianMatrix(inverseA, b);    
+        Matrix result = perkalianMatrix(inverseA, b);    
         System.out.println("Result Matriks:");    
         result.printMatriks();
     }
@@ -551,7 +552,7 @@ public class Matrix{
         int c,r;
         double sum;
 
-        xy = parxy.copyMatrix(parxy);
+        xy = copyMatrix(parxy);
         xy.printMatriks();
         System.out.println();
         //k jadi c
@@ -576,12 +577,12 @@ public class Matrix{
         }
     }
 
-    public void reglinxs(matrix parxy){
-        matrix xy= new matrix();
+    public void reglinxs(Matrix parxy){
+        Matrix xy= new Matrix();
         int c,r;
         double sum;
         xy.setMatrix(parxy.row, parxy.col);
-        xy = parxy.copyMatrix(parxy);
+        xy = copyMatrix(parxy);
         // xy.printMatriks();
         // System.out.println();
         //k jadi c
