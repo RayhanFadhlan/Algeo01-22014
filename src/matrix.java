@@ -420,7 +420,7 @@ public class Matrix{
         if(bic) row--;
         try{
             /*mengambil file */
-            File inp=new File(lokasi);
+            File inp = new File(lokasi);
             Scanner scf = new Scanner(inp);
 
             /*mengambil 1 baris dan menghitung kolom */
@@ -442,7 +442,7 @@ public class Matrix{
         }
         if(bic) setMatrix(16, 1);
         else setMatrix(row, col);
-        //System.out.println(row+" "+col);
+        //System.out.println(this.row+" "+this.col);
         try{
             File inp = new File(lokasi);
             Scanner scf= new Scanner(inp);
@@ -452,6 +452,7 @@ public class Matrix{
                 for(int j=0;j<col;j++){
                     if(bic) this.matrix[cnt][0] = srow.nextDouble();
                     else this.matrix[i][j] = srow.nextDouble();
+                    cnt++;
                 }
             }
             if(bic){
@@ -475,6 +476,7 @@ public class Matrix{
         for(int j=0;j<=3;j++){
             for(int i=0;i<=3;i++){
                 hasil+=(a.matrix[cnt][0]*pangkat(this.tx, i)*pangkat(ty, j));
+                cnt++;
             }
         }
         return hasil;
