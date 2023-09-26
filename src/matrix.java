@@ -53,7 +53,7 @@ public class Matrix{
     }
 
 
-    public void createMatrix(int row, int col) {
+    public void createMatrix(int nrow, int ncol) {
         // Memberikan matriks nilai baris dan kolom
         setRow(nrow);
         setCol(ncol);
@@ -108,10 +108,10 @@ public class Matrix{
     public static Matrix copyMatrix(Matrix m){
         // Memberi salinan dari matriks m
         Matrix result = new Matrix(); 
-        result.createMatrix(row, col);
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                result.setMatrixValue(i, j, matrix[i][j]);
+        result.createMatrix(m.row, m.col);
+        for(int i = 0; i < m.row; i++){
+            for(int j = 0; j < m.col; j++){
+                result.setMatrixValue(i, j, m.matrix[i][j]);
             }
         }
         return result;
@@ -121,10 +121,10 @@ public class Matrix{
     public static Matrix transpose(Matrix m){
         // Transpose matriks
         Matrix result = new Matrix(); 
-        result.createMatrix(row, col);        
-        for(int i = 0; i < col; i++){
-            for(int j = 0; j < row; j++){
-                result.setMatrixValue(i, j, matrix[j][i]);
+        result.createMatrix(m.row, m.col);        
+        for(int i = 0; i < m.col; i++){
+            for(int j = 0; j < m.row; j++){
+                result.setMatrixValue(i, j, m.matrix[j][i]);
             }
         }
         return result;
@@ -241,15 +241,6 @@ public class Matrix{
     }
 
     /* CHECK STATE */
-    public boolean isRow0(Matrix m,int row){
-        // Mengecek apakah nilai dari suatu baris bernilai 0
-        for(int i = 0;i<m.col-1;i++){
-            if(m.matrix[row][i]!=0){
-                return false;
-            }
-        }
-        return true;
-    }
 
     /* BACA ATAU TULIS MATRIKS */
     public void printMatriks(){
