@@ -58,19 +58,15 @@ public class Main {
 
     public static void regLin(){
             Matrix xy = new Matrix();
-            Matrix ys = new Matrix();
             Matrix xs = new Matrix();
             Matrix bs = new Matrix();
             Matrix invxs = new Matrix();
 
             xy.bacaFileMatrix("", false);
-            xs.reglinxs(xy);
-            ys.reglinys(xy);
+            xs.formReglin(xy);
             invxs = xs.inverseMatrix(xs);
             //invxs.printMatriks();
-            bs = bs.perkalianMatrix(invxs, ys);
-            bs.printMatriks();
-            //xs.printMatriks();
+            xs.printMatriks();
             //ys.printMatriks();
 
         return;

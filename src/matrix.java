@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.lang.Math;
-
+import java.util.Arrays;
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+
 public class Matrix {
     double [][] matrix;
     int row;
-    int col;
+    int col; 
     double tx,ty;
 
     // Constructor
@@ -50,6 +51,7 @@ public class Matrix {
             }
         }
     }
+
 
 
     public void setMatrix(int nrow, int ncol) {
@@ -107,6 +109,7 @@ public class Matrix {
     public static Matrix copyMatrix(Matrix m){
         // Memberi salinan dari matriks m
         Matrix result = new Matrix(); 
+
         result.setMatrix(m.row, m.col);
         for(int i = 0; i < m.row; i++){
             for(int j = 0; j < m.col; j++){
@@ -120,6 +123,7 @@ public class Matrix {
     public static Matrix transpose(Matrix m){
         // Transpose matriks
         Matrix result = new Matrix(); 
+
         result.setMatrix(m.row, m.col);        
         for(int i = 0; i < m.col; i++){
             for(int j = 0; j < m.row; j++){
@@ -179,6 +183,7 @@ public class Matrix {
         }
         return true;
     }
+
     
     public static Matrix gauss(Matrix m){
         Matrix result = copyMatrix(m);
@@ -237,7 +242,6 @@ public class Matrix {
             return(Math.pow(a,b));
         }
     }
-
 
 
     /* BACA ATAU TULIS MATRIKS */
@@ -306,7 +310,7 @@ public class Matrix {
                 }
 
             }
-        }       
+        }              
          for (int n=this.row-1;n>=0;n--){
             for(int i= 0;i<n;i++){
                 if(m.matrix[i][n]!=0){
@@ -371,8 +375,9 @@ public class Matrix {
             }
         }
     }
-    
 
+
+    
 
     public double determinantGaussMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
@@ -388,7 +393,6 @@ public class Matrix {
                     while ((newN < this.row)) {
                         swaprow(result, newN, n);
                         pivot = result.matrix[n][n];
-                        System.out.printf("Pivot Modified: %f\n",pivot);
                         if (pivot != 0) {
                             break;
                         }
@@ -494,6 +498,128 @@ public class Matrix {
         return hasil;
     }
 
+    // mengganti satu kolom matriks dengan matriks lain
+    
+    // make cramer to get linear equation
+    public Matrix getCramerSol(){
+        
+        Matrix square = new Matrix();
+        square.setMatrix(this.row, this.col-1);
+        for(int i = 0; i < this.row; i++){
+            for(int j = 0; j < this.col-1; j++){
+                square.matrix[i][j] = this.matrix[i][j];
+            }
+        }
+
+        Matrix result = new Matrix();
+        result.setMatrix(square.row, 1);
+        double det = square.determinantGaussMatriks();
+
+        // replace column dgn solusi dan cari determinan
+        for(int i = 0; i < square.row; i++){
+            Matrix temp = new Matrix();
+            temp.setMatrix(square.row, square.col);
+            temp = copyMatrix(square);
+            for(int j = 0; j < this.row; j++){
+                temp.matrix[j][i] = this.matrix[j][this.col-1];
+            }
+            result.matrix[i][0] = temp.determinantGaussMatriks()/det;
+        }
+        return result;
+    }
+            
+                    
+    public double getDeterminantCofactor(){
+        if (this.row == 1){
+            return this.matrix[0][0];
+        } else {
+            float det = 0;
+            int i,j,k;
+            for (i = 0; i < this.row; i++){
+                Matrix mTemp = new Matrix();
+                mTemp.setMatrix(this.row -1, this.col);
+                // createMatrix(ROW_EFF(m) - 1,COL_EFF(m) - 1,&mTemp);
+                for (j = 1; j < this.row; j++){
+                    for (k = 0; k < this.col; k++){
+                        if (k < i){
+                            mTemp.matrix[j-1][k] = this.matrix[j][k];
+                            // ELMT(mTemp,j-1,k) = ELMT(m,j,k);
+                        } else if (k > i){
+                            mTemp.matrix[j-1][k-1] = this.matrix[j][k];
+                            // ELMT(mTemp,j-1,k-1) = ELMT(m,j,k);
+                        }
+                    }
+                }
+                det += this.matrix[0][i] * mTemp.getDeterminantCofactor() * (i % 2 == 0 ? 1 : -1);
+                // det += ELMT(m,0,i) * determinant(mTemp) * (i % 2 == 0 ? 1 : -1);
+            }
+            return det;
+        }
+    }
+
+    public int getSumOfLeading1(){
+        int sum = 0;
+        for (int i = 0; i < this.row; i++){
+            for (int j = 0; j < this.col-1; j++){
+                if (this.matrix[i][j] == 1){
+                    sum++;
+                    break;
+                }
+                else if (this.matrix[i][j] != 0){
+                    break;
+                }
+            }
+        }
+        return sum;
+    }
+
+    public boolean isSPLUnique(){
+        return (this.getSumOfLeading1() >= this.col -1);
+    }
+
+    public boolean isRowInvalidSol(int row){
+        for(int i = 0;i<this.col-1;i++){
+            if(this.matrix[row][i]!=0){
+                return false;
+            }
+        }
+        if(this.matrix[row][this.col-1]!=0){
+            return true;
+        }
+        return false;
+    }
+    public boolean isSPLInfiniteSol(){
+        for(int i = 0;i<this.row;i++){
+            if(isRowInvalidSol(i)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public Matrix getSPLGauss(){
+        if(isSPLUnique()){
+            Matrix result = new Matrix();
+            int sumOfSolution = this.getCol() -1;
+            result.setMatrix(sumOfSolution, 1);
+            for(int i = sumOfSolution -1 ; i>= 0;i--){
+
+                result.matrix[i][0] = this.matrix[i][sumOfSolution];
+                
+                for(int j = i+1;j<this.col-1;j++){
+                    result.matrix[i][0]-=this.matrix[i][j]*result.matrix[j][0];
+                }
+                result.matrix[i][0] /= this.matrix[i][i];
+            }
+            return result;
+        }
+        else{
+            return null;
+        }
+}
+
+
     
     public void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
@@ -557,76 +683,54 @@ public class Matrix {
     }
 
 
-
-    public void reglinys(Matrix parxy){
-        Matrix xy= new Matrix();
-        int c,r;
-        double sum;
-
-        xy = copyMatrix(parxy);
-        xy.printMatriks();
-        System.out.println();
-        //k jadi c
-        //n jadi r
-        c = xy.col-1;
-        r = xy.row;
-        setMatrix(c+1, 1);
-
-        for(int i=0;i<=c;i++){
-            sum=0;
-            for(int j=0;j<r;j++){
-                if(i==0){
-                    sum+=xy.matrix[j][c];
-                }
-                else{
-                    for(int k=0;k<r;k++){
-                        sum+=(xy.matrix[j][c]*xy.matrix[k][i-1]);
-                    }
-                }
-            }
-            this.matrix[i][0]=sum;
-        }
-    }
-
-    public void reglinxs(Matrix parxy){
+    public void formReglin(Matrix parxy){
         Matrix xy= new Matrix();
         int c,r;
         double sum;
         xy.setMatrix(parxy.row, parxy.col);
         xy = copyMatrix(parxy);
-        // xy.printMatriks();
-        // System.out.println();
         //k jadi c
         //n jadi r
-        c = xy.col-1;
+        c = xy.col;
         r = xy.row;
-        setMatrix(c+1, c+1);
-        
-        //isi xs dan ys
-
-        //isi xs
-        for(int i=0;i<=c;i++){
-            for(int j=0;j<=c;j++){
-                if(i==0&&j==0) sum=r;
-                else{
-                    sum=0;
-                    if(i==0||j==0){
-                        for(int k=0;k<r;k++){
-                            sum+=xy.matrix[k][i+j-1];
-                        }    
-                    }
-                    else{
-                        for(int k=0;k<r;k++){
-                            for(int l=0;l<r;l++){
-                                sum+=(xy.matrix[k][i-1]*xy.matrix[l][j-1]);
-                            }
+        setMatrix(c, c+1);
+        setMatrixValue(0,0,r);
+        for(int i=1;i<c;i++){
+            sum=0;
+            for(int k=0;k<r;k++){
+                sum+=xy.matrix[k][i-1];
+            }
+            setMatrixValue(i, 0, sum);
+            setMatrixValue(0, i, sum);
+        }
+        for(int i=1;i<c;i++){
+            for(int j=1;j<c;j++){
+                sum=0;
+                    for(int k=0;k<r;k++){
+                        for(int l=0;l<r;l++){
+                            sum+=(xy.matrix[k][i-1]*xy.matrix[l][j-1]);
                         }
                     }
-                }
                 this.matrix[i][j]=sum;
             }
         }
+        for(int i=0;i<c;i++){
+            sum=0;
+            for(int j=0;j<r;j++){
+                if(i==0){
+                    sum+=xy.matrix[j][c-1];
+                }
+                else{
+                    for(int k=0;k<r;k++){
+                        sum+=(xy.matrix[j][c-1]*xy.matrix[k][i-1]);
+                    }
+                }
+            }
+            this.matrix[i][c]=sum;
+        }
     }
-
+    
 }
+
+
 
