@@ -832,7 +832,7 @@ public class Matrix {
 
         while(!inpValid){
             System.out.println("Pilih cara input matriks"+newline+"1.File"+newline+"2.Keyboard");
-            inp=sc.nextLine();
+            inp = sc.nextLine();
             switch(inp){
                 case "1":
                     result.bacaFileMatrix("",bic);
