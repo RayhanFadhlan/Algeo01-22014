@@ -12,14 +12,13 @@ public class Main {
         return;
     }
     public static void matBal(){
-        Scanner sc = new Scanner(System.in);
-        Matrix coba=new Matrix();
-        coba.bacaFileMatrix("",false);
-        coba.printMatriks();
+        String newline = System.lineSeparator();
+        System.out.println("Pilih cara input Matrix");
         
     }
 
     public static void intPol(){
+        Matrix.interpolasiPolinomial();
         return;
     }
 
@@ -32,24 +31,11 @@ public class Main {
         Matrix yBic=new Matrix();
         double hasil;
 
-        /*membuat matriks X dan inversnya */
+        //algo
         xBic=xBic.matrixBicubicSpline();
-        //xBic.printMatriks();
-        //System.out.println();
-
         invxBic=xBic.inverseMatrix(xBic);
-        //invxBic.printMatriks();
-        //System.out.println();
-        
-        /*ambil data f, fx, fy, dan fxy*/
-        yBic.bacaFileMatrix("",true);
-
-        //membuat matriks a
-        aBic=aBic.perkalianMatrix(invxBic, yBic);
-        //aBic.printMatriks();
-
-        //System.out.println(hasil);
-        //hitung hasil
+        yBic = Matrix.chooseNGetMatrix(true);
+        aBic = Matrix.perkalianMatrix(invxBic, yBic);
         hasil = yBic.bicMeasure(aBic);
         System.out.println(hasil);
 
@@ -57,19 +43,17 @@ public class Main {
     }
 
     public static void regLin(){
-            Matrix xy = new Matrix();
-            Matrix xs = new Matrix();
-            Matrix bs = new Matrix();
-            Matrix invxs = new Matrix();
+            Matrix mInp = new Matrix();
+            Matrix mReg = new Matrix();
+            Matrix mGReg = new Matrix();
+            Matrix result = new Matrix();
 
-            bs = Matrix.gauss(xs);
-            bs = bs.getSPLGauss();
-            bs.printMatriks();
-            xy.bacaFileMatrix("", false);
-            xs.formReglin(xy);
-            invxs = xs.inverseMatrix(xs);
+            mInp.bacaFileMatrix("", false);
+            mReg.formReglin(mInp);
+            mGReg = Matrix.gauss(mReg);
+            result = Matrix.getSPLGauss(mGReg);
+            //result.printMatriks();
             //invxs.printMatriks();
-            xs.printMatriks();
             //ys.printMatriks();
 
         return;

@@ -265,7 +265,7 @@ public class Matrix {
         }
     }
 
-    public void bacaMatriks() {
+    public void bacaMatriks(boolean bic) {
         Scanner sc = new Scanner(System.in);
         String dump;
         System.out.println("Enter row and col: ");
@@ -278,6 +278,11 @@ public class Matrix {
                 setMatrixValue(i, j, sc.nextDouble());
             }
             dump=sc.nextLine();
+        }
+        if(bic){
+            System.out.println("Masukkan nilai x dan y yang akan diperkirakan: ");
+            tx = sc.nextDouble();
+            tx = sc.nextDouble();
         }
     }
     
@@ -709,7 +714,7 @@ public class Matrix {
 
 
     
-    public void interpolasiPolinomial() {
+    public static void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
         int n,banyakTitik;
         System.out.println("Masukkan Banyak Titik:");
@@ -752,7 +757,7 @@ public class Matrix {
         Matrix a,b;
         a = new Matrix();
         b = new Matrix();
-        a.bacaMatriks();
+        a.bacaMatriks(false);
         b.setMatrix(a.row, 1);
         Scanner sc = new Scanner(System.in);
         for (int i=0;i<a.row;i++){
@@ -818,6 +823,31 @@ public class Matrix {
         }
     }
     
+    public static Matrix chooseNGetMatrix(boolean bic){
+        String inp,newline;
+        newline = System.lineSeparator();
+        Scanner sc = new Scanner(System.in);
+        Matrix result = new Matrix();
+        boolean inpValid=false;
+
+        while(!inpValid){
+            System.out.println("Pilih cara input matriks"+newline+"1.File"+newline+"2.Keyboard");
+            inp=sc.nextLine();
+            switch(inp){
+                case "1":
+                    result.bacaFileMatrix("",bic);
+                    inpValid = true;
+                    break;
+                case "2":
+                    result.bacaMatriks(bic);
+                    inpValid = true;
+                    break;
+                default:
+                    System.out.println("Masukkan tidak valid");
+            }
+        }
+        return result;
+    }
 }
 
 
