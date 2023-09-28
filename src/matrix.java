@@ -599,6 +599,7 @@ public class Matrix {
 
 
     public Matrix getSPLGauss(){
+
         if(isSPLUnique()){
             Matrix result = new Matrix();
             int sumOfSolution = this.getCol() -1;
