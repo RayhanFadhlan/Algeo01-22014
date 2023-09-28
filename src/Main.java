@@ -13,7 +13,7 @@ public class Main {
     }
     public static void matBal(){
         String newline = System.lineSeparator();
-        System.out.println("Pilih cara input Matrix");`
+        System.out.println("Pilih cara input Matrix");
         
     }
 
