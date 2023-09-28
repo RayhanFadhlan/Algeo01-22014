@@ -631,7 +631,7 @@ public class Matrix {
         return false;
     }
 
-    public void printSPLSol(Matrix m) {
+    public static void printSPLSol(Matrix m) {
         if (isSPLUnique(m)) {
             int solCounter = 1;
             for (int i = 0; i < m.row; i++) {
@@ -640,66 +640,62 @@ public class Matrix {
                 solCounter++;
             }
         } else if (isSPLInfiniteSol(m)) {
-            for(int nRow = 0; nRow<m.row;nRow++){
-            if (!isRow0New(m, nRow)){
-                boolean isThereVariable = false;
-                int variable = 115;
-                int leadingOneIdx = findLeading1(m, nRow);
-                System.out.printf("x%d = ",leadingOneIdx + 1);
-                for (int i=leadingOneIdx + 1;i<m.col - 1;i++){
-                    if (m.matrix[nRow][i] != 0) {
-                        System.out.printf("%.2f%c ",m.matrix[nRow][i],(char)variable);
-                        variable += 1;
-                        isThereVariable = true;
-                        if (m.matrix[nRow][i+1] != 0) {
-                            System.out.printf(" + ");
-                        }
-                    }
-                }
-                if ((isThereVariable == false && m.matrix[nRow][m.col-1] == 0)) {
-                    System.out.printf("0");
-                } else {
-                    System.out.printf("%.2f",m.matrix[nRow][m.col-1]);
-                }
-                System.out.println();
+            int variable = 115;
+            Matrix freeVariables = new Matrix();
+            freeVariables.setMatrix(1, m.col);
+            for(int i = 0; i<m.row;i++){
+                int idxLeadingOne = findLeading1(m, i);
+                freeVariables.matrix[0][idxLeadingOne] += 1;
+                printParametricValue(m,i);
             }
-        }
+
+            for (int j=0;j<m.col-1;j++){
+                if (freeVariables.matrix[0][j] == 0) {
+                    System.out.printf("x%d = %c\n",j+1,(char) variable + j);
+                    // variable += 1;
+                }
+            }
+            
+            variable = 115;
+            for (int j=1;j<m.col-1;j++){
+                if (freeVariables.matrix[0][j] == 0) {
+                    System.out.printf("%c ",(char) variable + j);
+                }
+            }
+            System.out.printf("Memiliki nilai real yang bebas.");
         } else if (isSPLInvalidValue(m)) {
             System.out.println("SPL Tidak ada solusi.");
         }
     }
 
-    // public static void printParametricValue(Matrix m, int nRow){
-    // if (!isRow0New(m, nRow)){
-    // int variable = 115;
-    // int leadingOneIdx = findLeading1(m, nRow);
-    // System.out.printf("x%d = ",leadingOneIdx + 1);
-    // for (int i=leadingOneIdx + 1;i<m.col - 1;i++){
-    // if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
-    // System.out.printf("(%.2f)%c",m.matrix[nRow][i]*-1,(char)variable);
-    // variable += 1;
-    // }
-    // if (m.matrix[nRow][i+1] != 0) {
-    // System.out.printf(" + ");
-    // }
-    // }
-    // if (m.matrix[nRow][m.col-1] != 0) {
-    // System.out.printf("(%.2f)",m.matrix[nRow][m.col-1]);
-    // }
-    // System.out.println();
-    // }
-    // }
-    public void multiplyAfterLeading1byNeg1() {
-        for (int i = 0; i < this.row; i++) {
-            for (int j = 0; j < this.col - 1; j++) {
-                if (this.matrix[i][j] == 1) {
-                    for (int k = j + 1; k < this.col - 1; k++) {
-                        this.matrix[i][k] *= -1;
+    public static void printParametricValue(Matrix m, int nRow){
+        if (!isRow0New(m, nRow)){
+            int variable = 115;
+            int leadingOneIdx = findLeading1(m, nRow);
+            System.out.printf("x%d = ",leadingOneIdx + 1);
+            for (int i=0;i<m.col - 1;i++){
+                if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
+                    System.out.printf("(%.2f)%c + ",m.matrix[nRow][i],(char)variable + i -2);
+                }
+                variable += 1;
+            }
+            System.out.printf("(%.2f)",m.matrix[nRow][m.col-1]);
+            System.out.println();
+        }
+    }
+
+    public static Matrix multiplyAfterLeading1byNeg1(Matrix m) {
+        for (int i = 0; i < m.row; i++) {
+            for (int j = 0; j < m.col - 1; j++) {
+                if (m.matrix[i][j] == 1) {
+                    for (int k = j + 1; k < m.col - 1; k++) {
+                        m.matrix[i][k] *= -1;
                     }
                     break;
                 }
             }
         }
+        return m;
     }
 
     public static Matrix getSPLGauss(Matrix m) {
@@ -708,58 +704,46 @@ public class Matrix {
         System.out.println("n");
         if (isSPLUnique(m)) {
             System.out.println("Solusi Unik");
-            Matrix test = copyMatrix(m);
 
-            for (int i = test.row - 1; i >= 0; i--) {
-                if (isLeading1Present(test, i)) {
-                    int colLeading1 = findLeading1(test, i);
-                    double valueofLeading1 = test.matrix[i][test.col - 1];
+            for (int i = m.row - 1; i >= 0; i--) {
+                if (isLeading1Present(m, i)) {
+                    int colLeading1 = findLeading1(m, i);
+                    double valueofLeading1 = m.matrix[i][m.col - 1];
                     for (int j = i - 1; j >= 0; j--) {
-                        if (test.matrix[j][colLeading1] != 0) {
-                            test.matrix[j][test.col - 1] -= valueofLeading1 * test.matrix[j][colLeading1];
-                            test.matrix[j][colLeading1] = 0;
+                        if (m.matrix[j][colLeading1] != 0) {
+                            m.matrix[j][m.col - 1] -= valueofLeading1 * m.matrix[j][colLeading1];
+                            m.matrix[j][colLeading1] = 0;
                         }
                     }
                 }
             }
-
-            // int sumOfSolution = m.getCol() -1;
-            // result.setMatrix(sumOfSolution, 1);
-            // for(int i = sumOfSolution -1 ; i>= 0;i--){
-
-            // result.matrix[i][0] = m.matrix[i][sumOfSolution];
-
-            // for(int j = i+1;j<m.col-1;j++){
-            // result.matrix[i][0]-=m.matrix[i][j]*result.matrix[j][0];
-            // }
-            // result.matrix[i][0] /= m.matrix[i][i];
-            // }
-            return test;
-        } else if (isSPLInfiniteSol(m)) {
-            Matrix test = copyMatrix(m);
-            test.multiplyAfterLeading1byNeg1();
-
-            for (int i = test.row - 1; i >= 0; i--) {
-                if (isLeading1Present(test, i)) {
-                    int colLeading1 = findLeading1(test, i);
-                    double valueofLeading1 = test.matrix[i][test.col - 1];
-                    for (int j = i - 1; j >= 0; j--) {
-                        if (test.matrix[j][colLeading1] != 0) {
-                            test.matrix[j][test.col - 1] += valueofLeading1 * test.matrix[j][colLeading1];
-                            test.matrix[j][colLeading1] = 0;
-                        }
-                    }
-                }
-            }
-
-            return test;
-
-        }
-
-        else if (isSPLInvalidValue(m)) {
-            System.out.println("SPL Tidak ada solusi.");
+            printSPLSol(m);
             return m;
-        } else {
+        } else if (isSPLInfiniteSol(m)) {
+
+            m = multiplyAfterLeading1byNeg1(m);
+
+            for (int i = m.row - 1; i >= 0; i--) {
+                if (isLeading1Present(m, i)) {
+                    int colLeading1 = findLeading1(m, i);
+                    double valueofLeading1 = m.matrix[i][m.col - 1];
+                    for (int j = i - 1; j >= 0; j--) {
+                        if (m.matrix[j][colLeading1] != 0) {
+                            m.matrix[j][m.col - 1] += valueofLeading1 * m.matrix[j][colLeading1];
+                            m.matrix[j][colLeading1] = 0;
+                        }
+                    }
+                }
+            }
+            System.out.println();
+            printSPLSol(m);
+            return m;
+
+        } else if (isSPLInvalidValue(m)) {
+            printSPLSol(m);
+            return m;
+        }
+        else {
             return null;
         }
     }
@@ -769,7 +753,7 @@ public class Matrix {
         if (isSPLUnique(m)) {
             return m;
         } else if (isSPLInfiniteSol(m)) {
-            m.multiplyAfterLeading1byNeg1();
+            m = multiplyAfterLeading1byNeg1(m);
             return m;
         } else {
             return null;
