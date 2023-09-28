@@ -647,6 +647,7 @@ public class Matrix {
         }
     }
 
+
     public static Matrix getSPLGauss(Matrix m){
         m = gauss(m);
         m.printMatriks();

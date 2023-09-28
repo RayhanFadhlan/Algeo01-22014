@@ -62,6 +62,9 @@ public class Main {
             Matrix bs = new Matrix();
             Matrix invxs = new Matrix();
 
+            bs = Matrix.gauss(xs);
+            bs = bs.getSPLGauss();
+            bs.printMatriks();
             xy.bacaFileMatrix("", false);
             xs.formReglin(xy);
             invxs = xs.inverseMatrix(xs);
