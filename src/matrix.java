@@ -272,7 +272,7 @@ public class Matrix {
         }
     }
 
-    public void bacaMatriks() {
+    public void bacaMatriks(boolean bic) {
         Scanner sc = new Scanner(System.in);
         String dump;
         System.out.println("Enter row and col: ");
@@ -285,6 +285,11 @@ public class Matrix {
                 setMatrixValue(i, j, sc.nextDouble());
             }
             dump = sc.nextLine();
+        }
+        if(bic){
+            System.out.println("Masukkan nilai x dan y yang ingin dicari:");
+            tx = sc.nextDouble();
+            ty = sc.nextDouble();
         }
     }
 
@@ -832,7 +837,7 @@ public class Matrix {
         Matrix a, b;
         a = new Matrix();
         b = new Matrix();
-        a.bacaMatriks();
+        a.bacaMatriks(false);
         b.setMatrix(a.row, 1);
         Scanner sc = new Scanner(System.in);
         for (int i = 0; i < a.row; i++) {
@@ -922,9 +927,4 @@ public class Matrix {
         }
         return result;
     }
-}
-
-
-
-
 }

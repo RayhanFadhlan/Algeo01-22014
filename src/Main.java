@@ -96,7 +96,7 @@ public class Main {
         //xBic.printMatriks();
         //System.out.println();
 
-        invxBic=xBic.inverseMatrix(xBic);
+        invxBic = xBic.inverseMatrix(xBic);
         //invxBic.printMatriks();
         //System.out.println();
         
@@ -104,7 +104,7 @@ public class Main {
         yBic.bacaFileMatrix("",true);
 
         //membuat matriks a
-        aBic=aBic.perkalianMatrix(invxBic, yBic);
+        aBic = aBic.perkalianMatrix(invxBic, yBic);
         //aBic.printMatriks();
 
         //System.out.println(hasil);
