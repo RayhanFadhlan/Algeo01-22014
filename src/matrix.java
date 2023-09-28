@@ -757,9 +757,13 @@ public class Matrix {
     public static Matrix getSPLGaussJordan(Matrix m) {
         m = gaussJordan(m);
         if (isSPLUnique(m)) {
+            printSPLSol(m);
             return m;
         } else if (isSPLInfiniteSol(m)) {
             m = multiplyAfterLeading1byNeg1(m);
+            printSPLSol(m);
+            return m;
+        } else if (isSPLInvalidValue(m)) {
             printSPLSol(m);
             return m;
         } else {
