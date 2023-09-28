@@ -55,6 +55,7 @@ public class Main {
         return;
     }
     public static void matBal(){
+
         //deklarasi
         String inp;
         Matrix m = new Matrix();
@@ -78,7 +79,6 @@ public class Main {
     }
 
     public static void intPol(){
-        Matrix.interpolasiPolinomial();
         return;
     }
 
@@ -91,11 +91,24 @@ public class Main {
         Matrix yBic=new Matrix();
         double hasil;
 
-        //algo
+        /*membuat matriks X dan inversnya */
         xBic=xBic.matrixBicubicSpline();
+        //xBic.printMatriks();
+        //System.out.println();
+
         invxBic=xBic.inverseMatrix(xBic);
-        yBic = Matrix.chooseNGetMatrix(true);
-        aBic = Matrix.perkalianMatrix(invxBic, yBic);
+        //invxBic.printMatriks();
+        //System.out.println();
+        
+        /*ambil data f, fx, fy, dan fxy*/
+        yBic.bacaFileMatrix("",true);
+
+        //membuat matriks a
+        aBic=aBic.perkalianMatrix(invxBic, yBic);
+        //aBic.printMatriks();
+
+        //System.out.println(hasil);
+        //hitung hasil
         hasil = yBic.bicMeasure(aBic);
         System.out.println(hasil);
 
@@ -103,17 +116,16 @@ public class Main {
     }
 
     public static void regLin(){
-            Matrix mInp = new Matrix();
-            Matrix mReg = new Matrix();
-            Matrix mGReg = new Matrix();
-            Matrix result = new Matrix();
+            Matrix xy = new Matrix();
+            Matrix xs = new Matrix();
+            Matrix bs = new Matrix();
+            Matrix invxs = new Matrix();
 
-            mInp.bacaFileMatrix("", false);
-            mReg.formReglin(mInp);
-            mGReg = Matrix.gauss(mReg);
-            result = Matrix.getSPLGauss(mGReg);
-            //result.printMatriks();
+            xy.bacaFileMatrix("", false);
+            xs.formReglin(xy);
+            invxs = xs.inverseMatrix(xs);
             //invxs.printMatriks();
+            xs.printMatriks();
             //ys.printMatriks();
 
         return;
