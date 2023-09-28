@@ -4,11 +4,12 @@ package src;
 
 public class udin {
     public static void main(String[] args){
+        Matrix n;
         Matrix m = new Matrix();
-        // m.bacaMatriks();
-        // System.out.println("Original: ");
-        // m.printMatriks();
+        m.bacaMatriks();
+        System.out.println("Original: ");
+        m.printMatriks();
         System.out.println("Tes:");
-        m.inverseSPL();
+        n = Matrix.getSPLGauss(m);
     }
 }
