@@ -726,20 +726,14 @@ public class Matrix {
             return m;
         } else if (isSPLInfiniteSol(m)) {
             // Ada Tes Case Error
-            m = multiplyAfterLeading1byNeg1(m);
+            
 
             for (int i = m.row - 1; i >= 0; i--) {
-                if (isLeading1Present(m, i)) {
-                    int colLeading1 = findLeading1(m, i);
-                    double valueofLeading1 = m.matrix[i][m.col - 1];
-                    for (int j = i - 1; j >= 0; j--) {
-                        if (m.matrix[j][colLeading1] != 0) {
-                            m.matrix[j][m.col - 1] += valueofLeading1 * m.matrix[j][colLeading1];
-                            m.matrix[j][colLeading1] = 0;
-                        }
-                    }
-                }
+            if (!isRow0(m, i)) {
+                int leading1 = findLeading1(m, i);
+                m.reverseOBE(i, leading1);
             }
+        }
             m.printMatriks();
             System.out.println();
             printSPLSol(m);
