@@ -184,6 +184,16 @@ public class Matrix {
         return true;
     }
 
+    public static boolean isRow0New(Matrix m,int nrow){
+        // Mengecek apakah nilai dari suatu baris bernilai 0 dengan mengganggap kolom terakhir
+        for(int i = 0;i<m.col;i++){
+            if(m.matrix[nrow][i]!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+
     
     public static Matrix gauss(Matrix m){
         Matrix result = copyMatrix(m);
@@ -573,48 +583,111 @@ public class Matrix {
         return sum;
     }
 
-    public boolean isSPLUnique(){
-        return (this.getSumOfLeading1() >= this.col -1);
+    public static int countNonZeroRow(Matrix m){
+        int count = 0;
+        for (int i=0;i<m.row;i++){
+            if (!isRow0New(m, i)) {
+                count += 1;
+            }
+        }
+        return count;
     }
 
-    public boolean isRowInvalidSol(int row){
-        for(int i = 0;i<this.col-1;i++){
-            if(this.matrix[row][i]!=0){
+    public static boolean isSPLUnique(Matrix m){
+        return (m.getSumOfLeading1() >= m.col -1);
+    }
+
+    public static boolean isRowInvalidSol(Matrix m,int row){
+        for(int i = 0;i<m.col-1;i++){
+            if(m.matrix[row][i]!=0){
                 return false;
             }
         }
-        if(this.matrix[row][this.col-1]!=0){
+        if(m.matrix[row][m.col-1]!=0){
             return true;
         }
         return false;
     }
-    public boolean isSPLInfiniteSol(){
-        for(int i = 0;i<this.row;i++){
-            if(isRowInvalidSol(i)){
+    public static boolean isSPLInfiniteSol(Matrix m){
+        for(int i = 0;i<m.row;i++){
+            if(isRow0New(m,i) == true){
                 return true;
             }
         }
         return false;
     }
 
+    public static boolean isSPLInvalidValue(Matrix m){
+        for(int i = 0;i<m.row;i++){
+            if(isRow0(m,i) == true){
+                return true;
+            }
+        }
+        return false;   
+    }
 
-    public Matrix getSPLGauss(){
-        if(isSPLUnique()){
+    public static void printParametricValue(Matrix m, int nRow){
+        if (!isRow0New(m, nRow)){
+            int leadingOneIdx = findLeading1(m, nRow);
+            System.out.printf("x%d = ",leadingOneIdx + 1);
+            for (int i=0;i<m.col - 1;i++){
+                if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
+                    System.out.printf("(%.2f)x%d",m.matrix[nRow][i]*-1,i+1);
+                    if (m.matrix[nRow][i+1] != 0) {
+                        System.out.printf(" + ");
+                    }
+                }
+            }
+            if (m.matrix[nRow][m.col-1] != 0) {
+                System.out.printf("(%.2f)",m.matrix[nRow][m.col-1]);
+            }
+            System.out.println();
+        }
+    }
+
+    public static Matrix getSPLGauss(Matrix m){
+        m = gauss(m);
+        m.printMatriks();
+        System.out.println("n");
+        if(isSPLUnique(m)){
+            System.out.println("Solusi Unik");
             Matrix result = new Matrix();
-            int sumOfSolution = this.getCol() -1;
+            int sumOfSolution = m.getCol() -1;
             result.setMatrix(sumOfSolution, 1);
             for(int i = sumOfSolution -1 ; i>= 0;i--){
 
-                result.matrix[i][0] = this.matrix[i][sumOfSolution];
+                result.matrix[i][0] = m.matrix[i][sumOfSolution];
                 
-                for(int j = i+1;j<this.col-1;j++){
-                    result.matrix[i][0]-=this.matrix[i][j]*result.matrix[j][0];
+                for(int j = i+1;j<m.col-1;j++){
+                    result.matrix[i][0]-=m.matrix[i][j]*result.matrix[j][0];
                 }
-                result.matrix[i][0] /= this.matrix[i][i];
+                result.matrix[i][0] /= m.matrix[i][i];
             }
             return result;
         }
-        else{
+        else if (isSPLInfiniteSol(m)){
+            // Dijadiin ke gauss jordan
+            m = gaussJordan(m);
+            System.out.println("Matriks Solusi Banyak");
+            Matrix freeVariables = new Matrix();
+            freeVariables.setMatrix(1, m.col-1);
+            for (int i=0;i<m.row;i++){
+                int idxLeadingOne = findLeading1(m, i);
+                freeVariables.matrix[0][idxLeadingOne] += 1;
+                printParametricValue(m, i);
+            }
+            for (int j=1;j<m.col-1;j++){
+                if (freeVariables.matrix[0][j] == 0) {
+                    System.out.printf("x%d ",j+1);
+                }
+            }
+            System.out.printf("Memiliki nilai real yang bebas.");
+            return m;
+        }
+        else if (isSPLInvalidValue(m)){
+            System.out.println("SPL Tidak ada solusi.");
+            return m;
+        } else {
             return null;
         }
 }
