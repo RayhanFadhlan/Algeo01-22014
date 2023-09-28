@@ -771,35 +771,6 @@ public class Matrix {
         }
     }
 
-    // // Dijadiin ke gauss jordan
-    // System.out.println("Matriks Solusi Banyak");
-    // int variable = 115;
-
-    // Matrix freeVariables = new Matrix();
-    // freeVariables.setMatrix(1, m.col-1);
-
-    // for (int i=0;i<m.row;i++){
-    // int idxLeadingOne = findLeading1(m, i);
-    // freeVariables.matrix[0][idxLeadingOne] += 1;
-    // printParametricValue(m, i);
-    // }
-    // for (int j=1;j<m.col-1;j++){
-    // if (freeVariables.matrix[0][j] == 0) {
-    // System.out.printf("x%d = %c\n",j+1,(char) variable);
-    // variable += 1;
-    // }
-    // }
-    // variable = 115;
-    // for (int j=1;j<m.col-1;j++){
-    // if (freeVariables.matrix[0][j] == 0) {
-    // System.out.printf("%c ",(char) variable);
-    // variable += 1;
-    // }
-    // }
-    // System.out.printf("Memiliki nilai real yang bebas.");
-    // return m;
-
-    // }
 
     public void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
