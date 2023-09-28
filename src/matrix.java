@@ -898,4 +898,35 @@ public class Matrix {
         }
     }
 
+    
+    public static Matrix chooseNGetMatrix(boolean bic){
+        String inp,newline;
+        newline = System.lineSeparator();
+        Scanner sc = new Scanner(System.in);
+        Matrix result = new Matrix();
+        boolean inpValid=false;
+
+        while(!inpValid){
+            System.out.println("Pilih cara input matriks"+newline+"1.File"+newline+"2.Keyboard");
+            inp = sc.nextLine();
+            switch(inp){
+                case "1":
+                    result.bacaFileMatrix("",bic);
+                    inpValid = true;
+                    break;
+                case "2":
+                    result.bacaMatriks(bic);
+                    inpValid = true;
+                    break;
+                default:
+                    System.out.println("Masukkan tidak valid");
+            }
+        }
+        return result;
+    }
+}
+
+
+
+
 }
