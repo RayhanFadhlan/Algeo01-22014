@@ -720,7 +720,7 @@ public class Matrix {
             printSPLSol(m);
             return m;
         } else if (isSPLInfiniteSol(m)) {
-
+            // Ada Tes Case Error
             m = multiplyAfterLeading1byNeg1(m);
 
             for (int i = m.row - 1; i >= 0; i--) {
@@ -735,6 +735,7 @@ public class Matrix {
                     }
                 }
             }
+            m.printMatriks();
             System.out.println();
             printSPLSol(m);
             return m;
@@ -753,7 +754,8 @@ public class Matrix {
         if (isSPLUnique(m)) {
             return m;
         } else if (isSPLInfiniteSol(m)) {
-            m = multiplyAfterLeading1byNeg1(m);
+            // Negatif masih ketuker
+            printSPLSol(m);
             return m;
         } else {
             return null;
