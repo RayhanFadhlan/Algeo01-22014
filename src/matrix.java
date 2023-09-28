@@ -628,14 +628,16 @@ public class Matrix {
 
     public static void printParametricValue(Matrix m, int nRow){
         if (!isRow0New(m, nRow)){
+            int variable = 115;
             int leadingOneIdx = findLeading1(m, nRow);
             System.out.printf("x%d = ",leadingOneIdx + 1);
-            for (int i=0;i<m.col - 1;i++){
+            for (int i=leadingOneIdx + 1;i<m.col - 1;i++){
                 if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
-                    System.out.printf("(%.2f)x%d",m.matrix[nRow][i]*-1,i+1);
-                    if (m.matrix[nRow][i+1] != 0) {
-                        System.out.printf(" + ");
-                    }
+                    System.out.printf("(%.2f)%c",m.matrix[nRow][i]*-1,(char)variable);
+                    variable += 1;
+                }
+                if (m.matrix[nRow][i+1] != 0) {
+                    System.out.printf(" + ");
                 }
             }
             if (m.matrix[nRow][m.col-1] != 0) {
@@ -669,8 +671,12 @@ public class Matrix {
             // Dijadiin ke gauss jordan
             m = gaussJordan(m);
             System.out.println("Matriks Solusi Banyak");
+            int variable = 115;
+
+
             Matrix freeVariables = new Matrix();
             freeVariables.setMatrix(1, m.col-1);
+
             for (int i=0;i<m.row;i++){
                 int idxLeadingOne = findLeading1(m, i);
                 freeVariables.matrix[0][idxLeadingOne] += 1;
@@ -678,7 +684,15 @@ public class Matrix {
             }
             for (int j=1;j<m.col-1;j++){
                 if (freeVariables.matrix[0][j] == 0) {
-                    System.out.printf("x%d ",j+1);
+                    System.out.printf("x%d = %c\n",j+1,(char) variable);
+                    variable += 1;
+                }
+            }
+            variable = 115;
+            for (int j=1;j<m.col-1;j++){
+                if (freeVariables.matrix[0][j] == 0) {
+                    System.out.printf("%c ",(char) variable);
+                    variable += 1;
                 }
             }
             System.out.printf("Memiliki nilai real yang bebas.");
