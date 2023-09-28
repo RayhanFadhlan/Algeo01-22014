@@ -759,7 +759,7 @@ public class Matrix {
         if (isSPLUnique(m)) {
             return m;
         } else if (isSPLInfiniteSol(m)) {
-            // Negatif masih ketuker
+            m = multiplyAfterLeading1byNeg1(m);
             printSPLSol(m);
             return m;
         } else {
