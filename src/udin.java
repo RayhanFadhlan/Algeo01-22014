@@ -10,7 +10,8 @@ public class udin {
         System.out.println("Original: ");
         m.printMatriks();
         System.out.println("Tes:");
-        n = Matrix.getSPLGaussJordan(m);
+        n = m.getAdjoin();
+        n.printMatriks();
         // n.printMatriks();
         // print splsol
     }
