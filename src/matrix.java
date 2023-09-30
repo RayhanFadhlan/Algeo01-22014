@@ -451,8 +451,6 @@ public class Matrix {
         }
         // transpose result using transpose functions already made
 
-
-      
         return result;
     }
 
@@ -479,7 +477,7 @@ public class Matrix {
         }
         result = transpose(result);
         return result;
-
+        // tes
     }
 
     public void bacaFileMatrix(String parlokasi, boolean parbic) {
