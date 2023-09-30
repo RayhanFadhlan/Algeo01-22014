@@ -286,7 +286,7 @@ public class Matrix {
             }
             dump = sc.nextLine();
         }
-        if(bic){
+        if (bic) {
             System.out.println("Masukkan nilai x dan y yang ingin dicari:");
             tx = sc.nextDouble();
             ty = sc.nextDouble();
@@ -431,6 +431,55 @@ public class Matrix {
         // Mencari determinant matriks menggunakan kofaktor
 
         return 0.0;
+    }
+
+    public Matrix getMinor(int row, int col) {
+        // Mencari minor dari matriks
+        Matrix result = new Matrix();
+        result.setMatrix(this.row - 1, this.col - 1);
+
+        int cnt = 0;
+        for (int i = 0; i < this.row; i++) {
+            if (i != row) {
+                for (int j = 0; j < this.col; j++) {
+                    if (j != col) {
+                        result.matrix[cnt / (this.col - 1)][cnt % (this.col - 1)] = this.matrix[i][j];
+                        cnt++;
+                    }
+                }
+            }
+        }
+        // transpose result using transpose functions already made
+
+
+      
+        return result;
+    }
+
+    public Matrix getAdjoin() {
+        // Mencari adjoin dari matriks
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, this.col);
+
+        if (this.row == 1 && this.col == 1) {
+            result.setMatrixValue(0, 0, 1);
+            return result;
+        } else {
+            Matrix temp = new Matrix();
+            temp.setMatrix(this.row - 1, this.col - 1);
+            int sign = 1;
+            for (int i = 0; i < this.row; i++) {
+                for (int j = 0; j < this.col; j++) {
+                    sign = ((i + j) % 2 == 0) ? 1 : -1;
+                    temp = this.getMinor(i, j);
+                    result.matrix[i][j] = sign * temp.determinantGaussMatriks();
+                }
+            }
+
+        }
+        result = transpose(result);
+        return result;
+
     }
 
     public void bacaFileMatrix(String parlokasi, boolean parbic) {
@@ -648,23 +697,23 @@ public class Matrix {
             int variable = 115;
             Matrix freeVariables = new Matrix();
             freeVariables.setMatrix(1, m.col);
-            for(int i = 0; i<m.row;i++){
+            for (int i = 0; i < m.row; i++) {
                 int idxLeadingOne = findLeading1(m, i);
                 freeVariables.matrix[0][idxLeadingOne] += 1;
-                printParametricValue(m,i);
+                printParametricValue(m, i);
             }
 
-            for (int j=0;j<m.col-1;j++){
+            for (int j = 0; j < m.col - 1; j++) {
                 if (freeVariables.matrix[0][j] == 0) {
-                    System.out.printf("x%d = %c\n",j+1,(char) variable + j);
+                    System.out.printf("x%d = %c\n", j + 1, (char) variable + j);
                     // variable += 1;
                 }
             }
-            
+
             variable = 115;
-            for (int j=1;j<m.col-1;j++){
+            for (int j = 1; j < m.col - 1; j++) {
                 if (freeVariables.matrix[0][j] == 0) {
-                    System.out.printf("%c ",(char) variable + j);
+                    System.out.printf("%c ", (char) variable + j);
                 }
             }
             System.out.printf("Memiliki nilai real yang bebas.");
@@ -673,18 +722,18 @@ public class Matrix {
         }
     }
 
-    public static void printParametricValue(Matrix m, int nRow){
-        if (!isRow0New(m, nRow)){
+    public static void printParametricValue(Matrix m, int nRow) {
+        if (!isRow0New(m, nRow)) {
             int variable = 115;
             int leadingOneIdx = findLeading1(m, nRow);
-            System.out.printf("x%d = ",leadingOneIdx + 1);
-            for (int i=0;i<m.col - 1;i++){
+            System.out.printf("x%d = ", leadingOneIdx + 1);
+            for (int i = 0; i < m.col - 1; i++) {
                 if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
-                    System.out.printf("(%.2f)%c + ",m.matrix[nRow][i],(char)variable + i -2);
+                    System.out.printf("(%.2f)%c + ", m.matrix[nRow][i], (char) variable + i - 2);
                 }
                 variable += 1;
             }
-            System.out.printf("(%.2f)",m.matrix[nRow][m.col-1]);
+            System.out.printf("(%.2f)", m.matrix[nRow][m.col - 1]);
             System.out.println();
         }
     }
@@ -726,14 +775,13 @@ public class Matrix {
             return m;
         } else if (isSPLInfiniteSol(m)) {
             // Ada Tes Case Error
-            
 
             for (int i = m.row - 1; i >= 0; i--) {
-            if (!isRow0(m, i)) {
-                int leading1 = findLeading1(m, i);
-                m.reverseOBE(i, leading1);
+                if (!isRow0(m, i)) {
+                    int leading1 = findLeading1(m, i);
+                    m.reverseOBE(i, leading1);
+                }
             }
-        }
             m.printMatriks();
             System.out.println();
             printSPLSol(m);
@@ -742,8 +790,7 @@ public class Matrix {
         } else if (isSPLInvalidValue(m)) {
             printSPLSol(m);
             return m;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -764,7 +811,6 @@ public class Matrix {
             return null;
         }
     }
-
 
     public void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
@@ -872,20 +918,19 @@ public class Matrix {
         }
     }
 
-    
-    public static Matrix chooseNGetMatrix(boolean bic){
-        String inp,newline;
+    public static Matrix chooseNGetMatrix(boolean bic) {
+        String inp, newline;
         newline = System.lineSeparator();
         Scanner sc = new Scanner(System.in);
         Matrix result = new Matrix();
-        boolean inpValid=false;
+        boolean inpValid = false;
 
-        while(!inpValid){
-            System.out.println("Pilih cara input matriks"+newline+"1.File"+newline+"2.Keyboard");
+        while (!inpValid) {
+            System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
             inp = sc.nextLine();
-            switch(inp){
+            switch (inp) {
                 case "1":
-                    result.bacaFileMatrix("",bic);
+                    result.bacaFileMatrix("", bic);
                     inpValid = true;
                     break;
                 case "2":
