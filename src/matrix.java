@@ -405,8 +405,78 @@ public class matrix{
     } 
 
 
-    public void bacaFileMatrix(String parlokasi,boolean parbic){
-        int row=0,col=0;
+
+    public Matrix getMinor(int row, int col) {
+        // Mencari minor dari matriks
+        Matrix result = new Matrix();
+        result.setMatrix(this.row - 1, this.col - 1);
+
+        int cnt = 0;
+        for (int i = 0; i < this.row; i++) {
+            if (i != row) {
+                for (int j = 0; j < this.col; j++) {
+                    if (j != col) {
+                        result.matrix[cnt / (this.col - 1)][cnt % (this.col - 1)] = this.matrix[i][j];
+                        cnt++;
+                    }
+                }
+            }
+        }
+        // transpose result using transpose functions already made
+
+        return result;
+    }
+    public Matrix perkalianWithSkalar(double num){
+        Matrix result = new Matrix();
+        result =copyMatrix(this);
+        for(int i = 0;i<this.row;i++){
+            for(int j = 0;j<this.col;j++){
+                //multiply each element of result with num
+                result.matrix[i][j] *= num;
+            }
+        }
+        return result;
+    }
+
+    public Matrix getInverseADJ(){
+        Matrix result = new Matrix();
+        
+        result = this.getAdjoin();
+
+        // print determinantcofac
+        double detpowermin1 = 1/this.getDeterminantCofactor();
+        result = result.perkalianWithSkalar(detpowermin1);
+        return result;
+    }
+
+    public Matrix getAdjoin() {
+        // Mencari adjoin dari matriks
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, this.col);
+
+        if (this.row == 1 && this.col == 1) {
+            result.setMatrixValue(0, 0, 1);
+            return result;
+        } else {
+            Matrix temp = new Matrix();
+            temp.setMatrix(this.row - 1, this.col - 1);
+            int sign = 1;
+            for (int i = 0; i < this.row; i++) {
+                for (int j = 0; j < this.col; j++) {
+                    sign = ((i + j) % 2 == 0) ? 1 : -1;
+                    temp = this.getMinor(i, j);
+                    result.matrix[i][j] = sign * temp.determinantGaussMatriks();
+                }
+            }
+
+        }
+        result = transpose(result);
+        return result;
+        // tes
+    }
+
+    public void bacaFileMatrix(String parlokasi, boolean parbic) {
+        int nrow = 0, ncol = 0;
         double dumpd;
         String lokasi,dumps;
         boolean bic;
@@ -538,10 +608,26 @@ public class matrix{
         }
         return result;
     }
-            
-                    // }
-    public double getDeterminantCofactor(){
-        if (this.row == 1){
+    public boolean isMatrixCramerable(){
+        return (this.row == this.col - 1);
+
+    }
+    public void printCramerSol(){
+        if(!this.isMatrixCramerable()){
+            System.out.println("Matriks tidak dapat diselesaikan dengan metode Cramer, silakan menggunakan metode gauss atau gauss jordan.");
+        }
+        else{
+
+            Matrix result = new Matrix();
+            result.setMatrix(this.row, 1);
+            result = this.getCramerSol();
+            for (int i = 0; i < result.row; i++) {
+                System.out.printf("x%d = %.2f\n", i + 1, result.matrix[i][0]);
+            }
+        }
+    }
+    public double getDeterminantCofactor() {
+        if (this.row == 1) {
             return this.matrix[0][0];
         } else {
             float det = 0;
@@ -625,9 +711,249 @@ public class matrix{
             }
             return result;
         }
-        else{
+    }
+
+    public static void printParametricValue(Matrix m, int nRow) {
+        if (!isRow0New(m, nRow)) {
+            int variable = 115;
+            int leadingOneIdx = findLeading1(m, nRow);
+            System.out.printf("x%d = ", leadingOneIdx + 1);
+            for (int i = 0; i < m.col - 1; i++) {
+                if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
+                    System.out.printf("(%.2f)%c + ", m.matrix[nRow][i], (char) variable + i - 2);
+                }
+                variable += 1;
+            }
+            System.out.printf("(%.2f)", m.matrix[nRow][m.col - 1]);
+            System.out.println();
+        }
+    }
+
+    public static Matrix multiplyAfterLeading1byNeg1(Matrix m) {
+        for (int i = 0; i < m.row; i++) {
+            for (int j = 0; j < m.col - 1; j++) {
+                if (m.matrix[i][j] == 1) {
+                    for (int k = j + 1; k < m.col - 1; k++) {
+                        m.matrix[i][k] *= -1;
+                    }
+                    break;
+                }
+            }
+        }
+        return m;
+    }
+
+    public  Matrix getSPLGauss() {
+        Matrix m = new Matrix();
+        m = copyMatrix(this);
+        m = gauss(m);
+        if (isSPLUnique(m)) {
+
+
+            for (int i = m.row - 1; i >= 0; i--) {
+                if (isLeading1Present(m, i)) {
+                    int colLeading1 = findLeading1(m, i);
+                    double valueofLeading1 = m.matrix[i][m.col - 1];
+                    for (int j = i - 1; j >= 0; j--) {
+                        if (m.matrix[j][colLeading1] != 0) {
+                            m.matrix[j][m.col - 1] -= valueofLeading1 * m.matrix[j][colLeading1];
+                            m.matrix[j][colLeading1] = 0;
+                        }
+                    }
+                }
+            }
+            printSPLSol(m);
+            return m;
+        } else if (isSPLInfiniteSol(m)) {
+            // Ada Tes Case Error
+
+            for (int i = m.row - 1; i >= 0; i--) {
+                if (!isRow0(m, i)) {
+                    int leading1 = findLeading1(m, i);
+                    m.reverseOBE(i, leading1);
+                }
+            }
+            System.out.println();
+            printSPLSol(m);
+             return m;
+
+        } else if (isSPLInvalidValue(m)) {
+            System.out.println("SPL tidak memiliki solusi");
+            return m;
+        } else {
             return null;
         }
+    }
+
+    public  Matrix getSPLGaussJordan() {
+        Matrix m = new Matrix();
+        m = copyMatrix(this);
+        m = gaussJordan(m);
+        if (isSPLUnique(m)) {
+            printSPLSol(m);
+            return m;
+        } else if (isSPLInfiniteSol(m)) {
+            m = multiplyAfterLeading1byNeg1(m);
+            printSPLSol(m);
+            return m;
+        } else if (isSPLInvalidValue(m)) {
+            printSPLSol(m);
+            return m;
+        } else {
+            return null;
+        }
+    }
+
+    public void interpolasiPolinomial() {
+        Scanner sc = new Scanner(System.in);
+        int n, banyakTitik;
+        System.out.println("Masukkan Banyak Titik:");
+        banyakTitik = sc.nextInt();
+        n = banyakTitik - 1;
+
+        Matrix tabelMatrix = new Matrix();
+        tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
+        tabelMatrix.printMatriks();
+        for (int i = 0; i < banyakTitik; i++) {
+            System.out.println("Titik X:");
+            float x = sc.nextFloat();
+            System.out.println("Titik Y:");
+            float y = sc.nextFloat();
+            for (int j = 0; j < tabelMatrix.col; j++) {
+                if (j != tabelMatrix.col - 1) {
+                    tabelMatrix.matrix[i][j] = Math.pow(x, j);
+                } else {
+                    tabelMatrix.matrix[i][j] = y;
+                }
+            }
+        }
+        tabelMatrix.printMatriks();
+        Matrix resultMatrix = new Matrix();
+        resultMatrix = copyMatrix(tabelMatrix);
+        resultMatrix = gaussJordan(tabelMatrix);
+        resultMatrix.printMatriks();
+
+        float inputX = sc.nextFloat();
+        float result;
+        result = 0;
+        for (int i = 0; i < banyakTitik; i++) {
+            result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
+        }
+        System.out.printf("Result: %f", result);
+    }
+    public boolean isSPLInverseable(){
+        return (this.determinantGaussMatriks()!=0 && this.row==this.col-1);
+    }
+
+    public Matrix removeCol(int col){
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, this.col-1);
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < col; j++) {
+                result.matrix[i][j] = this.matrix[i][j];
+            }
+            for (int j = col+1; j < this.col; j++) {
+                result.matrix[i][j-1] = this.matrix[i][j];
+            }
+        }
+        return result;
+    }
+    public Matrix formMatrixfrom1Col(int col){
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, 1);
+        for (int i = 0; i < this.row; i++) {
+            result.matrix[i][0] = this.matrix[i][col];
+        }
+        return result;
+    }
+    public void printInverseSPLSol() {
+
+        if(!this.isSPLInverseable()){
+            System.out.println("Tidak dapat dicari invers dari matriks, gunakan metode gauss atau gauss jordan");
+        }
+        else{
+            Matrix inversed = new Matrix();
+            inversed.setMatrix(this.row, this.col);
+            inversed = copyMatrix(this);
+            inversed = inversed.removeCol(inversed.col-1);
+            inversed = inversed.getInverseADJ();
+            Matrix matrixB = new Matrix();
+            matrixB.setMatrix(this.row, 1);
+            matrixB = this.formMatrixfrom1Col(col-1);
+            Matrix sol = new Matrix();
+            sol.setMatrix(this.row, 1);
+            sol = perkalianMatrix(inversed, matrixB);
+            sol.printMatriks();
+            for (int i = 0; i < sol.row; i++) {
+                System.out.printf("x%d = %.2f\n", i + 1, sol.matrix[i][0]);
+        }
+        }
+
+    }
+
+    public void formReglin(Matrix parxy) {
+        Matrix xy = new Matrix();
+        int c, r;
+        double sum;
+        xy.setMatrix(parxy.row, parxy.col);
+        xy = copyMatrix(parxy);
+        // k jadi c
+        // n jadi r
+        c = xy.col;
+        r = xy.row;
+        setMatrix(c, c + 1);
+        setMatrixValue(0, 0, r);
+        for (int i = 1; i < c; i++) {
+            sum = 0;
+            for (int k = 0; k < r; k++) {
+                sum += xy.matrix[k][i - 1];
+            }
+            setMatrixValue(i, 0, sum);
+            setMatrixValue(0, i, sum);
+        }
+        for (int i = 1; i < c; i++) {
+            for (int j = 1; j < c; j++) {
+                sum = 0;
+                for (int k = 0; k < r; k++) {
+                    for (int l = 0; l < r; l++) {
+                        sum += (xy.matrix[k][i - 1] * xy.matrix[l][j - 1]);
+                    }
+                }
+                this.matrix[i][j] = sum;
+            }
+        }
+        for (int i = 0; i < c; i++) {
+            sum = 0;
+            for (int j = 0; j < r; j++) {
+                if (i == 0) {
+                    sum += xy.matrix[j][c - 1];
+                } else {
+                    for (int k = 0; k < r; k++) {
+                        sum += (xy.matrix[j][c - 1] * xy.matrix[k][i - 1]);
+                    }
+                }
+            }
+            this.matrix[i][c] = sum;
+        }
+    }
+
+    public static Matrix chooseNGetMatrix(boolean bic) {
+        String inp, newline;
+        newline = System.lineSeparator();
+        Scanner sc = new Scanner(System.in);
+        Matrix result = new Matrix();
+        boolean inpValid = false;
+        System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
+        inp = sc.nextLine();
+        switch (inp) {
+            case "1":
+                result.bacaFileMatrix("", bic);
+            case "2":
+                result.bacaMatriks(bic);
+        
+        }
+        return result;
+    }
 }
 
 }
