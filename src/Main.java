@@ -208,15 +208,17 @@ public class Main {
                     InterpolasiPolinom.interpolasiPolinom();
                     app = continueApp();
                     break;
-                // case 5:
-                //     intBic();
-                //     break;
-                // case 6:
-                //     regLin();
-                //     break;
-                // case 7:
-                //     sc.close();
-                //     System.exit(0);
+                case 5:
+                    System.out.println("======= Under Construction =======");
+                    app = continueApp();
+                    break;
+                case 6:
+                    System.out.println("======= Under Construction =======");
+                    app = continueApp();
+                    break;
+                case 7:
+                    sc.close();
+                    System.exit(0);
             }
             // inpmain =sc.nextInt();
         }
