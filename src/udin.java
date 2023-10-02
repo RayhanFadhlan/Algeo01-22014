@@ -6,12 +6,12 @@ public class udin {
     public static void main(String[] args){
         Matrix n;
         Matrix m = new Matrix();
-        m.bacaMatriks();
+        m.bacaMatriks(false);
         System.out.println("Original: ");
         m.printMatriks();
         System.out.println("Tes:");
-        // n = Matrix.getSPLGaussJordan(m);
-        n = Matrix.getSPLGauss(m);
+        n = m.getAdjoin();
+        n.printMatriks();
         // n.printMatriks();
         // print splsol
     }
