@@ -137,7 +137,7 @@ public class Main {
         while(app){
             clearScreen();
             int inpmini;
-            System.out.println("======MENU======"+newline+
+            System.out.println("====== MENU ======"+newline+
             "1.Sistem Persamaaan Linier"+newline+
             "2.Determinan"+newline+
             "3.Matriks balikan"+newline+
@@ -193,7 +193,7 @@ public class Main {
                     "2. Kofaktor - Adjoin");
                     inpmini = sc.nextInt();
                     clearScreen();
-                    switch (inpmini) {
+                    switch (inpmini) { // KASUS BUKAN NXN BELOM DI HITUNG
                         case 1:
                             Inverse.inverseIdentity();
                         break;
@@ -203,9 +203,11 @@ public class Main {
                     }
                     app = continueApp();
                     break;
-                // case 4:
-                //     intPol();
-                //     break;
+                case 4:
+                    System.out.println("======= INTERPOLASI POLINOM =======");
+                    InterpolasiPolinom.interpolasiPolinom();
+                    app = continueApp();
+                    break;
                 // case 5:
                 //     intBic();
                 //     break;

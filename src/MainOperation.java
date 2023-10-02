@@ -5,56 +5,61 @@ import java.util.Scanner;
 public class MainOperation {
     /* MAIN OPERATION */    
     public static Matrix inverseMatrixIdentity(Matrix par) {
-        Matrix m = new Matrix();
-        m.setMatrix(par.row, par.col);
-        m = Matrix.copyMatrix(par);
-        Matrix identMatrix;
-        identMatrix = new Matrix();
-        identMatrix.setMatrix(m.row, m.col);
-        identMatrix = Matrix.identity(m);
-        for (int n =0;n<par.row;n++) {
-            double pivot = m.matrix[n][n];
-            for (int i = n + 1; i<par.row;i++) {
-                int newN = i;
-                if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
-                    while ((newN < par.row)) {
-                        Matrix.swaprow(m, newN, n);
-                        Matrix.swaprow(identMatrix, newN, n);
-                        pivot = m.matrix[n][n];
-                        if (pivot != 0) {
-                            break;
+        if (Matrix.isMatrixSquare(par)) {
+            Matrix m = new Matrix();
+            m.setMatrix(par.row, par.col);
+            m = Matrix.copyMatrix(par);
+            Matrix identMatrix;
+            identMatrix = new Matrix();
+            identMatrix.setMatrix(m.row, m.col);
+            identMatrix = Matrix.identity(m);
+            for (int n =0;n<par.row;n++) {
+                double pivot = m.matrix[n][n];
+                for (int i = n + 1; i<par.row;i++) {
+                    int newN = i;
+                    if (pivot == 0) { // Cek dan tuker bila nilai pivotnya nol
+                        while ((newN < par.row)) {
+                            Matrix.swaprow(m, newN, n);
+                            Matrix.swaprow(identMatrix, newN, n);
+                            pivot = m.matrix[n][n];
+                            if (pivot != 0) {
+                                break;
+                            }
+                            newN += 1;
                         }
-                        newN += 1;
                     }
                 }
-            }
-            for (int j = 0; j < m.col; j++){
-                m.matrix[n][j]/=pivot;
-                identMatrix.matrix[n][j]/=pivot;
-            }
-            double scale;
-            for(int i = n+1;i<m.row;i++){
-                scale = m.matrix[i][n];
-                for(int j = 0; j<m.col;j++){
-                    m.matrix[i][j]-=((m.matrix[n][j])*scale);
-                    identMatrix.matrix[i][j]-=((identMatrix.matrix[n][j])*scale);
+                for (int j = 0; j < m.col; j++){
+                    m.matrix[n][j]/=pivot;
+                    identMatrix.matrix[n][j]/=pivot;
                 }
-
-            }
-        }              
-         for (int n=par.row-1;n>=0;n--){
-            for(int i= 0;i<n;i++){
-                if(m.matrix[i][n]!=0){
-                   double scale = m.matrix[i][n];
-                    for(int j = 0;j<m.col;j++){
-                        m.matrix[i][j]-=scale*m.matrix[n][j];
-                        identMatrix.matrix[i][j]-=scale*identMatrix.matrix[n][j];
+                double scale;
+                for(int i = n+1;i<m.row;i++){
+                    scale = m.matrix[i][n];
+                    for(int j = 0; j<m.col;j++){
+                        m.matrix[i][j]-=((m.matrix[n][j])*scale);
+                        identMatrix.matrix[i][j]-=((identMatrix.matrix[n][j])*scale);
                     }
+    
                 }
-           }
-
+            }              
+             for (int n=par.row-1;n>=0;n--){
+                for(int i= 0;i<n;i++){
+                    if(m.matrix[i][n]!=0){
+                       double scale = m.matrix[i][n];
+                        for(int j = 0;j<m.col;j++){
+                            m.matrix[i][j]-=scale*m.matrix[n][j];
+                            identMatrix.matrix[i][j]-=scale*identMatrix.matrix[n][j];
+                        }
+                    }
+               }
+    
+            }
+            return identMatrix; 
+        } else {
+            System.out.println("Matriks bukan NxN, silahkan input matriks ulang!");
+            return null;
         }
-        return identMatrix; 
     }
     
 
@@ -263,44 +268,6 @@ public class MainOperation {
 }
 
 
-    
-    public void interpolasiPolinomial() {
-        Scanner sc = new Scanner(System.in);
-        int n,banyakTitik;
-        System.out.println("Masukkan Banyak Titik:");
-        banyakTitik = sc.nextInt();
-        n = banyakTitik - 1;
-
-        Matrix tabelMatrix = new Matrix();
-        tabelMatrix.setMatrix(banyakTitik,banyakTitik+1);
-        tabelMatrix.printMatriks();
-        for(int i=0;i<banyakTitik;i++){
-            System.out.println("Titik X:");
-            float x = sc.nextFloat();
-            System.out.println("Titik Y:");
-            float y = sc.nextFloat();
-            for(int j=0;j<tabelMatrix.col;j++){
-                if (j != tabelMatrix.col - 1){
-                    tabelMatrix.matrix[i][j] = Math.pow(x,j);
-                } else {
-                    tabelMatrix.matrix[i][j] = y;   
-                }
-            }
-        }
-        tabelMatrix.printMatriks();
-        Matrix resultMatrix = new Matrix();
-        resultMatrix = Matrix.copyMatrix(tabelMatrix);
-        resultMatrix = Matrix.gaussJordan(tabelMatrix);
-        resultMatrix.printMatriks(); 
-
-        float inputX = sc.nextFloat();
-        float result;
-        result = 0;
-        for (int i=0;i<banyakTitik;i++){
-            result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX,i);
-        }
-        System.out.printf("Result: %f",result);
-    }
 
 
     public static void inverseSPL(Matrix m){
@@ -321,9 +288,19 @@ public class MainOperation {
             sol = Matrix.perkalianMatrix(inversed, matrixB);
             for (int i = 0; i < sol.row; i++) {
                 System.out.printf("x%d = %.2f\n", i + 1, sol.matrix[i][0]);
-            }}
+            }
+        }
+    }
 
-            
+    public static Matrix getInverseADJ(Matrix m){
+        Matrix result = new Matrix();
+        
+        result = Matrix.getAdjoin(m);
+
+        // print determinantcofac
+        double detpowermin1 = 1/getDeterminantCofactor(m);
+        result = Matrix.perkalianWithSkalar(result,detpowermin1);
+        return result;
     }
 
 

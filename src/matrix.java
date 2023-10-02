@@ -337,6 +337,10 @@ public class Matrix {
         return false;   
     }
 
+    public static boolean isMatrixSquare(Matrix m) {
+        return (m.col == m.row);
+    }
+
     public static void printParametricValue(Matrix m, int nRow){
         if (!isRow0(m, nRow,true)){
             int variable = 115;
@@ -387,6 +391,64 @@ public class Matrix {
 
     public static boolean isMatrixCramerable(Matrix m){
         return ((m.row == m.col - 1) && MainOperation.determinantGaussMatriks(m) != 0);
+    }
+
+    public static Matrix getMinor(Matrix m,int row, int col) {
+        // Mencari minor dari matriks
+        Matrix result = new Matrix();
+        result.setMatrix(m.row - 1, m.col - 1);
+        int cnt = 0;
+        for (int i = 0; i < m.row; i++) {
+            if (i != row) {
+                for (int j = 0; j < m.col; j++) {
+                    if (j != col) {
+                        result.matrix[cnt / (m.col - 1)][cnt % (m.col - 1)] = m.matrix[i][j];
+                        cnt++;
+                    }
+                }
+            }
+        }
+        // transpose result using transpose functions already made
+
+        return result;
+    }
+
+    public static Matrix getAdjoin(Matrix m) {
+        // Mencari adjoin dari matriks
+        Matrix result = new Matrix();
+        result.setMatrix(m.row, m.col);
+
+        if (m.row == 1 && m.col == 1) {
+            result.setMatrixValue(0, 0, 1);
+            return result;
+        } else {
+            Matrix temp = new Matrix();
+            temp.setMatrix(m.row - 1, m.col - 1);
+            int sign = 1;
+            for (int i = 0; i < m.row; i++) {
+                for (int j = 0; j < m.col; j++) {
+                    sign = ((i + j) % 2 == 0) ? 1 : -1;
+                    temp = getMinor(m,i, j);
+                    result.matrix[i][j] = sign * MainOperation.determinantGaussMatriks(temp);
+                }
+            }
+
+        }
+        result = transpose(result);
+        return result;
+        // tes
+    }
+
+    public static Matrix perkalianWithSkalar(Matrix m,double num){
+        Matrix result = new Matrix();
+        result =copyMatrix(m);
+        for(int i = 0;i<m.row;i++){
+            for(int j = 0;j<m.col;j++){
+                //multiply each element of result with num
+                result.matrix[i][j] *= num;
+            }
+        }
+        return result;
     }
 
 
@@ -510,7 +572,7 @@ public class Matrix {
         // Read or Write Matrix
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                System.out.printf("%.2f ",matrix[i][j]); // Print dua angka dibelakang desimal
+                System.out.printf("%.2f\t",matrix[i][j]); // Print dua angka dibelakang desimal
             }
             System.out.println();
         }
