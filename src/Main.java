@@ -3,6 +3,11 @@ import java.util.Scanner;
 import src.Matrix;
 
 public class Main {
+    /* 
+    ***README***
+    
+    SETIAP FUNGSI YANG DIMASUKKAN JANGAN LUPA DIKASIH NAMA ORANG YANG MASUKINNYA.
+    */ 
 
     public static void spl(){
         //deklarasi
@@ -16,10 +21,14 @@ public class Main {
         inp=sc.nextLine();
         switch(inp){
             case "1":
-                //masukin caranya, matriksnya dah ada
+                // Gauss (Rafly)
+                m = Matrix.gauss(m);
+                Matrix.printSPLSol(m);
                 break;
             case "2":
-                //masukin caranya, matriksnya dah ada
+                // Gauss Jordan (Rafly)
+                m = Matrix.gauss(m);
+                Matrix.printSPLSol(m);
                 break;
             case "3":
                 //masukin caranya, matriksnya dah ada
@@ -35,6 +44,7 @@ public class Main {
     public static void determinant(){
         //deklarasi
         String inp;
+        Double detResult;
         Matrix m = new Matrix();
         Scanner sc = new Scanner(System.in);
 
@@ -44,10 +54,14 @@ public class Main {
         inp=sc.nextLine();
         switch(inp){
             case "1":
-                //masukin caranya, matriksnya dah ada
+                // Deteriminan Gauss (Rafly)
+                detResult = m.determinantGaussMatriks();
+                System.out.printf("Determinan - Gauss: %f",detResult);
                 break;
             case "2":
-                //masukin caranya, matriksnya dah ada
+                // Determinan Kofaktor (Rafly)
+                detResult = m.getDeterminantCofactor();
+                System.out.printf("Determinan - Gauss: %f",detResult);
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
@@ -67,7 +81,10 @@ public class Main {
         inp=sc.nextLine();
         switch(inp){
             case "1":
-                //masukin caranya, matriksnya dah ada
+                // Identity (Rafly)
+                m = m.inverseMatrix(m);
+                System.out.println("Matriks Sesudah Invers:");
+                m.printMatriks();
                 break;
             case "2":
                 //masukin caranya, matriksnya dah ada
@@ -79,6 +96,9 @@ public class Main {
     }
 
     public static void intPol(){
+
+        // Interpolasi Polinomial (Rafly)
+        Matrix.interpolasiPolinomial();
         return;
     }
 
@@ -104,7 +124,7 @@ public class Main {
         yBic.bacaFileMatrix("",true);
 
         //membuat matriks a
-        aBic = aBic.perkalianMatrix(invxBic, yBic);
+        aBic = Matrix.perkalianMatrix(invxBic, yBic);
         //aBic.printMatriks();
 
         //System.out.println(hasil);

@@ -295,6 +295,7 @@ public class Matrix {
 
     /* MAIN OPERATION */
     public Matrix inverseMatrix(Matrix par) {
+        // Metode Identitas
         Matrix m = new Matrix();
         m.setMatrix(par.row, par.col);
         m = copyMatrix(par);
@@ -427,11 +428,6 @@ public class Matrix {
         return determinant;
     }
 
-    public double determinantCofacMatrix() {
-        // Mencari determinant matriks menggunakan kofaktor
-
-        return 0.0;
-    }
 
     public Matrix getMinor(int row, int col) {
         // Mencari minor dari matriks
@@ -810,7 +806,7 @@ public class Matrix {
         }
     }
 
-    public void interpolasiPolinomial() {
+    public static void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
         int n, banyakTitik;
         System.out.println("Masukkan Banyak Titik:");
@@ -839,6 +835,22 @@ public class Matrix {
         resultMatrix = gaussJordan(tabelMatrix);
         resultMatrix.printMatriks();
 
+        // Cetak Persamaan di Consolenya
+        System.out.printf("f(x) = ");
+        for (int i = 0; i < resultMatrix.row; i++) {
+            for (int j = 0; j < resultMatrix.col - 1;j++) {
+                if (resultMatrix.matrix[i][j] != 0) {
+                    System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
+                    if (i != resultMatrix.row -1) {
+                        System.out.printf(" + ");
+                    }
+                }
+            }
+        }
+        System.out.println();
+
+
+        System.out.println("Masukkan nilai yang ingin ditafsir:");
         float inputX = sc.nextFloat();
         float result;
         result = 0;
