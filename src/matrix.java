@@ -293,6 +293,35 @@ public class Matrix {
         }
     }
 
+
+    public void printInverseAdjoin(){
+        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+            System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
+        }
+        else{
+            Matrix result = new Matrix();
+            result.setMatrix(this.row, this.col);
+            result = this.getInverseADJ();
+            result.printMatriks();
+        }
+    }
+
+    public void printInverseCofactor(){
+        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+            System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
+        }
+        else{
+            Matrix result = new Matrix();
+            result.setMatrix(this.row, this.col);
+            result = this.getAdjoin();
+            for (int i = 0; i < result.row; i++) {
+                for (int j = 0; j < result.col; j++) {
+                    result.matrix[i][j] /= this.determinantGaussMatriks();
+                }
+            }
+            result.printMatriks();
+        }
+    }
     /* MAIN OPERATION */
     public Matrix inverseMatrix(Matrix par) {
         // Metode Identitas
@@ -347,7 +376,7 @@ public class Matrix {
         }
         return identMatrix;
     }
-
+    
     public Matrix matrixBicubicSpline() {
         Matrix aBic = new Matrix();
         aBic.setMatrix(16, 16);

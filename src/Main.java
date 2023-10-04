@@ -89,12 +89,10 @@ public class Main {
         switch (inp) {
             case "1":
                 // Identity (Rafly)
-                m = m.inverseMatrix(m);
-                System.out.println("Matriks Sesudah Invers:");
-                m.printMatriks();
+                m.printInverseCofactor();
                 break;
             case "2":
-                // masukin caranya, matriksnya dah ada
+                m.printInverseAdjoin();
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
