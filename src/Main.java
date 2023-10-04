@@ -1,76 +1,91 @@
 package src;
+
 import java.util.Scanner;
 import src.Matrix;
 
 public class Main {
 
-    public static void spl(){
-        //deklarasi
+    public static void spl() {
+        // deklarasi
         String inp;
         Matrix m = new Matrix();
         Scanner sc = new Scanner(System.in);
 
-        //algo
+        // algo
         m = Matrix.chooseNGetMatrix(false);
-        System.out.println();
-        inp=sc.nextLine();
-        switch(inp){
+        System.out.println(menu.mspl);
+        inp = sc.nextLine();
+        switch (inp) {
             case "1":
-                //masukin caranya, matriksnya dah ada
+                m.getSPLGauss();
                 break;
             case "2":
-                //masukin caranya, matriksnya dah ada
+                m.getSPLGaussJordan();
                 break;
             case "3":
-                //masukin caranya, matriksnya dah ada
+                m.printInverseSPLSol();
                 break;
             case "4":
-                //masukin caranya, matriksnya dah ada
+                m.printCramerSol();
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
         }
         return;
     }
-    public static void determinant(){
-        //deklarasi
+
+    public static void determinant() {
+        // deklarasi
         String inp;
         Matrix m = new Matrix();
         Scanner sc = new Scanner(System.in);
 
-        //algo
+        // algo
         m = Matrix.chooseNGetMatrix(false);
         System.out.println(menu.mdet);
-        inp=sc.nextLine();
-        switch(inp){
+        inp = sc.nextLine();
+        switch (inp) {
             case "1":
-                //masukin caranya, matriksnya dah ada
+                if(m.isSquare()){
+
+                    System.out.println(m.determinantGaussMatriks());
+                }
+                else{
+                    System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari determinan.");
+                }
                 break;
             case "2":
-                //masukin caranya, matriksnya dah ada
+                // print getdeterminantcofactor
+                if(m.isSquare()){
+                    System.out.println(m.getDeterminantCofactor());
+                }
+                else{
+                    System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari determinan.");
+                }
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
         }
         return;
     }
-    public static void matBal(){
 
-        //deklarasi
+    public static void matBal() {
+
+        // deklarasi
         String inp;
         Matrix m = new Matrix();
         Scanner sc = new Scanner(System.in);
 
-        //algo
+        // algo
         m = Matrix.chooseNGetMatrix(false);
         System.out.println(menu.mmatbal);
-        inp=sc.nextLine();
-        switch(inp){
+        inp = sc.nextLine();
+        switch (inp) {
             case "1":
-                //masukin caranya, matriksnya dah ada
+                // masukin caranya, matriksnya dah ada
                 break;
             case "2":
-                //masukin caranya, matriksnya dah ada
+                // masukin caranya, matriksnya dah ada
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
@@ -78,66 +93,66 @@ public class Main {
         return;
     }
 
-    public static void intPol(){
+    public static void intPol() {
         return;
     }
 
-    public static void intBic()
-    {
-        //deklarasi
-        Matrix invxBic=new Matrix();
-        Matrix xBic=new Matrix();
-        Matrix aBic=new Matrix();
-        Matrix yBic=new Matrix();
+    public static void intBic() {
+        // deklarasi
+        Matrix invxBic = new Matrix();
+        Matrix xBic = new Matrix();
+        Matrix aBic = new Matrix();
+        Matrix yBic = new Matrix();
         double hasil;
 
-        /*membuat matriks X dan inversnya */
-        xBic=xBic.matrixBicubicSpline();
-        //xBic.printMatriks();
-        //System.out.println();
+        /* membuat matriks X dan inversnya */
+        xBic = xBic.matrixBicubicSpline();
+        // xBic.printMatriks();
+        // System.out.println();
 
         invxBic = xBic.inverseMatrix(xBic);
-        //invxBic.printMatriks();
-        //System.out.println();
-        
-        /*ambil data f, fx, fy, dan fxy*/
-        yBic.bacaFileMatrix("",true);
+        // invxBic.printMatriks();
+        // System.out.println();
 
-        //membuat matriks a
+        /* ambil data f, fx, fy, dan fxy */
+        yBic.bacaFileMatrix("", true);
+
+        // membuat matriks a
         aBic = aBic.perkalianMatrix(invxBic, yBic);
-        //aBic.printMatriks();
+        // aBic.printMatriks();
 
-        //System.out.println(hasil);
-        //hitung hasil
+        // System.out.println(hasil);
+        // hitung hasil
         hasil = yBic.bicMeasure(aBic);
         System.out.println(hasil);
 
         return;
     }
 
-    public static void regLin(){
-            Matrix xy = new Matrix();
-            Matrix xs = new Matrix();
-            Matrix bs = new Matrix();
-            Matrix invxs = new Matrix();
+    public static void regLin() {
+        Matrix xy = new Matrix();
+        Matrix xs = new Matrix();
+        Matrix bs = new Matrix();
+        Matrix invxs = new Matrix();
 
-            xy.bacaFileMatrix("", false);
-            xs.formReglin(xy);
-            invxs = xs.inverseMatrix(xs);
-            //invxs.printMatriks();
-            xs.printMatriks();
-            //ys.printMatriks();
+        xy.bacaFileMatrix("", false);
+        xs.formReglin(xy);
+        invxs = xs.inverseMatrix(xs);
+        // invxs.printMatriks();
+        xs.printMatriks();
+        // ys.printMatriks();
 
         return;
     }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String inpmain,Menu;
-    
+        String inpmain, Menu;
+
         System.out.println(menu.MAIN);
         inpmain = sc.nextLine();
-        while(true){
-            switch (inpmain){
+        while (true) {
+            switch (inpmain) {
                 case "1":
                     spl();
                     break;
@@ -160,38 +175,33 @@ public class Main {
                     sc.close();
                     System.exit(0);
                 default:
-                    System.out.println("Masukkan tidak valid"+menu.newline+"Kembali ke main menu"+menu.newline);
+                    System.out.println("Masukkan tidak valid" + menu.newline + "Kembali ke main menu" + menu.newline);
             }
             System.out.println(menu.MAIN);
-            inpmain =sc.nextLine();
+            inpmain = sc.nextLine();
         }
     }
 }
 
-
-class menu{
+class menu {
     public static final String newline = System.lineSeparator();
-    public static final String MAIN =
-    "MENU"+newline+
-    "1.Sistem Persamaaan Linier"+newline+
-    "2.Determinan"+newline+
-    "3.Matriks balikan"+newline+
-    "4.Interpolasi Polinom"+newline+
-    "5.Interpolasi Bicubic Spline"+newline+
-    "6.Regresi linier berganda"+newline+
-    "7.Keluar";
-    public static final String mspl =
-    "Pilih cara mencari determinan matriks"+newline+
-    "1.Metode eliminasi Gauss"+newline+
-    "2.Metode eliminasi Gauss-Jordan"+newline+
-    "3.Metode matriks balikan"+newline+
-    "4.Metode Cramer";
-    public static final String mdet =
-    "Pilih cara mencari determinan matriks"+newline+
-    "1.Upper triangle"+newline+
-    "2.Ekspansi kofaktor";
-    public static final String mmatbal =
-    "Pilih cara inverse matriks"+newline+
-    "1.Matriks identitas"+newline+
-    "2.Matriks adjoin";
+    public static final String MAIN = "MENU" + newline +
+            "1.Sistem Persamaaan Linier" + newline +
+            "2.Determinan" + newline +
+            "3.Matriks balikan" + newline +
+            "4.Interpolasi Polinom" + newline +
+            "5.Interpolasi Bicubic Spline" + newline +
+            "6.Regresi linier berganda" + newline +
+            "7.Keluar";
+    public static final String mspl = "Pilih cara mencari determinan matriks" + newline +
+            "1.Metode eliminasi Gauss" + newline +
+            "2.Metode eliminasi Gauss-Jordan" + newline +
+            "3.Metode matriks balikan" + newline +
+            "4.Metode Cramer";
+    public static final String mdet = "Pilih cara mencari determinan matriks" + newline +
+            "1.Upper triangle" + newline +
+            "2.Ekspansi kofaktor";
+    public static final String mmatbal = "Pilih cara inverse matriks" + newline +
+            "1.Matriks identitas" + newline +
+            "2.Matriks adjoin";
 }
