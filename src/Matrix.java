@@ -1,14 +1,16 @@
 package src;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.lang.Math;
+//import java.nio.file.Files;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+//import java.util.Arrays;
+//import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+//import javax.swing.plaf.synth.SynthSpinnerUI;
 
 public class Matrix {
     double[][] matrix;
@@ -277,7 +279,6 @@ public class Matrix {
 
     public void bacaMatriks(boolean bic) {
         Scanner sc = new Scanner(System.in);
-        String dump;
         System.out.println("Enter row and col: ");
         int row = sc.nextInt();
         int col = sc.nextInt();
@@ -287,7 +288,7 @@ public class Matrix {
             for (int j = 0; j < col; j++) {
                 setMatrixValue(i, j, sc.nextDouble());
             }
-            dump = sc.nextLine();
+            sc.nextLine();
         }
         if (bic) {
             System.out.println("Masukkan nilai x dan y yang ingin dicari:");
@@ -296,21 +297,27 @@ public class Matrix {
         }
     }
 
-    public void printInverseAdjoin() {
-        if (!this.isSquare() || this.determinantGaussMatriks() == 0) {
+
+    public Matrix printInverseAdjoin(){
+        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
-        } else {
+            return null;
+        }
+        else{
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getInverseADJ();
             result.printMatriks();
+            return result;
         }
     }
 
-    public void printInverseCofactor() {
-        if (!this.isSquare() || this.determinantGaussMatriks() == 0) {
+    public Matrix printInverseCofactor(){
+        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
-        } else {
+            return null;
+        }
+        else{
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getAdjoin();
@@ -320,6 +327,7 @@ public class Matrix {
                 }
             }
             result.printMatriks();
+            return result;
         }
     }
 
@@ -432,51 +440,50 @@ public class Matrix {
         }
     }
 
-    public void bacaMatriks() {
-        Scanner sc = new Scanner(System.in);
-        String dump;
-        System.out.println("Enter row and col: ");
-        int row = sc.nextInt();
-        int col = sc.nextInt();
-        setMatrix(row, col);
-        System.out.println("Enter matrix: ");
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                setMatrixValue(i, j, sc.nextDouble());
-            }
-            dump = sc.nextLine();
-        }
-    }
-
-    public void buatFile(String namaFile) {
+    public static void buatFile(String namaFile) {
         File objekFile = new File(namaFile);
-        if (!(objekFile.exists() && !objekFile.isDirectory())) {
-            System.out.println("File " + objekFile.getName() + " dibuat.");
-        } else {
-            System.out.println("File sudah ada. Silahkan ganti nama file");
-        }
+        System.out.println("File " + objekFile.getName() + " dibuat.");
     }
 
-    public void writeMatrixToFile() {
+    public String matrixToString() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String basis = "";
+        for (int i=0; i<this.row;i++){
+            for (int j=0 ; j<this.col;j++){
+                String elemen = df.format(this.matrix[i][j]);
+                basis += elemen;
+                basis += " ";
+            }
+            basis += "\n";
+        }
+        return basis;
+    }
+
+    public void matrixToFile() {
+        String mat = this.matrixToString();
+        writeStringToFile(mat);
+    }
+
+    public void writeDeterminantToFile(double determinan) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String determinanStr = df.format(determinan);
+        writeStringToFile(determinanStr);
+    }
+
+
+    public void writeStringToFile(String valueString) {
+        // Fungsi ini hanya digunakan untuk menulis string kedalam file baru.
+        // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil fungsi ini.
         try {
             String namaFile;
-            DecimalFormat df = new DecimalFormat("0.00");
-            System.out.println("Masukan nama file");
+            System.out.println("Masukan nama file:");
             Scanner sc = new Scanner(System.in);
             namaFile = sc.nextLine();
             buatFile(namaFile);
             FileWriter penulis = new FileWriter(namaFile + ".txt");
-
-            for (int i = 0; i < this.row; i++) {
-                for (int j = 0; j < this.col; j++) {
-                    String elemen = df.format(this.matrix[i][j]);
-                    penulis.write(elemen);
-                    penulis.write(" ");
-                }
-                penulis.write("\n");
-            }
+            
+            penulis.write(valueString);
             penulis.close();
-            sc.close();
         } catch (IOException e) {
             System.out.println("Input ada yang tidak jelas.");
             e.printStackTrace();
@@ -566,19 +573,27 @@ public class Matrix {
 
     public void bacaFileMatrix(String parlokasi, boolean parbic) {
         int nrow = 0, ncol = 0;
-        double dumpd;
-        String lokasi, dumps;
+        String lokasi;
         boolean bic;
         Scanner sc = new Scanner(System.in);
-
         lokasi = parlokasi;
         bic = parbic;
         if (lokasi == "") {
             System.out.printf("Masukkan nama file: ");
             lokasi = sc.nextLine();
+            lokasi = "datainput\\"+lokasi;
+            File ada = new File(lokasi);
+            while (!(ada.exists() && !ada.isDirectory())) { 
+                System.out.println("File tidak ditemukan");
+                System.out.printf("Masukkan nama file: ");
+                lokasi = sc.nextLine();
+                lokasi = "datainput\\"+lokasi;
+                ada = new File(lokasi);
+            }
         }
-        if (bic)
-            nrow--;
+        if (bic){
+           nrow--;
+        }
         try {
             /* mengambil file */
             File inp = new File(lokasi);
@@ -589,22 +604,24 @@ public class Matrix {
             nrow++;
             while (cntcol.hasNextDouble()) {
                 ncol++;
-                dumpd = cntcol.nextDouble();
+                cntcol.nextDouble();
             }
 
             /* menghitung baris */
             while (scf.hasNextLine()) {
-                dumps = scf.nextLine();
+                scf.nextLine();
                 nrow++;
             }
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             ex.printStackTrace();
         }
-        if (bic)
+        if (bic){
             setMatrix(16, 1);
-        else
+        }
+        else{
             setMatrix(nrow, ncol);
-        // System.out.println(this.row+" "+this.col);
+        }
         try {
             File inp = new File(lokasi);
             Scanner scf = new Scanner(inp);
@@ -612,10 +629,12 @@ public class Matrix {
             for (int i = 0; i < nrow; i++) {
                 Scanner srow = new Scanner(scf.nextLine());
                 for (int j = 0; j < ncol; j++) {
-                    if (bic)
+                    if (bic){
                         this.matrix[cnt][0] = srow.nextDouble();
-                    else
+                    }
+                    else{
                         this.matrix[i][j] = srow.nextDouble();
+                    }
                     cnt++;
                 }
             }
@@ -625,7 +644,6 @@ public class Matrix {
                 this.ty = srow.nextDouble();
             }
         }
-
         catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1116,57 +1134,142 @@ public class Matrix {
         }
     }
 
-    public static void interpolasiPolinomial() {
+    public static String interpolasiToString(){
+        String basis = "";
+
+
+        return basis;
+    }
+
+    public static void interpolasiPolinomial(boolean writeFile) {
         Scanner sc = new Scanner(System.in);
-        int n, banyakTitik;
+        int banyakTitik;
         System.out.println("Masukkan Banyak Titik:");
         banyakTitik = sc.nextInt();
-        n = banyakTitik - 1;
-
-        Matrix tabelMatrix = new Matrix();
-        tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
-        tabelMatrix.printMatriks();
-        for (int i = 0; i < banyakTitik; i++) {
-            System.out.println("Titik X:");
-            float x = sc.nextFloat();
-            System.out.println("Titik Y:");
-            float y = sc.nextFloat();
-            for (int j = 0; j < tabelMatrix.col; j++) {
-                if (j != tabelMatrix.col - 1) {
-                    tabelMatrix.matrix[i][j] = Math.pow(x, j);
-                } else {
-                    tabelMatrix.matrix[i][j] = y;
-                }
-            }
-        }
-        tabelMatrix.printMatriks();
-        Matrix resultMatrix = new Matrix();
-        resultMatrix = copyMatrix(tabelMatrix);
-        resultMatrix = gaussJordan(tabelMatrix);
-        resultMatrix.printMatriks();
-
-        // Cetak Persamaan di Consolenya
-        System.out.printf("f(x) = ");
-        for (int i = 0; i < resultMatrix.row; i++) {
-            for (int j = 0; j < resultMatrix.col - 1; j++) {
-                if (resultMatrix.matrix[i][j] != 0) {
-                    System.out.printf("(%.2f)x^%d", resultMatrix.matrix[i][resultMatrix.col - 1], j);
-                    if (i != resultMatrix.row - 1) {
-                        System.out.printf(" + ");
+        if (writeFile == false) {
+    
+            Matrix tabelMatrix = new Matrix();
+            tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
+            tabelMatrix.printMatriks();
+            for (int i = 0; i < banyakTitik; i++) {
+                System.out.println("Titik X:");
+                float x = sc.nextFloat();
+                System.out.println("Titik Y:");
+                float y = sc.nextFloat();
+                for (int j = 0; j < tabelMatrix.col; j++) {
+                    if (j != tabelMatrix.col - 1) {
+                        tabelMatrix.matrix[i][j] = Math.pow(x, j);
+                    } else {
+                        tabelMatrix.matrix[i][j] = y;
                     }
                 }
             }
-        }
-        System.out.println();
+            Matrix resultMatrix = new Matrix();
+            resultMatrix = copyMatrix(tabelMatrix);
+            resultMatrix = gaussJordan(tabelMatrix);
+    
+            // Cetak Persamaan di Consolenya
+            System.out.printf("f(x) = ");
+            for (int i = 0; i < resultMatrix.row; i++) {
+                for (int j = 0; j < resultMatrix.col - 1;j++) {
+                    if (resultMatrix.matrix[i][j] != 0) {
+                        System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
+                        if (i != resultMatrix.row -1) {
+                            System.out.printf(" + ");
+                        }
+                    }
+                }
+            }
+            System.out.println();
+    
+            System.out.println("Masukkan nilai yang ingin ditafsir:");
+            float inputX = sc.nextFloat();
+            float result;
+            result = 0;
+            for (int i = 0; i < banyakTitik; i++) {
+                result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
+            }
+            System.out.printf("Result: %f\n", result);
+        } else {
+            try {
+                String namaFile;
+                DecimalFormat df = new DecimalFormat("0.00");
+                System.out.println("Masukan nama file");
+                sc.nextLine();
+                namaFile = sc.nextLine();
+                buatFile(namaFile);
+                FileWriter penulis = new FileWriter(namaFile + ".txt");
+        
+                Matrix tabelMatrix = new Matrix();
+                tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
+                tabelMatrix.printMatriks();
+                for (int i = 0; i < banyakTitik; i++) {
+                    System.out.println("Titik X:");
+                    float x = sc.nextFloat();
+                    System.out.println("Titik Y:");
+                    float y = sc.nextFloat();
+                    for (int j = 0; j < tabelMatrix.col; j++) {
+                        if (j != tabelMatrix.col - 1) {
+                            tabelMatrix.matrix[i][j] = Math.pow(x, j);
+                        } else {
+                            tabelMatrix.matrix[i][j] = y;
+                        }
+                    }
+                }
+                Matrix resultMatrix = new Matrix();
+                resultMatrix = copyMatrix(tabelMatrix);
+                resultMatrix = gaussJordan(tabelMatrix);
+        
+                // Cetak Persamaan di Consolenya
+                System.out.printf("f(x) = ");
+                penulis.write("f(x) = ");
+                for (int i = 0; i < resultMatrix.row; i++) {
+                    for (int j = 0; j < resultMatrix.col - 1;j++) {
+                        if (resultMatrix.matrix[i][j] != 0) {
+                            System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
 
-        System.out.println("Masukkan nilai yang ingin ditafsir:");
-        float inputX = sc.nextFloat();
-        float result;
-        result = 0;
-        for (int i = 0; i < banyakTitik; i++) {
-            result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
+
+                            String konstanta = df.format(resultMatrix.matrix[i][resultMatrix.col-1]);
+                            String variabel = Integer.toString(j);
+                            penulis.write("(");
+                            penulis.write(konstanta);
+                            penulis.write(")");
+                            penulis.write("x^");
+                            penulis.write(variabel);
+                            if (i != resultMatrix.row -1) {
+                                System.out.printf(" + ");
+                                penulis.write(" + ");
+                            }
+                        }
+                    }
+                }
+                System.out.println();
+                penulis.write("\n");
+        
+                System.out.println("Masukkan nilai yang ingin ditafsir:");
+                float inputX = sc.nextFloat();
+                float result;
+                result = 0;
+                for (int i = 0; i < banyakTitik; i++) {
+                    result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
+                }
+                System.out.printf("Result: %f\n", result);
+
+                String inputXStr = df.format(inputX);
+                String resultStr = df.format(result);
+                penulis.write("f(");
+                penulis.write(inputXStr);
+                penulis.write(") = ");
+                penulis.write(resultStr);
+
+                // sc.nextLine();
+                penulis.close();
+            } catch(IOException e) {
+                System.out.println("Input ada yang tidak jelas.");
+                e.printStackTrace();
+            }
         }
-        System.out.printf("Result: %f", result);
+        
     }
 
     public void inverseSPL() {
@@ -1243,17 +1346,138 @@ public class Matrix {
         Scanner sc = new Scanner(System.in);
         Matrix result = new Matrix();
         boolean inpValid = false;
-        System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
-        inp = sc.nextLine();
-        switch (inp) {
-            case "1":
-                result.bacaFileMatrix("", bic);
-                break;
-            case "2":
-                result.bacaMatriks(bic);
-                break;
-
+        while(!inpValid){
+            System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
+            inp = sc.nextLine();
+            switch (inp) {
+                case "1":
+                    result.bacaFileMatrix("", bic);
+                    inpValid=true;
+                    break;
+                case "2":
+                    result.bacaMatriks(bic);
+                    inpValid=true;
+                    break;
+                default:
+                    break;
+            }
         }
         return result;
     }
+
+    public void chooseWriteMatrix() {
+        Scanner sc = new Scanner(System.in);
+        int input;
+        System.out.println("Apakah interpolasi ingin di cetak?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        input = sc.nextInt();
+        if (input == 1) {
+            this.matrixToFile();
+        }
+    }
+
+    public String determinantToString(double determinan) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String determinantStr = df.format(determinan);
+        return determinantStr;
+    }
+
+    public void chooseWriteDeterminant(double determinan){
+        Scanner sc = new Scanner (System.in);
+        int input;
+        System.out.println("Apakah determinan ingin di cetak?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        input = sc.nextInt();
+        if (input == 1) {
+            writeStringToFile(determinantToString(determinan));
+        }
+    }
+
+    public static void chooseWriteInterpolasi(){
+        Scanner sc = new Scanner (System.in);
+        int input;
+        System.out.println("Apakah interpolasi ingin di cetak?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        input = sc.nextInt();
+        if (input == 1) {
+            interpolasiPolinomial(true);
+        } else {
+            interpolasiPolinomial(false);
+        }
+    }
+
+    public static boolean isToFile(){
+        Scanner sc = new Scanner(System.in);
+        String sInp;
+        while (true){
+            System.out.println("Pilih media output\n1.File    2.Layar");
+            sInp = sc.nextLine();
+            switch (sInp){
+                case "1":
+                    return true;
+                case "2":
+                    return false;
+                default :
+                    System.out.println("Masukkan tidak valid");
+            }
+        }
+    }
+
+    public static String regMeasure(Matrix a,Matrix b){
+        int sum = 0;
+        sum += b.matrix[0][0];
+        for(int i =1;i<a.col;i++){
+            sum += (a.matrix[0][i]+b.matrix[i-1][i-1]);
+        }
+        return sum+"\n";
+    }
+
+    public static String regToString(Matrix m){
+        String str = "y = ";
+        boolean pert = true;
+        for(int i=0;i<m.row;i++){
+            if(m.matrix[i][m.col-1]!=0&&i!=0){
+                if(m.matrix[i][m.col-1]>0&&!pert) str += "+ ";
+                if(m.matrix[i][m.col-1]<0) str += "- ";
+                str+=(String.format("%.3f",Math.abs(m.matrix[i][m.col-1])));
+                if(i!=0) str+=("x"+(i));
+                str+=" ";
+                pert=true;
+            }
+        }
+        return str;
+    }
+    public static Matrix wantMeasure(Matrix m){
+        Scanner sc = new Scanner(System.in);
+        Matrix mMea = new Matrix();
+        String sInp;
+        while (true){
+            System.out.println("Apakah ada titik yang ingin diperkirakan dari regresi ini?\n1.Ya    2.Tidak");
+            sInp = sc.nextLine();
+            switch (sInp){
+                case "1":
+                    System.out.println("Masukkan variable dalam bentuk matriks n x 1"+
+                    "\ndimana n adalah jumlah variable dari masukkan pertama");
+                    while(mMea.row==0&&mMea.row==0){
+                        mMea=Matrix.chooseNGetMatrix(false);
+                        if(mMea.row!=1||mMea.col!=(m.col-1)){
+                            System.out.println("Ukuran Matriks tidak sesuai\nMencoba mengambil kembali matriks");
+                        }
+                        else{
+                            return mMea;
+                        }
+                        break;
+                    }
+                case "2":
+                    return mMea;
+                default :
+                    System.out.println("Masukkan tidak valid");
+                    break;
+            }
+        }
+    }
+
 }
