@@ -58,16 +58,20 @@ public class Main {
         inp = sc.nextLine();
         switch (inp) {
             case "1":
-                m.getSPLGauss();
+                m = m.getSPLGauss();
+                m.chooseWriteMatrix();
                 break;
             case "2":
-                m.getSPLGaussJordan();
+                m = m.getSPLGaussJordan();
+                m.chooseWriteMatrix();
                 break;
             case "3":
-                m.printInverseSPLSol();
+                m.printInverseSPLSol(); // Matriks "m"-nya kudu berubah
+                m.chooseWriteMatrix();
                 break;
             case "4":
-                m.printCramerSol();
+                m.printCramerSol(); // Matriks "m"-nya kudu berubah
+                m.chooseWriteMatrix();
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
@@ -88,8 +92,8 @@ public class Main {
         switch (inp) {
             case "1":
                 if(m.isSquare()){
-
-                    System.out.println(m.determinantGaussMatriks());
+                    System.out.println("Determinan: " + m.determinantGaussMatriks());
+                    m.chooseWriteDeterminant(m.determinantGaussMatriks());
                 }
                 else{
                     System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari determinan.");
@@ -99,6 +103,7 @@ public class Main {
                 // print getdeterminantcofactor
                 if(m.isSquare()){
                     System.out.println(m.getDeterminantCofactor());
+                    m.chooseWriteDeterminant(m.getDeterminantCofactor());
                 }
                 else{
                     System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari determinan.");
@@ -124,10 +129,14 @@ public class Main {
         switch (inp) {
             case "1":
                 // Identity (Rafly)
-                m.printInverseCofactor();
+                m = m.printInverseCofactor();
+                System.out.println();
+                m.chooseWriteMatrix();
                 break;
             case "2":
-                m.printInverseAdjoin();
+                m = m.printInverseAdjoin();
+                System.out.println();
+                m.chooseWriteMatrix();
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
@@ -136,9 +145,8 @@ public class Main {
     }
 
     public static void intPol(){
-
         // Interpolasi Polinomial (Rafly)
-        Matrix.interpolasiPolinomial();
+        Matrix.chooseWriteInterpolasi();
         return;
     }
 
