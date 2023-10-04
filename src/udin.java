@@ -5,11 +5,11 @@ package src;
 public class udin {
     public static void main(String[] args){
         Matrix n;
+        // Matrix.buatFile("file1.txt");
         Matrix m = new Matrix();
         m.bacaMatriks();
-        System.out.println("Original: ");
-        m.printMatriks();
         System.out.println("Tes:");
-        n = Matrix.getSPLGauss(m);
+        m.printMatriks();
+        m.writeMatrixToFile();
     }
 }

@@ -1,11 +1,14 @@
 package src;
 
+import java.io.FileWriter;
 import java.io.File;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.lang.Math;
 import java.util.Arrays;
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+import java.text.DecimalFormat;
 
 public class Matrix {
     double [][] matrix;
@@ -591,6 +594,50 @@ public class Matrix {
                 setMatrixValue(i, j, sc.nextDouble());
             }
             dump=sc.nextLine();
+        }
+    }
+
+
+    public void buatFile(String namaFile) {
+        //try {
+            File objekFile = new File(namaFile);
+            if (!(objekFile.exists() && !objekFile.isDirectory())) {
+                System.out.println("File " + objekFile.getName() + " dibuat.");
+            } else {
+                System.out.println("File sudah ada. Silahkan ganti nama file");
+            }
+        //} catch (IOException e) {
+        //    System.out.println("Ada error");
+        //    e.printStackTrace();
+        // }
+    }
+
+    public void writeMatrixToFile() {
+        try {
+            String namaFile;
+            DecimalFormat df = new DecimalFormat("0.00");
+            System.out.println("Masukan nama file");
+            Scanner sc = new Scanner(System.in);
+            // sc.nextLine();
+            namaFile = sc.nextLine();
+            // namaFile += namaFile + ".txt";
+            // System.out.println(namafile);
+            buatFile(namaFile);
+            FileWriter penulis = new FileWriter(namaFile + ".txt");
+            
+            for (int i=0; i<this.row;i++){
+                for (int j=0 ; j<this.col;j++){
+                    String elemen = df.format(this.matrix[i][j]);
+                    penulis.write(elemen);
+                    penulis.write(" ");
+                }
+                penulis.write("\n");
+            }
+            penulis.close();
+            sc.close();
+        } catch (IOException e) {
+            System.out.println("Input ada yang tidak jelas.");
+            e.printStackTrace();
         }
     }
 
