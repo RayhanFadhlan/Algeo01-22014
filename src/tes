@@ -1,0 +1,144 @@
+% GBI.M
+% Written December 2009, (C) Matthew Giassa
+% teo@giassa.net, www.giassa.net
+% Returns an upsampled image using bicubic interpolation
+function output_image = gbi( input_image,x_res,y_res )
+%   input_image     -   an image on which to perform bicubic interpolation
+%   x_res           -   the new horizontal dimensions (in pixels)
+%   y_res           -   the new vertical dimensions (in pixels)
+%Define the inverted weighting matrix, M^(-1), no need to recalculate it
+%ever again
+M_inv = [
+ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;
+ 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0;
+ -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0;
+ 2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0;
+ 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0;
+ 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0;
+ 0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0;
+ 0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0;
+ -3,0,3,0,0,0,0,0,-2,0,-1,0,0,0,0,0;
+ 0,0,0,0,-3,0,3,0,0,0,0,0,-2,0,-1,0;
+ 9,-9,-9,9,6,3,-6,-3,6,-6,3,-3,4,2,2,1;
+ -6,6,6,-6,-3,-3,3,3,-4,4,-2,2,-2,-2,-1,-1;
+ 2,0,-2,0,0,0,0,0,1,0,1,0,0,0,0,0;
+ 0,0,0,0,2,0,-2,0,0,0,0,0,1,0,1,0;
+ -6,6,6,-6,-4,-2,4,2,-3,3,-3,3,-2,-1,-2,-1;
+ 4,-4,-4,4,2,2,-2,-2,2,-2,2,-2,1,1,1,1
+ ];
+%Make a copy of the input image
+I = input_image;
+%Convert image to grayscale (intensity) values for simplicity (for now)
+I = double(rgb2gray(I));
+%Determine the dimensions of the source image
+%Note that we will have three values - width, height, and the number
+%of color vectors, 3
+[j k] = size(I);
+%Specify the new image dimensions we want for our larger output image
+x_new = x_res;
+y_new = y_res;
+%Determine the ratio of the old dimensions compared to the new dimensions
+%Referred to as S1 and S2 in my tutorial
+x_scale = x_new./(j-1);
+y_scale = y_new./(k-1);
+%Declare and initialize an output image buffer
+temp_image = zeros(x_new,y_new);
+%Calculate the horizontal derivatives for each point (assume that at the
+%edge pixels of the source image, all derivatives are zero to maximize
+%smoothing). Take note - recreating this in C or C++ might not be so easy,
+%as you must pay attention to how this code is using matrix-style
+%addressing (x-y positions swapped).
+Ix = double(zeros(j,k));
+for count1 = 1:j
+ for count2 = 1:k
+ if( (count2==1) || (count2==k) )
+ Ix(count1,count2)=0;
+ else
+ Ix(count1,count2)=(0.5).*(I(count1,count2+1)-I(count1,count2-1));
+ end
+ end
+end
+%Similarly, calculate the vertical derivatives
+Iy = double(zeros(j,k));
+for count1 = 1:j
+ for count2 = 1:k
+ if( (count1==1) || (count1==j) )
+ Iy(count1,count2)=0;
+ else
+ Iy(count1,count2)=(0.5).*(I(count1+1,count2)-I(count1-1,count2));
+ end
+ end
+end
+%Finally, calculate the cross derivatives
+Ixy = double(zeros(j,k));
+for count1 = 1:j
+ for count2 = 1:k
+ if( (count1==1) || (count1==j) || (count2==1) || (count2==k) )
+ Ixy(count1,count2)=0;
+ else
+ Ixy(count1,count2)=(0.25).*((I(count1+1,count2+1)+I(count1-1,count2-1)) - (I(count1+1,count2-1)+I(count1-1,count2+1)));
+ end
+ end
+end
+%Generate the output image
+%==========================================================================
+%Please note that this is definitely not the most efficient way to carry
+%out this operation, as we are recalculating our beta and alpha-vectors far
+%repeatedly when there is no need. I kept the code like this so you can see
+%the order in which we would carry out most operations. If you want to make
+%a more efficient version which pre-calculates the alpha vector for each
+%pixel in the source image, be my guest.
+%==========================================================================
+for count1 = 0:x_new-1
+ for count2 = 0:y_new-1
+ %Calculate the normalized distance constants, h and w
+ W = -(((count1./x_scale)-floor(count1./x_scale))-1);
+ H = -(((count2./y_scale)-floor(count2./y_scale))-1);
+ %Determine the indexes/address of the 4 neighbouring pixels from
+ %the source data/image
+ I11_index = [1+floor(count1./x_scale),1+floor(count2./y_scale)];
+ I21_index = [1+floor(count1./x_scale),1+ceil(count2./y_scale)];
+ I12_index = [1+ceil(count1./x_scale),1+floor(count2./y_scale)];
+ I22_index = [1+ceil(count1./x_scale),1+ceil(count2./y_scale)];
+ %Calculate the four nearest function values
+ I11 = I(I11_index(1),I11_index(2));
+ I21 = I(I21_index(1),I21_index(2));
+ I12 = I(I12_index(1),I12_index(2));
+ I22 = I(I22_index(1),I22_index(2));
+ %Calculate the four nearest horizontal derivatives
+ Ix11 = Ix(I11_index(1),I11_index(2));
+ Ix21 = Ix(I21_index(1),I21_index(2));
+ Ix12 = Ix(I12_index(1),I12_index(2));
+ Ix22 = Ix(I22_index(1),I22_index(2));
+ %Calculate the four nearest vertical derivatives
+ Iy11 = Iy(I11_index(1),I11_index(2));
+ Iy21 = Iy(I21_index(1),I21_index(2));
+ Iy12 = Iy(I12_index(1),I12_index(2));
+ Iy22 = Iy(I22_index(1),I22_index(2));
+ %Calculate the four nearest cross derivatives
+ Ixy11 = Ixy(I11_index(1),I11_index(2));
+ Ixy21 = Ixy(I21_index(1),I21_index(2));
+ Ixy12 = Ixy(I12_index(1),I12_index(2));
+ Ixy22 = Ixy(I22_index(1),I22_index(2));
+ %Create our beta-vector
+ beta = [I11 I21 I12 I22 Ix11 Ix21 Ix12 Ix22 Iy11 Iy21 Iy12 Iy22 Ixy11 Ixy21 Ixy12 Ixy22];
+ %Calculate our alpha vector (ie: the a-values) using simple matrix
+ %multiplication
+ %==================================================================
+ %If we wanted to make sure this entire program is written entirely
+ %from scratch, we would implement our own code to multiple an AxB
+ %matrix and a BxC matrix right here. This is very simple to do, so
+ %I won't go over it right now.
+ %==================================================================
+ alpha = M_inv*beta';
+ temp_p=0;
+ for count3 = 1:16
+ w_temp = floor((count3-1)/4);
+ h_temp = mod(count3-1,4);
+ %disp(sprintf('aij=%d  wsub=%d   hsub=%d\n',count3,w_temp,h_temp))
+ temp_p = temp_p + alpha(count3).*((1-W)^(w_temp)).*((1-H)^(h_temp));
+ end
+ temp_image(count1+1,count2+1)=temp_p;
+ end
+end
+output_image = temp_image;
