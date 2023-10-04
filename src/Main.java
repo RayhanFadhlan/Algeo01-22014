@@ -4,6 +4,42 @@ import java.util.Scanner;
 import src.Matrix;
 
 public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String inpmain;
+
+        System.out.println(menu.MAIN);
+        inpmain = sc.nextLine();
+        while (true) {
+            switch (inpmain) {
+                case "1":
+                    spl();
+                    break;
+                case "2":
+                    determinant();
+                    break;
+                case "3":
+                    matBal();
+                    break;
+                case "4":
+                    intPol();
+                    break;
+                case "5":
+                    intBic();
+                    break;
+                case "6":
+                    regLin();
+                    break;
+                case "7":
+                    sc.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Masukkan tidak valid" + menu.newline + "Kembali ke main menu" + menu.newline);
+            }
+            System.out.println(menu.MAIN);
+            inpmain = sc.nextLine();
+        }
+    }
     /* 
     ***README***
     
@@ -42,7 +78,6 @@ public class Main {
     public static void determinant() {
         // deklarasi
         String inp;
-        Double detResult;
         Matrix m = new Matrix();
         Scanner sc = new Scanner(System.in);
 
@@ -113,81 +148,76 @@ public class Main {
         Matrix xBic = new Matrix();
         Matrix aBic = new Matrix();
         Matrix yBic = new Matrix();
+        boolean twrite;
         double hasil;
+        String sAns;
 
+        twrite = Matrix.isToFile();
         /* membuat matriks X dan inversnya */
         xBic = xBic.matrixBicubicSpline();
-        // xBic.printMatriks();
-        // System.out.println();
-
         invxBic = xBic.inverseMatrix(xBic);
-        // invxBic.printMatriks();
-        // System.out.println();
 
         //membuat matriks a
+        yBic = Matrix.chooseNGetMatrix(true);
         aBic = Matrix.perkalianMatrix(invxBic, yBic);
-        //aBic.printMatriks();
 
-        // System.out.println(hasil);
         // hitung hasil
         hasil = yBic.bicMeasure(aBic);
-        System.out.println(hasil);
-
+        sAns = String.format("%.3f",hasil)+"\n";
+        if(twrite){
+        }
+        else{
+            System.out.printf(sAns);
+        }
         return;
     }
 
     public static void regLin() {
-        Matrix xy = new Matrix();
-        Matrix xs = new Matrix();
-        Matrix bs = new Matrix();
-        Matrix invxs = new Matrix();
+        //deklarasi
+        Matrix mInp = new Matrix();
+        Matrix mMea = new Matrix();
+        Matrix mxy = new Matrix();
+        Matrix mAns = new Matrix();
+        boolean twrite;
+        String sAns="";
 
-        xy.bacaFileMatrix("", false);
-        xs.formReglin(xy);
-        invxs = xs.inverseMatrix(xs);
-        // invxs.printMatriks();
-        xs.printMatriks();
-        // ys.printMatriks();
+        //pilih keluaran
+        twrite = Matrix.isToFile();
+
+        //mengambil masukan matriks dan membentuk matriks untuk regresi
+        mInp.bacaFileMatrix("", false);
+        mxy.formReglin(mInp);
+        mAns = Matrix.gaussJordan(mxy);
+
+        //cek tak ada solusi
+        if(!mAns.isSPLUnique(mAns)){
+            System.out.println("Didapat solusi parametrik atau tanpa solusi, kembali main menu");
+            return;
+        }
+        else{
+            //masukin
+            sAns += "Persamaan regresi yang didapat adalah "+Matrix.regToString(mAns)+"\n";
+        }
+
+        //tanya apakah ada yg mau dimeasure
+        mMea = Matrix.wantMeasure(mInp);
+
+        //klo ada yg mau dimeasure
+        if (!(mMea.row==0 && mMea.col==0)){
+            sAns += "Nilai Aproksimasi yang didapat adalah "+Matrix.regMeasure(mMea,mAns)+"\n";
+        }
+
+        //output
+        if(twrite){
+           // Matrix.stringToFile(sAns);
+        }
+        else{
+            System.out.printf(sAns);
+        }
 
         return;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String inpmain, Menu;
-
-        System.out.println(menu.MAIN);
-        inpmain = sc.nextLine();
-        while (true) {
-            switch (inpmain) {
-                case "1":
-                    spl();
-                    break;
-                case "2":
-                    determinant();
-                    break;
-                case "3":
-                    matBal();
-                    break;
-                case "4":
-                    intPol();
-                    break;
-                case "5":
-                    intBic();
-                    break;
-                case "6":
-                    regLin();
-                    break;
-                case "7":
-                    sc.close();
-                    System.exit(0);
-                default:
-                    System.out.println("Masukkan tidak valid" + menu.newline + "Kembali ke main menu" + menu.newline);
-            }
-            System.out.println(menu.MAIN);
-            inpmain = sc.nextLine();
-        }
-    }
 }
 
 class menu {

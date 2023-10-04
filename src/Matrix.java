@@ -1,14 +1,16 @@
 package src;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.lang.Math;
+//import java.nio.file.Files;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+//import java.util.Arrays;
+//import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
+//import javax.swing.plaf.synth.SynthSpinnerUI;
 
 public class Matrix {
     double[][] matrix;
@@ -277,7 +279,6 @@ public class Matrix {
 
     public void bacaMatriks(boolean bic) {
         Scanner sc = new Scanner(System.in);
-        String dump;
         System.out.println("Enter row and col: ");
         int row = sc.nextInt();
         int col = sc.nextInt();
@@ -287,7 +288,7 @@ public class Matrix {
             for (int j = 0; j < col; j++) {
                 setMatrixValue(i, j, sc.nextDouble());
             }
-            dump = sc.nextLine();
+            sc.nextLine();
         }
         if (bic) {
             System.out.println("Masukkan nilai x dan y yang ingin dicari:");
@@ -435,23 +436,6 @@ public class Matrix {
         }
     }
 
-    public void bacaMatriks() {
-        Scanner sc = new Scanner(System.in);
-        String dump;
-        System.out.println("Enter row and col: ");
-        int row = sc.nextInt();
-        int col = sc.nextInt();
-        setMatrix(row, col);
-        System.out.println("Enter matrix: ");
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                setMatrixValue(i, j, sc.nextDouble());
-            }
-            dump=sc.nextLine();
-        }
-    }
-
-
     public void buatFile(String namaFile) {
             File objekFile = new File(namaFile);
             if (!(objekFile.exists() && !objekFile.isDirectory())) {
@@ -571,19 +555,27 @@ public class Matrix {
 
     public void bacaFileMatrix(String parlokasi, boolean parbic) {
         int nrow = 0, ncol = 0;
-        double dumpd;
-        String lokasi, dumps;
+        String lokasi;
         boolean bic;
         Scanner sc = new Scanner(System.in);
-
         lokasi = parlokasi;
         bic = parbic;
         if (lokasi == "") {
             System.out.printf("Masukkan nama file: ");
             lokasi = sc.nextLine();
+            lokasi = "datainput\\"+lokasi;
+            File ada = new File(lokasi);
+            while (!(ada.exists() && !ada.isDirectory())) { 
+                System.out.println("File tidak ditemukan");
+                System.out.printf("Masukkan nama file: ");
+                lokasi = sc.nextLine();
+                lokasi = "datainput\\"+lokasi;
+                ada = new File(lokasi);
+            }
         }
-        if (bic)
-            nrow--;
+        if (bic){
+           nrow--;
+        }
         try {
             /* mengambil file */
             File inp = new File(lokasi);
@@ -594,22 +586,24 @@ public class Matrix {
             nrow++;
             while (cntcol.hasNextDouble()) {
                 ncol++;
-                dumpd = cntcol.nextDouble();
+                cntcol.nextDouble();
             }
 
             /* menghitung baris */
             while (scf.hasNextLine()) {
-                dumps = scf.nextLine();
+                scf.nextLine();
                 nrow++;
             }
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             ex.printStackTrace();
         }
-        if (bic)
+        if (bic){
             setMatrix(16, 1);
-        else
+        }
+        else{
             setMatrix(nrow, ncol);
-        // System.out.println(this.row+" "+this.col);
+        }
         try {
             File inp = new File(lokasi);
             Scanner scf = new Scanner(inp);
@@ -617,10 +611,12 @@ public class Matrix {
             for (int i = 0; i < nrow; i++) {
                 Scanner srow = new Scanner(scf.nextLine());
                 for (int j = 0; j < ncol; j++) {
-                    if (bic)
+                    if (bic){
                         this.matrix[cnt][0] = srow.nextDouble();
-                    else
+                    }
+                    else{
                         this.matrix[i][j] = srow.nextDouble();
+                    }
                     cnt++;
                 }
             }
@@ -630,7 +626,6 @@ public class Matrix {
                 this.ty = srow.nextDouble();
             }
         }
-
         catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1023,10 +1018,9 @@ public class Matrix {
 
     public static void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
-        int n, banyakTitik;
+        int banyakTitik;
         System.out.println("Masukkan Banyak Titik:");
         banyakTitik = sc.nextInt();
-        n = banyakTitik - 1;
 
         Matrix tabelMatrix = new Matrix();
         tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
@@ -1149,15 +1143,94 @@ public class Matrix {
         Scanner sc = new Scanner(System.in);
         Matrix result = new Matrix();
         boolean inpValid = false;
-        System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
-        inp = sc.nextLine();
-        switch (inp) {
-            case "1":
-                result.bacaFileMatrix("", bic);
-            case "2":
-                result.bacaMatriks(bic);
-        
+        while(!inpValid){
+            System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
+            inp = sc.nextLine();
+            switch (inp) {
+                case "1":
+                    result.bacaFileMatrix("", bic);
+                    inpValid=true;
+                    break;
+                case "2":
+                    result.bacaMatriks(bic);
+                    inpValid=true;
+                    break;
+                default:
+                    break;
+            }
         }
         return result;
     }
+
+    public static boolean isToFile(){
+        Scanner sc = new Scanner(System.in);
+        String sInp;
+        while (true){
+            System.out.println("Pilih media output\n1.File    2.Layar");
+            sInp = sc.nextLine();
+            switch (sInp){
+                case "1":
+                    return true;
+                case "2":
+                    return false;
+                default :
+                    System.out.println("Masukkan tidak valid");
+            }
+        }
+    }
+
+    public static String regMeasure(Matrix a,Matrix b){
+        int sum = 0;
+        sum += b.matrix[0][0];
+        for(int i =1;i<a.col;i++){
+            sum += (a.matrix[0][i]+b.matrix[i-1][i-1]);
+        }
+        return sum+"\n";
+    }
+
+    public static String regToString(Matrix m){
+        String str = "y = ";
+        boolean pert = true;
+        for(int i=0;i<m.row;i++){
+            if(m.matrix[i][m.col-1]!=0&&i!=0){
+                if(m.matrix[i][m.col-1]>0&&!pert) str += "+ ";
+                if(m.matrix[i][m.col-1]<0) str += "- ";
+                str+=(String.format("%.3f",Math.abs(m.matrix[i][m.col-1])));
+                if(i!=0) str+=("x"+(i));
+                str+=" ";
+                pert=true;
+            }
+        }
+        return str;
+    }
+    public static Matrix wantMeasure(Matrix m){
+        Scanner sc = new Scanner(System.in);
+        Matrix mMea = new Matrix();
+        String sInp;
+        while (true){
+            System.out.println("Apakah ada titik yang ingin diperkirakan dari regresi ini?\n1.Ya    2.Tidak");
+            sInp = sc.nextLine();
+            switch (sInp){
+                case "1":
+                    System.out.println("Masukkan variable dalam bentuk matriks n x 1"+
+                    "\ndimana n adalah jumlah variable dari masukkan pertama");
+                    while(mMea.row==0&&mMea.row==0){
+                        mMea=Matrix.chooseNGetMatrix(false);
+                        if(mMea.row!=1||mMea.col!=(m.col-1)){
+                            System.out.println("Ukuran Matriks tidak sesuai\nMencoba mengambil kembali matriks");
+                        }
+                        else{
+                            return mMea;
+                        }
+                        break;
+                    }
+                case "2":
+                    return mMea;
+                default :
+                    System.out.println("Masukkan tidak valid");
+                    break;
+            }
+        }
+    }
+
 }
