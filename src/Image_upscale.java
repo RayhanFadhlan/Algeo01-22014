@@ -20,7 +20,7 @@ public class Image_upscale {
             int[][][] imageMatrix = imageToMatrix(image);
             System.out.println("Masukkan skala perbesaran: (contoh: 3))");
             Scanner sc = new Scanner(System.in);
-            int scale = sc.nextInt();
+            float scale = sc.nextFloat();
             
             System.out.println("Tunggu bentar yak, lagi ngeproses gambar");
 
