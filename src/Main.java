@@ -4,11 +4,11 @@ import java.util.Scanner;
 import src.Matrix;
 
 public class Main {
-    /* 
-    ***README***
-    
-    SETIAP FUNGSI YANG DIMASUKKAN JANGAN LUPA DIKASIH NAMA ORANG YANG MASUKINNYA.
-    */ 
+    /*
+     *** README***
+     * 
+     * SETIAP FUNGSI YANG DIMASUKKAN JANGAN LUPA DIKASIH NAMA ORANG YANG MASUKINNYA.
+     */
 
     public static void spl() {
         // deklarasi
@@ -52,20 +52,18 @@ public class Main {
         inp = sc.nextLine();
         switch (inp) {
             case "1":
-                if(m.isSquare()){
+                if (m.isSquare()) {
 
                     System.out.println(m.determinantGaussMatriks());
-                }
-                else{
+                } else {
                     System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari determinan.");
                 }
                 break;
             case "2":
                 // print getdeterminantcofactor
-                if(m.isSquare()){
+                if (m.isSquare()) {
                     System.out.println(m.getDeterminantCofactor());
-                }
-                else{
+                } else {
                     System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari determinan.");
                 }
                 break;
@@ -100,7 +98,7 @@ public class Main {
         return;
     }
 
-    public static void intPol(){
+    public static void intPol() {
 
         // Interpolasi Polinomial (Rafly)
         Matrix.interpolasiPolinomial();
@@ -124,9 +122,9 @@ public class Main {
         // invxBic.printMatriks();
         // System.out.println();
 
-        //membuat matriks a
+        // membuat matriks a
         aBic = Matrix.perkalianMatrix(invxBic, yBic);
-        //aBic.printMatriks();
+        // aBic.printMatriks();
 
         // System.out.println(hasil);
         // hitung hasil
@@ -179,6 +177,9 @@ public class Main {
                     regLin();
                     break;
                 case "7":
+                    /// masukin
+                    break;
+                case "8":
                     sc.close();
                     System.exit(0);
                 default:
@@ -199,7 +200,8 @@ class menu {
             "4.Interpolasi Polinom" + newline +
             "5.Interpolasi Bicubic Spline" + newline +
             "6.Regresi linier berganda" + newline +
-            "7.Keluar";
+            "7.Perbesaran Gambar" + newline +
+            "8.Keluar";
     public static final String mspl = "Pilih cara mencari determinan matriks" + newline +
             "1.Metode eliminasi Gauss" + newline +
             "2.Metode eliminasi Gauss-Jordan" + newline +

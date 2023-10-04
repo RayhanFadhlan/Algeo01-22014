@@ -296,12 +296,10 @@ public class Matrix {
         }
     }
 
-
-    public void printInverseAdjoin(){
-        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+    public void printInverseAdjoin() {
+        if (!this.isSquare() || this.determinantGaussMatriks() == 0) {
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
-        }
-        else{
+        } else {
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getInverseADJ();
@@ -309,11 +307,10 @@ public class Matrix {
         }
     }
 
-    public void printInverseCofactor(){
-        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+    public void printInverseCofactor() {
+        if (!this.isSquare() || this.determinantGaussMatriks() == 0) {
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
-        }
-        else{
+        } else {
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getAdjoin();
@@ -325,6 +322,7 @@ public class Matrix {
             result.printMatriks();
         }
     }
+
     /* MAIN OPERATION */
     public Matrix inverseMatrix(Matrix par) {
         // Metode Identitas
@@ -379,7 +377,7 @@ public class Matrix {
         }
         return identMatrix;
     }
-    
+
     public Matrix matrixBicubicSpline() {
         Matrix aBic = new Matrix();
         aBic.setMatrix(16, 16);
@@ -426,11 +424,10 @@ public class Matrix {
         }
     }
 
-    public boolean isSquare(){
-        if(this.row != this.col){
+    public boolean isSquare() {
+        if (this.row != this.col) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
@@ -443,22 +440,21 @@ public class Matrix {
         int col = sc.nextInt();
         setMatrix(row, col);
         System.out.println("Enter matrix: ");
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 setMatrixValue(i, j, sc.nextDouble());
             }
-            dump=sc.nextLine();
+            dump = sc.nextLine();
         }
     }
 
-
     public void buatFile(String namaFile) {
-            File objekFile = new File(namaFile);
-            if (!(objekFile.exists() && !objekFile.isDirectory())) {
-                System.out.println("File " + objekFile.getName() + " dibuat.");
-            } else {
-                System.out.println("File sudah ada. Silahkan ganti nama file");
-            }
+        File objekFile = new File(namaFile);
+        if (!(objekFile.exists() && !objekFile.isDirectory())) {
+            System.out.println("File " + objekFile.getName() + " dibuat.");
+        } else {
+            System.out.println("File sudah ada. Silahkan ganti nama file");
+        }
     }
 
     public void writeMatrixToFile() {
@@ -470,9 +466,9 @@ public class Matrix {
             namaFile = sc.nextLine();
             buatFile(namaFile);
             FileWriter penulis = new FileWriter(namaFile + ".txt");
-            
-            for (int i=0; i<this.row;i++){
-                for (int j=0 ; j<this.col;j++){
+
+            for (int i = 0; i < this.row; i++) {
+                for (int j = 0; j < this.col; j++) {
                     String elemen = df.format(this.matrix[i][j]);
                     penulis.write(elemen);
                     penulis.write(" ");
@@ -520,7 +516,6 @@ public class Matrix {
         }
         return determinant;
     }
-
 
     public Matrix getMinor(int row, int col) {
         // Mencari minor dari matriks
@@ -734,7 +729,7 @@ public class Matrix {
         return count;
     }
 
-    public  boolean isSPLUnique(Matrix m) {
+    public boolean isSPLUnique(Matrix m) {
         return (m.getSumOfLeading1() >= m.col - 1);
     }
 
@@ -772,11 +767,11 @@ public class Matrix {
         return false;
     }
 
-    public void printCramerSol(){
-        if(!this.isMatrixCramerable()){
-            System.out.println("Matriks tidak dapat diselesaikan dengan metode Cramer, silakan menggunakan metode gauss atau gauss jordan.");
-        }
-        else{
+    public void printCramerSol() {
+        if (!this.isMatrixCramerable()) {
+            System.out.println(
+                    "Matriks tidak dapat diselesaikan dengan metode Cramer, silakan menggunakan metode gauss atau gauss jordan.");
+        } else {
 
             Matrix result = new Matrix();
             result.setMatrix(this.row, 1);
@@ -787,8 +782,8 @@ public class Matrix {
         }
     }
 
-    public Matrix getEquationMat(){
-    
+    public Matrix getEquationMat() {
+
         Matrix result = new Matrix();
         result.setMatrix(this.row, this.col - 1);
         for (int i = 0; i < this.row; i++) {
@@ -799,54 +794,159 @@ public class Matrix {
         return result;
     }
 
-    public boolean isMatrixCramerable(){
-        if(this.row != this.col - 1){
+    public boolean isMatrixCramerable() {
+        if (this.row != this.col - 1) {
             return false;
         }
-        
-          else if  (this.getEquationMat().getDeterminantCofactor()==0){
+
+        else if (this.getEquationMat().getDeterminantCofactor() == 0) {
             return true;
-          
+
         }
         return false;
 
+    }
+
+    public Matrix createNewRow(int jumlrowditambah) {
+        Matrix result = new Matrix();
+        int currentrow = jumlrowditambah + this.row;
+        result.setMatrix(currentrow,this.col);
+        for(int i = 0;i<this.row;i++){
+            for(int j = 0;j<this.col;j++){
+                result.matrix[i][j] = this.matrix[i][j];
+            }
+        }
+
+        for (int i = this.row; i < currentrow; i++) {
+            for (int j = 0; j < this.col; j++) {
+                result.matrix[i][j] = 0;
+            }
+        }
+
+        return result;
+    }
+
+ 
+    public int[] createArrayOfSol(int jumlsol) {
+        int[] result = new int[jumlsol];
+        for (int i = 0; i < jumlsol; i++) {
+            result[i] = 0;
+        }
+        return result;
+    }
+
+    public String[] createArrayofParam() {
+        // create array size 26 contain all aphabet starting from r
+        String[] result = new String[26];
+        char currentChar = 'r';
+        for (int i = 0; i < 26; i++) {
+            result[i] = String.valueOf(currentChar);
+            currentChar++;
+        }
+        return result;
+    }
+
+    public boolean isSolParam(int row) {
+        if (!isLeading1Present(this, row)) {
+            return true;
+        }
+        for (int j = findLeading1(this, row); j < this.col - 1; j++) {
+            if (this.matrix[row][j] != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isMatrixAugmented() {
+        return (this.row >= this.col - 1);
+    }
+
+    public void printSPLInfSol() {
+        int[] sol = createArrayOfSol(this.col - 1);
+        String[] param = createArrayofParam();
+        Matrix augmented = new Matrix();
+        augmented = copyMatrix(this);
+        augmented.printMatriks();
+        if (!this.isMatrixAugmented()) {
+            augmented = createNewRow(augmented.col - 1 - (augmented.row));
+        }
+        for (int i = 0; i < augmented.col - 1; i++) {
+            if (isLeading1Present(augmented, i) && findLeading1(augmented, i) != i) {
+                swaprow(augmented, i, findLeading1(augmented, i));
+            }
+        }
+        for (int i = 0; i < augmented.col - 1; i++) {
+            if (isLeading1Present(augmented, i) && findLeading1(augmented, i) != i) {
+                swaprow(augmented, i, findLeading1(augmented, i));
+            }
+        }
+        for (int i = 0; i < augmented.col - 1; i++) {
+            if (augmented.isSolParam(i)) {
+                if(isRow0(augmented, i)){
+                    System.out.printf("x%d = %s\n", i+1,param[i]);
+                }
+                else{
+                    System.out.printf("x%d = ", i+1);
+                    for(int j = findLeading1(augmented,i)+1; j < this.col -1;j++){
+                        int counter = 0;
+                        if(augmented.matrix[i][j]!=0){
+                            if(counter!=0){
+                                System.out.print("+ ");
+                            }
+                            System.out.printf("%.2f%s ",augmented.matrix[i][j]*-1 ,param[j]);
+                            counter++;
+                        }
+                        }
+                    if(augmented.matrix[i][augmented.col-1]!= 0){
+                        System.out.printf("+ %.2f",augmented.matrix[i][augmented.col-1]);
+                    }
+                    System.out.printf("\n");
+                }
+                
+            }
+            else{
+                System.out.printf("x%d = %f",i+1,augmented.matrix[i][augmented.col-1]);
+            }
+        }
 
     }
 
-
-    public  void printSPLSol(Matrix m) {
+    public void printSPLSol(Matrix m) {
         if (isSPLUnique(m)) {
             int solCounter = 1;
-            for (int i = 0; i < m.col-1; i++) {
+            for (int i = 0; i < m.col - 1; i++) {
                 // print x{solCounter} = m.matrix[i][m.col-1]
                 System.out.printf("x%d = %.2f\n", solCounter, m.matrix[i][m.col - 1]);
                 solCounter++;
             }
         } else if (isSPLInfiniteSol(m)) {
-            int variable = 115;
-            Matrix freeVariables = new Matrix();
-            freeVariables.setMatrix(1, m.col);
-            for (int i = 0; i < m.col-1; i++) {
-                int idxLeadingOne = findLeading1(m, i);
-                freeVariables.matrix[0][idxLeadingOne] += 1;
-                printParametricValue(m, i);
-            }
+            m.printSPLInfSol();
+            // int variable = 115;
+            // Matrix freeVariables = new Matrix();
+            // freeVariables.setMatrix(1, m.col);
+            // for (int i = 0; i < m.col - 1; i++) {
+            //     int idxLeadingOne = findLeading1(m, i);
+            //     freeVariables.matrix[0][idxLeadingOne] += 1;
+            //     printParametricValue(m, i);
+            // }
 
-            for (int j = 0; j < m.col - 1; j++) {
-                if (freeVariables.matrix[0][j] == 0) {
-                    System.out.printf("x%d = %c\n", j + 1, (char) variable + j);
-                    // variable += 1;
-                }
-            }
+            // for (int j = 0; j < m.col - 1; j++) {
+            //     if (freeVariables.matrix[0][j] == 0) {
+            //         System.out.printf("x%d = %c\n", j + 1, (char) variable + j);
+            //         // variable += 1;
+            //     }
+            // }
 
-            variable = 115;
-            for (int j = 1; j < m.col - 1; j++) {
-                if (freeVariables.matrix[0][j] == 0) {
-                    System.out.printf("%c ", (char) variable + j);
-                }
-            }
-            System.out.printf("Memiliki nilai real yang bebas.");
-        } else if (isSPLInvalidValue(m)) {
+            // variable = 115;
+            // for (int j = 1; j < m.col - 1; j++) {
+            //     if (freeVariables.matrix[0][j] == 0) {
+            //         System.out.printf("%c ", (char) variable + j);
+            //     }
+            // }
+            // System.out.printf("Memiliki nilai real yang bebas.");
+        } 
+        else if (isSPLInvalidValue(m)) {
             System.out.println("SPL Tidak ada solusi.");
         }
     }
@@ -880,16 +980,15 @@ public class Matrix {
         }
         return m;
     }
-    
+
     public Matrix getSPLGauss() {
         Matrix m = new Matrix();
         m = copyMatrix(this);
         m = gauss(m);
-        if (isSPLInvalidValue(m))  {
-           System.out.println("SPL tidak memiliki solusi");
-           return m;
-       } 
-        else if (isSPLUnique(m)) {
+        if (isSPLInvalidValue(m)) {
+            System.out.println("SPL tidak memiliki solusi");
+            return m;
+        } else if (isSPLUnique(m)) {
 
             for (int i = m.row - 1; i >= 0; i--) {
                 if (isLeading1Present(m, i)) {
@@ -905,8 +1004,7 @@ public class Matrix {
             }
             printSPLSol(m);
             return m;
-        } 
-        else{ // SPL inf sol
+        } else { // SPL inf sol
 
             for (int i = m.row - 1; i >= 0; i--) {
                 if (!isRow0(m, i)) {
@@ -935,16 +1033,14 @@ public class Matrix {
     }
 
     public boolean isSPLInverseable() {
-        if(this.row != this.col - 1) {
+        if (this.row != this.col - 1) {
             return false;
-        }
-        else if(this.getEquationMat().getDeterminantCofactor() == 0) {
+        } else if (this.getEquationMat().getDeterminantCofactor() == 0) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
-       
+
     }
 
     public Matrix getInverseADJ() {
@@ -1007,15 +1103,14 @@ public class Matrix {
         Matrix m = new Matrix();
         m = copyMatrix(this);
         m = gaussJordan(m);
-        if(isSPLInvalidValue(m))  {
-           System.out.println("SPL tidak memiliki solusi");
-           return m;
-       } 
-        else if (isSPLUnique(m)) {
+        if (isSPLInvalidValue(m)) {
+            System.out.println("SPL tidak memiliki solusi");
+            return m;
+        } else if (isSPLUnique(m)) {
             printSPLSol(m);
             return m;
         } else { // SPL have inf sol
-            m = multiplyAfterLeading1byNeg1(m);
+            m.printMatriks();
             printSPLSol(m);
             return m;
         }
@@ -1053,17 +1148,16 @@ public class Matrix {
         // Cetak Persamaan di Consolenya
         System.out.printf("f(x) = ");
         for (int i = 0; i < resultMatrix.row; i++) {
-            for (int j = 0; j < resultMatrix.col - 1;j++) {
+            for (int j = 0; j < resultMatrix.col - 1; j++) {
                 if (resultMatrix.matrix[i][j] != 0) {
-                    System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
-                    if (i != resultMatrix.row -1) {
+                    System.out.printf("(%.2f)x^%d", resultMatrix.matrix[i][resultMatrix.col - 1], j);
+                    if (i != resultMatrix.row - 1) {
                         System.out.printf(" + ");
                     }
                 }
             }
         }
         System.out.println();
-
 
         System.out.println("Masukkan nilai yang ingin ditafsir:");
         float inputX = sc.nextFloat();
@@ -1154,9 +1248,11 @@ public class Matrix {
         switch (inp) {
             case "1":
                 result.bacaFileMatrix("", bic);
+                break;
             case "2":
                 result.bacaMatriks(bic);
-        
+                break;
+
         }
         return result;
     }
