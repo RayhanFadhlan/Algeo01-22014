@@ -4,6 +4,11 @@ import java.util.Scanner;
 import src.Matrix;
 
 public class Main {
+    /* 
+    ***README***
+    
+    SETIAP FUNGSI YANG DIMASUKKAN JANGAN LUPA DIKASIH NAMA ORANG YANG MASUKINNYA.
+    */ 
 
     public static void spl() {
         // deklarasi
@@ -37,6 +42,7 @@ public class Main {
     public static void determinant() {
         // deklarasi
         String inp;
+        Double detResult;
         Matrix m = new Matrix();
         Scanner sc = new Scanner(System.in);
 
@@ -82,7 +88,10 @@ public class Main {
         inp = sc.nextLine();
         switch (inp) {
             case "1":
-                // masukin caranya, matriksnya dah ada
+                // Identity (Rafly)
+                m = m.inverseMatrix(m);
+                System.out.println("Matriks Sesudah Invers:");
+                m.printMatriks();
                 break;
             case "2":
                 // masukin caranya, matriksnya dah ada
@@ -93,7 +102,10 @@ public class Main {
         return;
     }
 
-    public static void intPol() {
+    public static void intPol(){
+
+        // Interpolasi Polinomial (Rafly)
+        Matrix.interpolasiPolinomial();
         return;
     }
 
@@ -114,12 +126,9 @@ public class Main {
         // invxBic.printMatriks();
         // System.out.println();
 
-        /* ambil data f, fx, fy, dan fxy */
-        yBic.bacaFileMatrix("", true);
-
-        // membuat matriks a
-        aBic = aBic.perkalianMatrix(invxBic, yBic);
-        // aBic.printMatriks();
+        //membuat matriks a
+        aBic = Matrix.perkalianMatrix(invxBic, yBic);
+        //aBic.printMatriks();
 
         // System.out.println(hasil);
         // hitung hasil
