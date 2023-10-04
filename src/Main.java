@@ -22,15 +22,15 @@ public class Main {
         inp = sc.nextLine();
         switch (inp) {
             case "1":
-                m.getSPLGauss();
+                m = m.getSPLGauss();
                 m.chooseWriteMatrix();
                 break;
             case "2":
-                m.getSPLGaussJordan();
+                m = m.getSPLGaussJordan();
                 m.chooseWriteMatrix();
                 break;
             case "3":
-                m.printInverseSPLSol();
+                m.printInverseSPLSol(); 
                 m.chooseWriteMatrix();
                 break;
             case "4":
@@ -108,7 +108,6 @@ public class Main {
     }
 
     public static void intPol(){
-
         // Interpolasi Polinomial (Rafly)
         Matrix.chooseWriteInterpolasi();
         return;

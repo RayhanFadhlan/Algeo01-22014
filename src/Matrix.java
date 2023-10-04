@@ -461,7 +461,53 @@ public class Matrix {
             }
     }
 
-    public void writeMatrixToFile() {
+    public String matrixToString() {
+        try {
+            String namaFile;
+            DecimalFormat df = new DecimalFormat("0.00");
+            System.out.println("Masukan nama file");
+            Scanner sc = new Scanner(System.in);
+            namaFile = sc.nextLine();
+            buatFile(namaFile);
+            FileWriter penulis = new FileWriter(namaFile + ".txt");
+
+            String basis = "";
+            
+            for (int i=0; i<this.row;i++){
+                for (int j=0 ; j<this.col;j++){
+                    String elemen = df.format(this.matrix[i][j]);
+                    basis += elemen;
+                    basis += " ";
+                    // penulis.write(elemen);
+                    // penulis.write(" ");
+                }
+                // penulis.write("\n");
+                basis += "\n";
+            }
+            writeStringToFile(basis);
+            penulis.close();
+            sc.close();
+            return basis;
+        } catch (IOException e) {
+            System.out.println("Input ada yang tidak jelas.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void matrixToFile() {
+        String mat = this.matrixToString();
+        writeStringToFile(mat);
+    }
+
+    public void writeDeterminantToFile(double determinan) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String determinanStr = df.format(determinan);
+        writeStringToFile(determinanStr);
+    }
+
+
+    public void writeStringToFile(String valueString) {
         try {
             String namaFile;
             DecimalFormat df = new DecimalFormat("0.00");
@@ -471,14 +517,7 @@ public class Matrix {
             buatFile(namaFile);
             FileWriter penulis = new FileWriter(namaFile + ".txt");
             
-            for (int i=0; i<this.row;i++){
-                for (int j=0 ; j<this.col;j++){
-                    String elemen = df.format(this.matrix[i][j]);
-                    penulis.write(elemen);
-                    penulis.write(" ");
-                }
-                penulis.write("\n");
-            }
+            penulis.write(valueString);
             penulis.close();
             sc.close();
         } catch (IOException e) {
@@ -486,26 +525,6 @@ public class Matrix {
             e.printStackTrace();
         }
     }
-
-    public void writeDeterminantToFile(double determinan) {
-        try {
-            String namaFile;
-            DecimalFormat df = new DecimalFormat("0.00");
-            System.out.println("Masukan nama file");
-            Scanner sc = new Scanner(System.in);
-            namaFile = sc.nextLine();
-            buatFile(namaFile);
-            FileWriter penulis = new FileWriter(namaFile + ".txt");
-            String elemen = df.format(determinan);
-            penulis.write(elemen);
-            penulis.close();
-            sc.close();
-        } catch (IOException e) {
-            System.out.println("Input ada yang tidak jelas.");
-            e.printStackTrace();
-        }
-    }
-
 
     public double determinantGaussMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
@@ -1041,6 +1060,13 @@ public class Matrix {
         }
     }
 
+    public static String interpolasiToString(){
+        String basis = "";
+
+
+        return basis;
+    }
+
     public static void interpolasiPolinomial(boolean writeFile) {
         Scanner sc = new Scanner(System.in);
         int n, banyakTitik;
@@ -1093,7 +1119,7 @@ public class Matrix {
             System.out.printf("Result: %f\n", result);
         } else {
             try {
-                String namaFile;
+                String namaFile,basis;
                 DecimalFormat df = new DecimalFormat("0.00");
                 System.out.println("Masukan nama file");
                 sc.nextLine();
@@ -1166,8 +1192,8 @@ public class Matrix {
                 penulis.write(") = ");
                 penulis.write(resultStr);
 
+                // sc.nextLine();
                 penulis.close();
-                sc.close();
             } catch(IOException e) {
                 System.out.println("Input ada yang tidak jelas.");
                 e.printStackTrace();
@@ -1268,7 +1294,7 @@ public class Matrix {
         System.out.println("Apakah matriks ingin di cetak? (y/n)");
         input = sc.nextLine();
         if (input == "y") {
-            this.writeMatrixToFile();
+            this.matrixToFile();
         }
     }
 
