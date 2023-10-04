@@ -2,8 +2,11 @@ package src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.lang.Math;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
 
@@ -402,6 +405,59 @@ public class Matrix {
             return true;
         }
     }
+
+    public void bacaMatriks() {
+        Scanner sc = new Scanner(System.in);
+        String dump;
+        System.out.println("Enter row and col: ");
+        int row = sc.nextInt();
+        int col = sc.nextInt();
+        setMatrix(row, col);
+        System.out.println("Enter matrix: ");
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                setMatrixValue(i, j, sc.nextDouble());
+            }
+            dump=sc.nextLine();
+        }
+    }
+
+
+    public void buatFile(String namaFile) {
+            File objekFile = new File(namaFile);
+            if (!(objekFile.exists() && !objekFile.isDirectory())) {
+                System.out.println("File " + objekFile.getName() + " dibuat.");
+            } else {
+                System.out.println("File sudah ada. Silahkan ganti nama file");
+            }
+    }
+
+    public void writeMatrixToFile() {
+        try {
+            String namaFile;
+            DecimalFormat df = new DecimalFormat("0.00");
+            System.out.println("Masukan nama file");
+            Scanner sc = new Scanner(System.in);
+            namaFile = sc.nextLine();
+            buatFile(namaFile);
+            FileWriter penulis = new FileWriter(namaFile + ".txt");
+            
+            for (int i=0; i<this.row;i++){
+                for (int j=0 ; j<this.col;j++){
+                    String elemen = df.format(this.matrix[i][j]);
+                    penulis.write(elemen);
+                    penulis.write(" ");
+                }
+                penulis.write("\n");
+            }
+            penulis.close();
+            sc.close();
+        } catch (IOException e) {
+            System.out.println("Input ada yang tidak jelas.");
+            e.printStackTrace();
+        }
+    }
+
     public double determinantGaussMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
         double determinant = 1;
