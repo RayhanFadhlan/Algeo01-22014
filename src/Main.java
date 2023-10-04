@@ -2,7 +2,7 @@ package src;
 
 import java.util.Scanner;
 import src.Matrix;
-
+import src.Image_upscale;
 public class Main {
 
 
@@ -36,7 +36,7 @@ public class Main {
                     regLin();
                     break;
                 case "7":
-                    /// masukin
+                    Image_upscale.imageUpscale();
                     break;
                 case "8":
                     sc.close();
