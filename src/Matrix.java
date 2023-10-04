@@ -441,7 +441,7 @@ public class Matrix {
     }
 
     public static void buatFile(String namaFile) {
-        File objekFile = new File(namaFile);
+        File objekFile = new File("dataoutput/" + namaFile);
         System.out.println("File " + objekFile.getName() + " dibuat.");
     }
 
@@ -480,7 +480,7 @@ public class Matrix {
             Scanner sc = new Scanner(System.in);
             namaFile = sc.nextLine();
             buatFile(namaFile);
-            FileWriter penulis = new FileWriter(namaFile + ".txt");
+            FileWriter penulis = new FileWriter("dataoutput/"+namaFile + ".txt");
             
             penulis.write(valueString);
             penulis.close();
