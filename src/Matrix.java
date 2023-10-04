@@ -2,8 +2,11 @@ package src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.lang.Math;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
 
@@ -293,8 +296,38 @@ public class Matrix {
         }
     }
 
+
+    public void printInverseAdjoin(){
+        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+            System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
+        }
+        else{
+            Matrix result = new Matrix();
+            result.setMatrix(this.row, this.col);
+            result = this.getInverseADJ();
+            result.printMatriks();
+        }
+    }
+
+    public void printInverseCofactor(){
+        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+            System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
+        }
+        else{
+            Matrix result = new Matrix();
+            result.setMatrix(this.row, this.col);
+            result = this.getAdjoin();
+            for (int i = 0; i < result.row; i++) {
+                for (int j = 0; j < result.col; j++) {
+                    result.matrix[i][j] /= this.determinantGaussMatriks();
+                }
+            }
+            result.printMatriks();
+        }
+    }
     /* MAIN OPERATION */
     public Matrix inverseMatrix(Matrix par) {
+        // Metode Identitas
         Matrix m = new Matrix();
         m.setMatrix(par.row, par.col);
         m = copyMatrix(par);
@@ -346,7 +379,7 @@ public class Matrix {
         }
         return identMatrix;
     }
-
+    
     public Matrix matrixBicubicSpline() {
         Matrix aBic = new Matrix();
         aBic.setMatrix(16, 16);
@@ -393,6 +426,67 @@ public class Matrix {
         }
     }
 
+    public boolean isSquare(){
+        if(this.row != this.col){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public void bacaMatriks() {
+        Scanner sc = new Scanner(System.in);
+        String dump;
+        System.out.println("Enter row and col: ");
+        int row = sc.nextInt();
+        int col = sc.nextInt();
+        setMatrix(row, col);
+        System.out.println("Enter matrix: ");
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                setMatrixValue(i, j, sc.nextDouble());
+            }
+            dump=sc.nextLine();
+        }
+    }
+
+
+    public void buatFile(String namaFile) {
+            File objekFile = new File(namaFile);
+            if (!(objekFile.exists() && !objekFile.isDirectory())) {
+                System.out.println("File " + objekFile.getName() + " dibuat.");
+            } else {
+                System.out.println("File sudah ada. Silahkan ganti nama file");
+            }
+    }
+
+    public void writeMatrixToFile() {
+        try {
+            String namaFile;
+            DecimalFormat df = new DecimalFormat("0.00");
+            System.out.println("Masukan nama file");
+            Scanner sc = new Scanner(System.in);
+            namaFile = sc.nextLine();
+            buatFile(namaFile);
+            FileWriter penulis = new FileWriter(namaFile + ".txt");
+            
+            for (int i=0; i<this.row;i++){
+                for (int j=0 ; j<this.col;j++){
+                    String elemen = df.format(this.matrix[i][j]);
+                    penulis.write(elemen);
+                    penulis.write(" ");
+                }
+                penulis.write("\n");
+            }
+            penulis.close();
+            sc.close();
+        } catch (IOException e) {
+            System.out.println("Input ada yang tidak jelas.");
+            e.printStackTrace();
+        }
+    }
+
     public double determinantGaussMatriks() {
         // Mencari deteriminan menggunakan metode upper triangle
         double determinant = 1;
@@ -427,11 +521,6 @@ public class Matrix {
         return determinant;
     }
 
-    public double determinantCofacMatrix() {
-        // Mencari determinant matriks menggunakan kofaktor
-
-        return 0.0;
-    }
 
     public Matrix getMinor(int row, int col) {
         // Mencari minor dari matriks
@@ -645,7 +734,7 @@ public class Matrix {
         return count;
     }
 
-    public static boolean isSPLUnique(Matrix m) {
+    public  boolean isSPLUnique(Matrix m) {
         return (m.getSumOfLeading1() >= m.col - 1);
     }
 
@@ -683,10 +772,52 @@ public class Matrix {
         return false;
     }
 
-    public static void printSPLSol(Matrix m) {
+    public void printCramerSol(){
+        if(!this.isMatrixCramerable()){
+            System.out.println("Matriks tidak dapat diselesaikan dengan metode Cramer, silakan menggunakan metode gauss atau gauss jordan.");
+        }
+        else{
+
+            Matrix result = new Matrix();
+            result.setMatrix(this.row, 1);
+            result = this.getCramerSol();
+            for (int i = 0; i < result.row; i++) {
+                System.out.printf("x%d = %.2f\n", i + 1, result.matrix[i][0]);
+            }
+        }
+    }
+
+    public Matrix getEquationMat(){
+    
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, this.col - 1);
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col - 1; j++) {
+                result.matrix[i][j] = this.matrix[i][j];
+            }
+        }
+        return result;
+    }
+
+    public boolean isMatrixCramerable(){
+        if(this.row != this.col - 1){
+            return false;
+        }
+        
+          else if  (this.getEquationMat().getDeterminantCofactor()==0){
+            return true;
+          
+        }
+        return false;
+
+
+    }
+
+
+    public  void printSPLSol(Matrix m) {
         if (isSPLUnique(m)) {
             int solCounter = 1;
-            for (int i = 0; i < m.row; i++) {
+            for (int i = 0; i < m.col-1; i++) {
                 // print x{solCounter} = m.matrix[i][m.col-1]
                 System.out.printf("x%d = %.2f\n", solCounter, m.matrix[i][m.col - 1]);
                 solCounter++;
@@ -695,7 +826,7 @@ public class Matrix {
             int variable = 115;
             Matrix freeVariables = new Matrix();
             freeVariables.setMatrix(1, m.col);
-            for (int i = 0; i < m.row; i++) {
+            for (int i = 0; i < m.col-1; i++) {
                 int idxLeadingOne = findLeading1(m, i);
                 freeVariables.matrix[0][idxLeadingOne] += 1;
                 printParametricValue(m, i);
@@ -749,13 +880,16 @@ public class Matrix {
         }
         return m;
     }
-
-    public static Matrix getSPLGauss(Matrix m) {
+    
+    public Matrix getSPLGauss() {
+        Matrix m = new Matrix();
+        m = copyMatrix(this);
         m = gauss(m);
-        m.printMatriks();
-        System.out.println("n");
-        if (isSPLUnique(m)) {
-            System.out.println("Solusi Unik");
+        if (isSPLInvalidValue(m))  {
+           System.out.println("SPL tidak memiliki solusi");
+           return m;
+       } 
+        else if (isSPLUnique(m)) {
 
             for (int i = m.row - 1; i >= 0; i--) {
                 if (isLeading1Present(m, i)) {
@@ -771,8 +905,8 @@ public class Matrix {
             }
             printSPLSol(m);
             return m;
-        } else if (isSPLInfiniteSol(m)) {
-            // Ada Tes Case Error
+        } 
+        else{ // SPL inf sol
 
             for (int i = m.row - 1; i >= 0; i--) {
                 if (!isRow0(m, i)) {
@@ -780,37 +914,114 @@ public class Matrix {
                     m.reverseOBE(i, leading1);
                 }
             }
-            m.printMatriks();
-            System.out.println();
             printSPLSol(m);
             return m;
 
-        } else if (isSPLInvalidValue(m)) {
-            printSPLSol(m);
-            return m;
-        } else {
-            return null;
         }
     }
 
-    public static Matrix getSPLGaussJordan(Matrix m) {
+    public Matrix removeCol(int col) {
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, this.col - 1);
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < col; j++) {
+                result.matrix[i][j] = this.matrix[i][j];
+            }
+            for (int j = col + 1; j < this.col; j++) {
+                result.matrix[i][j - 1] = this.matrix[i][j];
+            }
+        }
+        return result;
+    }
+
+    public boolean isSPLInverseable() {
+        if(this.row != this.col - 1) {
+            return false;
+        }
+        else if(this.getEquationMat().getDeterminantCofactor() == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+       
+    }
+
+    public Matrix getInverseADJ() {
+        Matrix result = new Matrix();
+
+        result = this.getAdjoin();
+
+        // print determinantcofac
+        double detpowermin1 = 1 / this.getDeterminantCofactor();
+        result = result.perkalianWithSkalar(detpowermin1);
+        return result;
+    }
+
+    public Matrix perkalianWithSkalar(double num) {
+        Matrix result = new Matrix();
+        result = copyMatrix(this);
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                // multiply each element of result with num
+                result.matrix[i][j] *= num;
+            }
+        }
+        return result;
+    }
+
+    public void printInverseSPLSol() {
+
+        if (!this.isSPLInverseable()) {
+            System.out.println("Tidak dapat dicari invers dari matriks, gunakan metode gauss atau gauss jordan");
+        } else {
+            Matrix inversed = new Matrix();
+            inversed.setMatrix(this.row, this.col);
+            inversed = copyMatrix(this);
+            inversed = inversed.removeCol(inversed.col - 1);
+            inversed = inversed.getInverseADJ();
+            Matrix matrixB = new Matrix();
+            matrixB.setMatrix(this.row, 1);
+            matrixB = this.formMatrixfrom1Col(col - 1);
+            Matrix sol = new Matrix();
+            sol.setMatrix(this.row, 1);
+            sol = perkalianMatrix(inversed, matrixB);
+            sol.printMatriks();
+            for (int i = 0; i < sol.row; i++) {
+                System.out.printf("x%d = %.2f\n", i + 1, sol.matrix[i][0]);
+            }
+        }
+
+    }
+
+    public Matrix formMatrixfrom1Col(int col) {
+        Matrix result = new Matrix();
+        result.setMatrix(this.row, 1);
+        for (int i = 0; i < this.row; i++) {
+            result.matrix[i][0] = this.matrix[i][col];
+        }
+        return result;
+    }
+
+    public Matrix getSPLGaussJordan() {
+        Matrix m = new Matrix();
+        m = copyMatrix(this);
         m = gaussJordan(m);
-        if (isSPLUnique(m)) {
+        if(isSPLInvalidValue(m))  {
+           System.out.println("SPL tidak memiliki solusi");
+           return m;
+       } 
+        else if (isSPLUnique(m)) {
             printSPLSol(m);
             return m;
-        } else if (isSPLInfiniteSol(m)) {
+        } else { // SPL have inf sol
             m = multiplyAfterLeading1byNeg1(m);
             printSPLSol(m);
             return m;
-        } else if (isSPLInvalidValue(m)) {
-            printSPLSol(m);
-            return m;
-        } else {
-            return null;
         }
     }
 
-    public void interpolasiPolinomial() {
+    public static void interpolasiPolinomial() {
         Scanner sc = new Scanner(System.in);
         int n, banyakTitik;
         System.out.println("Masukkan Banyak Titik:");
@@ -839,6 +1050,22 @@ public class Matrix {
         resultMatrix = gaussJordan(tabelMatrix);
         resultMatrix.printMatriks();
 
+        // Cetak Persamaan di Consolenya
+        System.out.printf("f(x) = ");
+        for (int i = 0; i < resultMatrix.row; i++) {
+            for (int j = 0; j < resultMatrix.col - 1;j++) {
+                if (resultMatrix.matrix[i][j] != 0) {
+                    System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
+                    if (i != resultMatrix.row -1) {
+                        System.out.printf(" + ");
+                    }
+                }
+            }
+        }
+        System.out.println();
+
+
+        System.out.println("Masukkan nilai yang ingin ditafsir:");
         float inputX = sc.nextFloat();
         float result;
         result = 0;
@@ -922,22 +1149,14 @@ public class Matrix {
         Scanner sc = new Scanner(System.in);
         Matrix result = new Matrix();
         boolean inpValid = false;
-
-        while (!inpValid) {
-            System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
-            inp = sc.nextLine();
-            switch (inp) {
-                case "1":
-                    result.bacaFileMatrix("", bic);
-                    inpValid = true;
-                    break;
-                case "2":
-                    result.bacaMatriks(bic);
-                    inpValid = true;
-                    break;
-                default:
-                    System.out.println("Masukkan tidak valid");
-            }
+        System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
+        inp = sc.nextLine();
+        switch (inp) {
+            case "1":
+                result.bacaFileMatrix("", bic);
+            case "2":
+                result.bacaMatriks(bic);
+        
         }
         return result;
     }
