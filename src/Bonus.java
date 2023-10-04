@@ -1,33 +1,39 @@
 package src;
 import java.io.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.lang.Math;
 import javax.imageio.ImageIO;
+import java.util.Scanner;
 
 public class Bonus {
+
     public static void main(String[] args) {
         // Provide the path to your image file
-        String imagePath = "test\\image\\monal.jpg";
-
+        String inputpath = inputPathImg();
+        
+        String imagename = inputImageName(inputpath);
+        String imagePath = inputpath + "\\" + imagename;
+        // print image path 
+        System.out.println("Image Path: " + imagePath);        
         try {
             BufferedImage image = ImageIO.read(new File(imagePath));
-
-            // Example: Convert the image to a matrix
             int[][][] imageMatrix = imageToMatrix(image);
+            System.out.println("Masukkan skala perbesaran: (contoh: 3))");
+            Scanner sc = new Scanner(System.in);
+            int scale = sc.nextInt();
+            
+            System.out.println("Tunggu bentar yak, lagi ngeproses gambar");
 
-            // Example: Print the RGB values of the top-left pixel
-            System.out.println("Top-left pixel RGB values:");
-            System.out.println("Red: " + imageMatrix[0][0][0]);
-            System.out.println("Green: " + imageMatrix[0][0][1]);
-            System.out.println("Blue: " + imageMatrix[0][0][2]);
-
-            // print upscale matrix
-            int[][][] upscaleMatrix = upscale(imageMatrix, 2);
-            matrixToTxt(upscaleMatrix);
-            // convert rgb to grayscale
-            // get width and height of imagematrix
+            int[][][] upscaleMatrix = upscale(imageMatrix, scale);
+            
+            String outputpath = outputPathImg();
+            String outputname = outputImageName();
+            String outputImagePath = outputpath + "\\" + outputname;
+            // print output image path
+            System.out.println("Output Image Path: " + outputImagePath);
+            matrixToImage(upscaleMatrix,outputImagePath);
+        
+    
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,12 +49,12 @@ public class Bonus {
             for (int y = 0; y < height; y++) {
                 int rgb = image.getRGB(x, y);
 
-                // Extract RGB values
+              
                 int red = (rgb >> 16) & 0xFF;
                 int green = (rgb >> 8) & 0xFF;
                 int blue = rgb & 0xFF;
 
-                // Store RGB values in the matrix
+               
                 imageMatrix[x][y][0] = red;
                 imageMatrix[x][y][1] = green;
                 imageMatrix[x][y][2] = blue;
@@ -58,29 +64,19 @@ public class Bonus {
         return imageMatrix;
     }
 
-    // function to print the matrix
-    public static void printMatrix(int[][][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                System.out.print(matrix[i][j][0] + " ");
-                System.out.print(matrix[i][j][1] + " ");
-                System.out.print(matrix[i][j][2] + " ");
-                System.out.println();
-            }
-        }
-    }
+  
+    
 
-    // function to convert matrix to image
-    public static void matrixToImage(int[][][] matrix) {
+ 
+    public static void matrixToImage(int[][][] matrix,String path) {
         int width = matrix.length;
         int height = matrix[0].length;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-        // Set RGB value for each pixel in the image
+     
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
-                // Set RGB value
                 int red = matrix[x][y][0];
                 int green = matrix[x][y][1];
                 int blue = matrix[x][y][2];
@@ -89,16 +85,15 @@ public class Bonus {
             }
         }
 
-        // Save the image
         try {
-            ImageIO.write(image, "jpg", new File("test\\image\\output.jpg"));
+            String pathoutput = path;
+            ImageIO.write(image, "jpg", new File(pathoutput));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // function to convert rgb matrix to grayscale that return the grayscale matrix
-    // with 3d sized array
+ 
     public static int[][] rgbToGrayscale(int[][][] matrix) {
         int width = matrix.length;
         int height = matrix[0].length;
@@ -106,7 +101,7 @@ public class Bonus {
         int[][][] gray3d = new int[width][height][3];
         int red, green, blue;
         int grayVal;
-        // Set RGB value for each pixel in the image
+       
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 red = matrix[x][y][0];
@@ -119,7 +114,6 @@ public class Bonus {
                 gray3d[x][y][2] = grayVal;
             }
         }
-        matrixToImage(gray3d);
         return gray;
     }
 
@@ -138,8 +132,7 @@ public class Bonus {
             return 0;
         } else
             return ((matrix[x][y + 1][rgb] - matrix[x][y - 1][rgb]) / 2.0);
-        // return max index or min index if index out of bounds
-
+        
     }
 
     public static double fy(int x, int y, int[][][] matrix, int rgb) {
@@ -190,17 +183,33 @@ public class Bonus {
         return transpose;
     }
 
-    public void printMat(int[][][] mat) {
-        for (int i = 0; i < mat.length; i++) {
-            for (int j = 0; j < mat[0].length; j++) {
-                System.out.print(mat[i][j][0] + " ");
-                System.out.print(mat[i][j][1] + " ");
-                System.out.print(mat[i][j][2] + " ");
-                System.out.println();
+    
+
+    public static int getIndex(double x,int upperbound,boolean isfloor){
+        if(isfloor){
+            if(x<0){
+                return 0;
+            }
+            else if(x>upperbound){
+                return upperbound;
+            }
+            else{
+                return (int) Math.floor(x);
             }
         }
-    }
+        else{
+            if(x<0){
+                return 0;
+            }
+            else if(x>upperbound){
+                return upperbound;
+            }
+            else{
+                return (int) Math.ceil(x);
+            }
+        }
 
+    }
     public static int[][][] upscale(int[][][] inputImage, float ratio) {
         int width = inputImage.length;
         int height = inputImage[0].length;
@@ -214,7 +223,7 @@ public class Bonus {
                 }
             }
         }
-        // copy image so it have int [][][] but the last value is the same
+        
 
         double[][] MInv = {
                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -241,11 +250,11 @@ public class Bonus {
         int xScale = xNew / (width - 1);
         int yScale = yNew / (height - 1);
 
-        // create new matrix sized xNew x yNew
-        int[][][] newMatrix = new int[xNew][yNew][3];
+        
+        int[][][] newMatrix = new int[xNew+1][yNew+1][3];
 
-        for (int i = 0 + 1; i < xNew - 10; i++) {
-            for (int j = 0 + 1; j < yNew - 10; j++) {
+        for (int i = 0 ; i < xNew ; i++) {
+            for (int j = 0 ; j < yNew; j++) {
                 for (int k = 0; k < 3; k++) {
 
                     double W = -(((i / xScale) - Math.floor(i / xScale)) - 1);
@@ -253,14 +262,14 @@ public class Bonus {
 
                     double ix = i / xScale;
                     double iy = j / yScale;
-                    int[] I11_index = { 1 + (int) Math.floor(ix), 1 + (int) Math.floor(iy) };
-                    int[] I21_index = { 1 + (int) Math.floor(ix), 1 + (int) Math.ceil(iy) };
-                    int[] I12_index = { 1 + (int) Math.ceil(ix), 1 + (int) Math.floor(iy) };
-                    int[] I22_index = { 1 + (int) Math.ceil(ix), 1 + (int) Math.ceil(iy) };
+                    int upperboundx = width-1;
+                    int upperboundy = height-1;
 
-                    // I21_index = [1+Math.floor(count1./x_scale),1+ceil(count2./y_scale)];
-                    // I12_index = [1+ceil(count1./x_scale),1+Math.floor(count2./y_scale)];
-                    // I22_index = [1+ceil(count1./x_scale),1+ceil(count2./y_scale)];
+                    int[] I11_index = { getIndex(ix,upperboundx,true), getIndex(iy, upperboundy, true) };
+                    int[] I21_index = { getIndex(ix, upperboundx, true),getIndex(iy, upperboundy, false) };
+                    int[] I12_index = { getIndex(ix, upperboundx, false),getIndex(iy, upperboundy, true) };
+                    int[] I22_index = { getIndex(ix, upperboundx, false),getIndex(iy, upperboundy, false) };
+                 
 
                     double I11 = inputImage[I11_index[0]][I11_index[1]][k];
                     double I21 = inputImage[I21_index[0]][I21_index[1]][k];
@@ -284,14 +293,10 @@ public class Bonus {
 
                     double[][] beta = { { I11 }, { I21 }, { I12 }, { I22 }, { Ix11 }, { Ix21 }, { Ix12 }, { Ix22 },
                             { Iy11 }, { Iy21 }, { Iy12 }, { Iy22 }, { Ixy11 }, { Ixy21 }, { Ixy12 }, { Ixy22 } };
-                    // transpose beta
-
-                    // multiply minv with beta
+   
                     double[][] alpha = multiplyMatrix(MInv, beta);
 
-                    // //make code to print alpha
-                    // for(int p = 0;p<16;p++){
-                    // System.out.println(alpha[p][0]);}
+ 
 
                     double temp_p = 0;
                     for (int p = 1; p <= 16; p++) {
@@ -300,19 +305,21 @@ public class Bonus {
                         temp_p = temp_p + alpha[p - 1][0] * Math.pow(1 - W, w_temp) * Math.pow(1 - H, h_temp);
                     }
                     int res = (int) Math.round(temp_p);
-                    newMatrix[i + 1][j + 1][k] = res;
+                    newMatrix[i+1][j+1][k] = res;
                 }
+            }
+            if(i%100==0){
+                System.out.println("Progress: " + i + "/" + xNew);
             }
         }
         return newMatrix;
 
     }
 
-    // function to ouput matrix to txt
     public static void matrixToTxt(int[][][] matrix) {
         int width = matrix.length;
         int height = matrix[0].length;
-        String filename = "test\\image\\output.txt";
+        String filename = "test\\image\\output2.txt";
         try {
             FileWriter fw = new FileWriter(filename, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -334,4 +341,77 @@ public class Bonus {
             e.printStackTrace();
         }
     }
+    public static boolean checkImageExist(String path){
+        File f = new File(path);
+        if(f.exists() && !f.isDirectory()) { 
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean checkFolderExist(String path){
+        File f = new File(path);
+        if(f.exists() && f.isDirectory()) { 
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static String inputPathImg(){
+        Scanner sc = new Scanner(System.in);
+        String newLine = System.lineSeparator();
+        String path;
+        System.out.println("Masukkan alamat (absolute path) folder  gambar yang ingin diubah");
+        System.out.println("Contoh: C:\\Users\\Rayhan Fadhlan\\Documents");
+        path = sc.nextLine();
+        while(!checkFolderExist(path)){
+            System.out.println("Folder tidak ditemukan, silahkan masukkan alamat file yang benar");
+            path = sc.nextLine();
+        }
+        return path;
+    }
+
+    public static String outputPathImg(){
+        Scanner sc = new Scanner(System.in);
+        String newLine = System.lineSeparator();
+        String path;
+        System.out.println("Masukkan alamat (absolute path) folder untuk menyimpan gambar hasil");
+        System.out.println("Contoh: C:\\Users\\Rayhan Fadhlan\\Documents");
+        path = sc.nextLine();
+        return path;
+    }
+    
+    public static String inputImageName(String path){
+        Scanner sc = new Scanner(System.in);
+        String newLine = System.lineSeparator();
+        String imgname;
+        System.out.println("Masukkan nama file gambar yang ingin diubah");
+        System.out.println("Contoh: kucing.jpg (jangan lupa extension)");
+        imgname = sc.nextLine();
+        String pathcek = path + "\\" + imgname;
+        while(!checkImageExist(pathcek)){
+            System.out.println("File tidak ditemukan, silahkan masukkan alamat file yang benar");
+            //print pathcek
+            System.out.println(pathcek);
+            imgname = sc.nextLine();
+            pathcek = path + "\\" + imgname;
+        }
+        return imgname;
+    }
+
+    public static String outputImageName(){
+        Scanner sc = new Scanner(System.in);
+        String newLine = System.lineSeparator();
+        String path;
+        System.out.println("Masukkan nama file gambar hasil");
+        System.out.println("Contoh: kucing.jpg (jangan lupa extension)");
+        path = sc.nextLine();
+        return path;
+    }
+
+    
+
 }
