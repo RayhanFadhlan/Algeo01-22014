@@ -297,21 +297,24 @@ public class Matrix {
     }
 
 
-    public void printInverseAdjoin(){
+    public Matrix printInverseAdjoin(){
         if(!this.isSquare() || this.determinantGaussMatriks() == 0){
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
+            return null;
         }
         else{
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getInverseADJ();
             result.printMatriks();
+            return result;
         }
     }
 
-    public void printInverseCofactor(){
+    public Matrix printInverseCofactor(){
         if(!this.isSquare() || this.determinantGaussMatriks() == 0){
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
+            return null;
         }
         else{
             Matrix result = new Matrix();
@@ -323,8 +326,10 @@ public class Matrix {
                 }
             }
             result.printMatriks();
+            return result;
         }
     }
+
     /* MAIN OPERATION */
     public Matrix inverseMatrix(Matrix par) {
         // Metode Identitas
@@ -453,46 +458,22 @@ public class Matrix {
 
 
     public static void buatFile(String namaFile) {
-            File objekFile = new File(namaFile);
-            if (!(objekFile.exists() && !objekFile.isDirectory())) {
-                System.out.println("File " + objekFile.getName() + " dibuat.");
-            } else {
-                System.out.println("File sudah ada. Silahkan ganti nama file");
-            }
+        File objekFile = new File(namaFile);
+        System.out.println("File " + objekFile.getName() + " dibuat.");
     }
 
     public String matrixToString() {
-        try {
-            String namaFile;
-            DecimalFormat df = new DecimalFormat("0.00");
-            System.out.println("Masukan nama file");
-            Scanner sc = new Scanner(System.in);
-            namaFile = sc.nextLine();
-            buatFile(namaFile);
-            FileWriter penulis = new FileWriter(namaFile + ".txt");
-
-            String basis = "";
-            
-            for (int i=0; i<this.row;i++){
-                for (int j=0 ; j<this.col;j++){
-                    String elemen = df.format(this.matrix[i][j]);
-                    basis += elemen;
-                    basis += " ";
-                    // penulis.write(elemen);
-                    // penulis.write(" ");
-                }
-                // penulis.write("\n");
-                basis += "\n";
+        DecimalFormat df = new DecimalFormat("0.00");
+        String basis = "";
+        for (int i=0; i<this.row;i++){
+            for (int j=0 ; j<this.col;j++){
+                String elemen = df.format(this.matrix[i][j]);
+                basis += elemen;
+                basis += " ";
             }
-            writeStringToFile(basis);
-            penulis.close();
-            sc.close();
-            return basis;
-        } catch (IOException e) {
-            System.out.println("Input ada yang tidak jelas.");
-            e.printStackTrace();
-            return null;
+            basis += "\n";
         }
+        return basis;
     }
 
     public void matrixToFile() {
@@ -508,10 +489,12 @@ public class Matrix {
 
 
     public void writeStringToFile(String valueString) {
+        // Fungsi ini hanya digunakan untuk menulis string kedalam file baru.
+        // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil fungsi ini.
         try {
             String namaFile;
             DecimalFormat df = new DecimalFormat("0.00");
-            System.out.println("Masukan nama file");
+            System.out.println("Masukan nama file:");
             Scanner sc = new Scanner(System.in);
             namaFile = sc.nextLine();
             buatFile(namaFile);
@@ -519,7 +502,6 @@ public class Matrix {
             
             penulis.write(valueString);
             penulis.close();
-            sc.close();
         } catch (IOException e) {
             System.out.println("Input ada yang tidak jelas.");
             e.printStackTrace();
@@ -1290,22 +1272,31 @@ public class Matrix {
 
     public void chooseWriteMatrix() {
         Scanner sc = new Scanner(System.in);
-        String input;
-        System.out.println("Apakah matriks ingin di cetak? (y/n)");
-        input = sc.nextLine();
-        if (input == "y") {
+        int input;
+        System.out.println("Apakah interpolasi ingin di cetak?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        input = sc.nextInt();
+        if (input == 1) {
             this.matrixToFile();
         }
     }
 
+    public String determinantToString(double determinan) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String determinantStr = df.format(determinan);
+        return determinantStr;
+    }
 
     public void chooseWriteDeterminant(double determinan){
         Scanner sc = new Scanner (System.in);
-        String input;
-        System.out.println("Apakah determinan ingin di cetak? (y/n)");
-        input = sc.nextLine();
-        if (input == "y") {
-            this.writeDeterminantToFile(determinan);
+        int input;
+        System.out.println("Apakah determinan ingin di cetak?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        input = sc.nextInt();
+        if (input == 1) {
+            writeStringToFile(determinantToString(determinan));
         }
     }
 
