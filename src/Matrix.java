@@ -1181,8 +1181,6 @@ public class Matrix {
             int banyakTitik;
             String base = "";
 
-            // System.out.println("Masukkan Banyak Titik:");
-            // banyakTitik = sc.nextInt();
             banyakTitik = this.row - 1;
             System.out.println("Banyaknya titik adalah : " + banyakTitik);
     
@@ -1190,22 +1188,15 @@ public class Matrix {
             // Matrix tabelMatrix = this;
             tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
             for (int i = 0; i < banyakTitik; i++) {
-                // System.out.println("Titik(x,y):");
-                // float x = sc.nextFloat();
-                // float y = sc.nextFloat();
                 for (int j = 0; j < tabelMatrix.col; j++) {
                     if (j != tabelMatrix.col - 1) {
-                        // tabelMatrix.matrix[i][j] = Math.pow(x, j);
                         tabelMatrix.matrix[i][j] = Math.pow(this.matrix[i][0], j);
                     } else {
-                        // tabelMatrix.matrix[i][j] = y;
                         tabelMatrix.matrix[i][j] = this.matrix[i][1];
                     }
                 }
             }
 
-            System.out.println("tabel matriks:"); // DEBUGGING
-            tabelMatrix.printMatriks();
 
             Matrix resultMatrix = new Matrix();
             Matrix outputMatrix = new Matrix();
@@ -1214,8 +1205,6 @@ public class Matrix {
             outputMatrix.setMatrix(1, resultMatrix.row + 2);
     
             // Cetak Persamaan di Consolenya
-            System.out.println("Result Matrix:");
-            resultMatrix.printMatriks();
             System.out.printf("f(x) = ");
             base += "f(x) = ";
             // penulis.write("f(x) = ");
@@ -1246,10 +1235,6 @@ public class Matrix {
             }
             System.out.println();
             base += "\n";
-            // penulis.write("\n");
-    
-            // System.out.println("Masukkan nilai yang ingin ditafsir:");
-            // double inputX = sc.nextFloat();
             double inputX = this.matrix[this.row-1][0];
             System.out.println("Nilai yang ingin ditafsir adalah: " + inputX);
 
@@ -1365,6 +1350,7 @@ public class Matrix {
                     inpValid=true;
                     break;
                 case "2":
+                    System.out.println("========= README! =========\nApabila menggunakan operasi interpolasi polinom, pastikan col = 2 dan row sebanyak n + 1 titik.\nBaris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol\n===========================");
                     result.bacaMatriks(bic);
                     inpValid=true;
                     break;
