@@ -347,22 +347,6 @@ public class Matrix {
         return result;
     }
 
-    public static Matrix multiplyAfterLeading1byNeg1(Matrix m) {
-        for (int i = 0; i < m.row; i++) {
-            for (int j = 0; j < m.col - 1; j++) {
-                if (m.matrix[i][j] == 1) {
-                    for (int k = j + 1; k < m.col - 1; k++) {
-                        m.matrix[i][k] *= -1;
-                    }
-                    break;
-                }
-            }
-        }
-        return m;
-    }
-
-
-
     public static int countNonZeroRow(Matrix m) {
         int count = 0;
         for (int i = 0; i < m.row; i++) {
@@ -501,29 +485,6 @@ public class Matrix {
     //OPERASI SPL
     //OPERASI SPL
     //OPERASI SPL
-
-    public void inverseSPL() {
-        Matrix a, b;
-        a = new Matrix();
-        b = new Matrix();
-        a.bacaMatriks(false);
-        b.setMatrix(a.row, 1);
-        Scanner sc = new Scanner(System.in);
-        for (int i = 0; i < a.row; i++) {
-            b.matrix[i][0] = sc.nextDouble();
-        }
-
-        Matrix inverseA = a.inverseMatrixIdentity();
-        System.out.println("Inverse A:");
-        inverseA.printMatriks();
-        System.out.println("Matriks b:");
-        b.printMatriks();
-
-        Matrix result = perkalianMatrix(inverseA, b);
-        System.out.println("Result Matriks:");
-        result.printMatriks();
-    }
-
 
     public String  getSPLGauss() {
         Matrix m = new Matrix();
@@ -1283,12 +1244,6 @@ public class Matrix {
     public void matrixToFile() {
         String mat = this.matrixToString();
         writeStringToFile(mat);
-    }
-
-    public void writeDeterminantToFile(double determinan) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        String determinanStr = df.format(determinan);
-        writeStringToFile(determinanStr);
     }
 
 
