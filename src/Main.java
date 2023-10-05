@@ -181,6 +181,7 @@ public class Main {
         hasil = yBic.bicMeasure(aBic);
         sAns = String.format("%.3f",hasil)+"\n";
         if(twrite){
+            Matrix.writeStringToFile(sAns);
         }
         else{
             System.out.printf(sAns);
@@ -225,6 +226,7 @@ public class Main {
 
         //output
         if(twrite){
+            Matrix.writeStringToFile(sAns);
            // Matrix.stringToFile(sAns);
         }
         else{

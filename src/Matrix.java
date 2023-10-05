@@ -471,7 +471,7 @@ public class Matrix {
     }
 
 
-    public void writeStringToFile(String valueString) {
+    public static void writeStringToFile(String valueString) {
         // Fungsi ini hanya digunakan untuk menulis string kedalam file baru.
         // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil fungsi ini.
         try {
@@ -1432,7 +1432,7 @@ public class Matrix {
         for(int i =1;i<a.col;i++){
             sum += (a.matrix[0][i]+b.matrix[i-1][i-1]);
         }
-        return sum+"\n";
+        return String.format("%.3f",sum);
     }
 
     public static String regToString(Matrix m){
