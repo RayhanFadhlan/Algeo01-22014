@@ -1320,7 +1320,7 @@ public class Matrix {
     }
 
 
-    public void writeStringToFile(String valueString) {
+    public static void writeStringToFile(String valueString) {
         // Fungsi ini hanya digunakan untuk menulis string kedalam file baru.
         // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil fungsi ini.
         try {
