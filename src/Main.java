@@ -58,27 +58,33 @@ public class Main {
         // algo
         m = Matrix.chooseNGetMatrix(false);
         System.out.println(menu.mspl);
+        String s = "";
         inp = sc.nextLine();
         switch (inp) {
             case "1":
-                m = m.getSPLGauss();
-                m.chooseWriteMatrix();
-                break;
+            s = m.getSPLGauss();
+            break;
             case "2":
-                m = m.getSPLGaussJordan();
-                m.chooseWriteMatrix();
-                break;
+            s = m.getSPLGaussJordan();
+                
+            break;
             case "3":
-                m.printInverseSPLSol(); // Matriks "m"-nya kudu berubah
-                m.chooseWriteMatrix();
-                break;
+            s = m.printInverseSPLSol(); 
+            break;
             case "4":
-                m.printCramerSol(); // Matriks "m"-nya kudu berubah
-                m.chooseWriteMatrix();
-                break;
+            s =  m.printCramerSol();
+            break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");
+                return;
         }
+        boolean twrite = Matrix.isToFile();
+            if(twrite){
+                Matrix.writeStringToFile(s);
+            }
+            else{
+                System.out.println(s);
+            }
         return;
     }
 
