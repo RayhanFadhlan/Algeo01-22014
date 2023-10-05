@@ -1329,7 +1329,7 @@ public class Matrix {
     }
 
     public static String regMeasure(Matrix a,Matrix b){
-        int sum = 0;
+        double sum = 0;
         sum += b.matrix[0][0];
         for(int i =1;i<a.col;i++){
             sum += (a.matrix[0][i]+b.matrix[i-1][i-1]);
@@ -1361,9 +1361,9 @@ public class Matrix {
             sInp = sc.nextLine();
             switch (sInp){
                 case "1":
-                    System.out.println("Masukkan variable dalam bentuk matriks n x 1"+
+                    System.out.println("Masukkan variable dalam bentuk matriks 1 x n"+
                     "\ndimana n adalah jumlah variable dari masukkan pertama");
-                    while(mMea.row==0&&mMea.row==0){
+                    while(mMea.row!=1||mMea.col!=(m.col-1)){
                         mMea=Matrix.chooseNGetMatrix(false);
                         if(mMea.row!=1||mMea.col!=(m.col-1)){
                             System.out.println("Ukuran Matriks tidak sesuai\nMencoba mengambil kembali matriks");
@@ -1371,9 +1371,10 @@ public class Matrix {
                         else{
                             return mMea;
                         }
-                        break;
                     }
+                    break;
                 case "2":
+                    System.out.println("ini");
                     return mMea;
                 default :
                     System.out.println("Masukkan tidak valid");

@@ -159,6 +159,7 @@ public class Main {
         boolean twrite;
         double hasil;
         String sAns;
+        Scanner sc = new Scanner(System.in);
 
         twrite = Matrix.isToFile();
         /* membuat matriks X dan inversnya */
@@ -194,7 +195,7 @@ public class Main {
         twrite = Matrix.isToFile();
 
         //mengambil masukan matriks dan membentuk matriks untuk regresi
-        mInp.bacaFileMatrix("", false);
+        mInp=Matrix.chooseNGetMatrix(false);
         mxy.formReglin(mInp);
         mAns = Matrix.gaussJordan(mxy);
 
