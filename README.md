@@ -50,4 +50,31 @@ Nilai yang ingin diaproksimasi: 12 <br>
 12
 ```
 
+4. Sub program interpolasi bicubic digunakan dengan cara memasukkan matriks berukuran 4 x 4 dengan nilai f(x,y), fx(x,y), fy(x,y), dan fxy(x,y) di titik (0,0),
+   (0,1), (1,0), dan (1,1). Matrik kemudian diikuti 2 nilai yang merupakan nilai x dan y yang akan ditaksir dari hasil interpolasi bicubic.
+
+   Format masukan:
+   ```
+   f(0,0) f(1,0) f(0,1) f(1,1)
+   fx(0,0) fx(1,0) fx(0,1) fx(1,1)
+   fy(0,0) fy(1,0) fy(0,1) fy(1,1)
+   fxy(0,0) fxy(1,0) fxy(0,1) fxy(1,1)
+   tx ty
+   ```
+5. Sub program regresi linear akan menerima 1 atau 2 matriks masukan (diambil secara terpisah). Matriks pertama akan menerima data yang akan dijadikan acuan untuk membentuk persamaan regresi.
+   Kemudian jika ada nilai yang ingin ditaksir, akan diambil matriks kedua yang berukuran 1 x n-1 dimana n adalah jumlah kolom dari matriks pertama.
+   
+   Contoh:
+   matriks pertama
+   ```
+   1 2 3 4
+   4 21 5 6
+   2 1 6 7
+   12 32 1 2
+   31 2 4 120
+   ```
+   matriks kedua
+   ```
+   1 2 3
+   ```
 ## Program Structure
