@@ -1,16 +1,12 @@
 package src;
 
 import java.io.File;
-//import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.lang.Math;
-//import java.nio.file.Files;
 import java.text.DecimalFormat;
-//import java.util.Arrays;
-//import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
-//import javax.swing.plaf.synth.SynthSpinnerUI;
 
 public class Matrix {
     double[][] matrix;
@@ -88,7 +84,7 @@ public class Matrix {
 
     /* OPERASI MATRIKS */
     public Matrix add(Matrix m) {
-        // Menjumlahkan matrik dengan elemennya sendiri
+        // Menjumlahkan matrik dengan matriks lain
         Matrix result = new Matrix();
         result.setMatrix(row, col);
         for (int i = 0; i < row; i++) {
@@ -527,6 +523,7 @@ public class Matrix {
         result.printMatriks();
     }
 
+
     public Matrix getSPLGauss() {
         Matrix m = new Matrix();
         m = copyMatrix(this);
@@ -677,6 +674,8 @@ public class Matrix {
         else if (this.getEquationMat().getDeterminantCofactor() == 0) {
             return true;
 
+
+
         }
         return false;
 
@@ -758,11 +757,13 @@ public class Matrix {
             return null;
         }
         else{
+
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getInverseADJ();
             result.printMatriks();
             return result;
+
         }
     }
 
@@ -931,6 +932,7 @@ public class Matrix {
             for (int i = 0; i < banyakTitik; i++) {
                 result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
             }
+
             System.out.printf("Result: %f\n", result);
         } else {
             try {
@@ -969,7 +971,6 @@ public class Matrix {
                     for (int j = 0; j < resultMatrix.col - 1;j++) {
                         if (resultMatrix.matrix[i][j] != 0) {
                             System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
-
 
                             String konstanta = df.format(resultMatrix.matrix[i][resultMatrix.col-1]);
                             String variabel = Integer.toString(j);
@@ -1087,6 +1088,7 @@ public class Matrix {
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
+
     //OPERASI REGRESI LINEAR
     //OPERASI REGRESI LINEAR
     //OPERASI REGRESI LINEAR
@@ -1122,6 +1124,7 @@ public class Matrix {
                 this.matrix[i][j] = sum;
             }
         }
+
         for (int i = 0; i < c; i++) {
             sum = 0;
             for (int j = 0; j < r; j++) {
@@ -1135,6 +1138,7 @@ public class Matrix {
             }
             this.matrix[i][c] = sum;
         }
+
     }
 
     public static String regMeasure(Matrix a,Matrix b){
@@ -1192,6 +1196,7 @@ public class Matrix {
         }
     }
 
+
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
@@ -1236,15 +1241,18 @@ public class Matrix {
                 cntcol.nextDouble();
             }
 
+
             /* menghitung baris */
             while (scf.hasNextLine()) {
                 scf.nextLine();
                 nrow++;
+
             }
         } 
         catch (Exception ex) {
             ex.printStackTrace();
         }
+      
         if (bic){
             setMatrix(16, 1);
         }
@@ -1263,10 +1271,12 @@ public class Matrix {
                     }
                     else{
                         this.matrix[i][j] = srow.nextDouble();
+
                     }
                     cnt++;
                 }
             }
+
             if (bic) {
                 Scanner srow = new Scanner(scf.nextLine());
                 this.tx = srow.nextDouble();
@@ -1296,6 +1306,7 @@ public class Matrix {
         }
         return basis;
     }
+
 
     public void matrixToFile() {
         String mat = this.matrixToString();
@@ -1374,6 +1385,7 @@ public class Matrix {
                     inpValid=true;
                     break;
                 case "2":
+                    System.out.println("========= README! =========\nApabila menggunakan operasi interpolasi polinom, pastikan col = 2 dan row sebanyak n + 1 titik.\nBaris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol\n===========================");
                     result.bacaMatriks(bic);
                     inpValid=true;
                     break;
@@ -1414,7 +1426,7 @@ public class Matrix {
         }
     }
 
-    public static void chooseWriteInterpolasi(){
+    public void chooseWriteInterpolasi(){
         Scanner sc = new Scanner (System.in);
         int input;
         System.out.println("Apakah interpolasi ingin di cetak?");
@@ -1422,9 +1434,9 @@ public class Matrix {
         System.out.println("2. No");
         input = sc.nextInt();
         if (input == 1) {
-            interpolasiPolinomial(true);
-        } else {
-            interpolasiPolinomial(false);
+            // interpolasiPolinomial(true);
+            String base = this.interpolasiToString();
+            writeStringToFile(base);   
         }
     }
 
@@ -1444,6 +1456,7 @@ public class Matrix {
             }
         }
     }
+
 
     public double pangkat(double a, double b) {
         if (a == 0) {
@@ -1470,6 +1483,7 @@ public class Matrix {
                 swaprow(augmented, i, findLeading1(augmented, i));
             }
         }
+
         for (int i = 0; i < augmented.col - 1; i++) {
             if (isLeading1Present(augmented, i) && findLeading1(augmented, i) != i) {
                 swaprow(augmented, i, findLeading1(augmented, i));
@@ -1491,7 +1505,8 @@ public class Matrix {
                             System.out.printf("%.2f%s ",augmented.matrix[i][j]*-1 ,param[j]);
                             counter++;
                         }
-                        }
+                    }
+
                     if(augmented.matrix[i][augmented.col-1]!= 0){
                         System.out.printf("+ %.2f",augmented.matrix[i][augmented.col-1]);
                     }

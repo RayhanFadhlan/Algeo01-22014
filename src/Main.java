@@ -4,11 +4,6 @@ import java.util.Scanner;
 import src.Matrix;
 import src.Image_upscale;
 public class Main {
-
-
-
-    
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String inpmain;
@@ -137,12 +132,13 @@ public class Main {
         switch (inp) {
             case "1":
                 // Identity (Rafly)
-                m = m.printInverseCofactor();
+                m = m.inverseMatrixIdentity();
                 System.out.println();
                 m.chooseWriteMatrix();
                 break;
             case "2":
-                m = m.printInverseAdjoin();
+                // Metode Ekspansi Kofaktor - Adjoin
+                m = m.printInverseCofactor();
                 System.out.println();
                 m.chooseWriteMatrix();
                 break;
@@ -154,7 +150,10 @@ public class Main {
 
     public static void intPol(){
         // Interpolasi Polinomial (Rafly)
-        Matrix.chooseWriteInterpolasi();
+        Matrix m = new Matrix();
+        m = Matrix.chooseNGetMatrix(false);
+        m = m.interpolasiPolinomial();
+        m.chooseWriteInterpolasi(); 
         return;
     }
 
@@ -167,6 +166,7 @@ public class Main {
         boolean twrite;
         double hasil;
         String sAns;
+        Scanner sc = new Scanner(System.in);
 
         twrite = Matrix.isToFile();
         /* membuat matriks X dan inversnya */
@@ -181,6 +181,7 @@ public class Main {
         hasil = yBic.bicMeasure(aBic);
         sAns = String.format("%.3f",hasil)+"\n";
         if(twrite){
+            Matrix.writeStringToFile(sAns);
         }
         else{
             System.out.printf(sAns);
@@ -201,7 +202,7 @@ public class Main {
         twrite = Matrix.isToFile();
 
         //mengambil masukan matriks dan membentuk matriks untuk regresi
-        mInp.bacaFileMatrix("", false);
+        mInp=Matrix.chooseNGetMatrix(false);
         mxy.formReglin(mInp);
         mAns = Matrix.gaussJordan(mxy);
 
@@ -225,6 +226,7 @@ public class Main {
 
         //output
         if(twrite){
+            Matrix.writeStringToFile(sAns);
            // Matrix.stringToFile(sAns);
         }
         else{
