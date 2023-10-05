@@ -178,6 +178,7 @@ public class Main {
 
         // hitung hasil
         hasil = yBic.bicMeasure(aBic);
+        sAns= String.format("(%f,%f) = ",yBic.tx,yBic.ty);
         sAns = String.format("%.3f",hasil)+"\n";
 
         twrite = Matrix.isToFile();
