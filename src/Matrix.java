@@ -713,21 +713,6 @@ public class Matrix {
     //OPERASI INVERSE
     //OPERASI INVERSE
 
-    public Matrix printInverseAdjoin(){
-        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
-            System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
-            return null;
-        }
-        else{
-
-            Matrix result = new Matrix();
-            result.setMatrix(this.row, this.col);
-            result = this.getInverseADJ();
-            result.printMatriks();
-            return result;
-
-        }
-    }
 
     public Matrix printInverseCofactor(){
         if(!this.isSquare() || this.determinantGaussMatriks() == 0){
