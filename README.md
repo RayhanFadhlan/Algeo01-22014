@@ -76,3 +76,18 @@ Nilai yang ingin diaproksimasi: 12 <br>
    ```
    1 2 3
    ```
+## INPUT / OUTPUT FILE
+1. Input file
+   Input file akan mengambil file dalam folder test. Sebagai contoh, masukan lokasi di bawah
+   ini akan mengambil file test\tc.txt.
+   
+   ```
+   tc.txt
+   ```
+3. Output file
+   Input file akan membuat file tipe txt dalam folder dataoutput dan jika file sudah ada maka file tersebut akan ditulis ulang. Pemberian nama juga tidak perlu disertai
+   jenis file yang dalam kasus ini adalah ".txt". Sebagai contoh, masukan lokasi di bawah ini akan mebuat file dataoutput\result.txt.
+
+   ```
+   result
+   ```
