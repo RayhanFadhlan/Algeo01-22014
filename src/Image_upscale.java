@@ -247,9 +247,10 @@ public class Image_upscale {
         xNew = (int) Math.round(width * ratio);
         yNew = (int) Math.round(height * ratio);
 
-        int xScale = xNew / (width - 1);
-        int yScale = yNew / (height - 1);
-
+        // int xScale = xNew / (width - 1);
+        // int yScale = yNew / (height - 1);
+        double xScale = ratio;
+        double yScale = ratio;
         
         int[][][] newMatrix = new int[xNew+1][yNew+1][3];
 
@@ -257,8 +258,8 @@ public class Image_upscale {
             for (int j = 0 ; j < yNew; j++) {
                 for (int k = 0; k < 3; k++) {
 
-                    double W = -(((i / xScale) - Math.floor(i / xScale)) - 1);
-                    double H = -(((j / yScale) - Math.floor(j / yScale)) - 1);
+                    double W = -(((i / xScale) - Math.round(i / xScale)) -1 ); // -1 diakhir diapus buat testing
+                    double H = -(((j / yScale) - Math.round(j / yScale)) -1 );
 
                     double ix = i / xScale;
                     double iy = j / yScale;
@@ -305,6 +306,12 @@ public class Image_upscale {
                         temp_p = temp_p + alpha[p - 1][0] * Math.pow(1 - W, w_temp) * Math.pow(1 - H, h_temp);
                     }
                     int res = (int) Math.round(temp_p);
+                    if(res>255){
+                        res = 255;
+                    }
+                    else if(res<0){
+                        res = 0;
+                    }
                     newMatrix[i+1][j+1][k] = res;
                 }
             }
