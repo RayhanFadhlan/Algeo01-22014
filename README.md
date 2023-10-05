@@ -13,9 +13,15 @@ Rayendra Althaf Taraka Noor - 13522107 <br>
 
 Untuk menjalankan program ini kalian dapat,
 
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+1. Masuk kedalam folder class
+```
+  $ cd bin
+```
+2. Run file Main
+```
+java src.Main
+```
+
 
 ## Disclaimer
 1. Pastikan jika ingin menginput dari file, file .txt tersebut berada di dalam folder test.
