@@ -973,11 +973,11 @@ public class Matrix {
             for (int i = 0; i < banyakTitik; i++) {
                 result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
             }
-            System.out.printf("Result: %.2f\n", result);
             outputMatrix.matrix[0][resultMatrix.row + 1] = result;
-
+            
             String inputXStr = df.format(inputX);
             String resultStr = df.format(result);
+            System.out.println("Result: " + resultStr);
             base += "f(";
             base += inputXStr;
             base += ") = ";
