@@ -673,12 +673,12 @@ public class Matrix {
         }
 
         else if (this.getEquationMat().getDeterminantCofactor() == 0) {
-            return true;
+            return false;
 
 
 
         }
-        return false;
+        return true;
 
     }
 
@@ -1550,7 +1550,6 @@ public class Matrix {
             Matrix sol = new Matrix();
             sol.setMatrix(this.row, 1);
             sol = perkalianMatrix(inversed, matrixB);
-            sol.printMatriks();
             for (int i = 0; i < sol.row; i++) {
                 
                 result += "x" + (i+1) + " = " + sol.matrix[i][0] + "\n";
