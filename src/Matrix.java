@@ -1316,7 +1316,7 @@ public class Matrix {
     public void chooseWriteMatrix() {
         Scanner sc = new Scanner(System.in);
         int input;
-        System.out.println("Apakah interpolasi ingin di cetak?");
+        System.out.println("Apakah ingin di cetak?");
         System.out.println("1. Yes");
         System.out.println("2. No");
         input = sc.nextInt();
