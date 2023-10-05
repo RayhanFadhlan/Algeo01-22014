@@ -138,7 +138,7 @@ public class Main {
                 break;
             case "2":
                 // Metode Ekspansi Kofaktor - Adjoin
-                m = m.printInverseAdjoin();
+                m = m.printInverseCofactor();
                 System.out.println();
                 m.chooseWriteMatrix();
                 break;
