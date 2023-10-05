@@ -137,12 +137,14 @@ public class Main {
             case "1":
                 // Identity (Rafly)
                 m = m.inverseMatrixIdentity();
+                m.printMatriks();
                 System.out.println();
                 m.chooseWriteMatrix();
                 break;
             case "2":
                 // Metode Ekspansi Kofaktor - Adjoin
                 m = m.printInverseCofactor();
+                m.printMatriks();
                 System.out.println();
                 m.chooseWriteMatrix();
                 break;
