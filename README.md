@@ -32,6 +32,16 @@ Untuk menjalankan program ini kalian dapat,
 2 -1 1 3 4
 5 2 -4 2 6
 ```
-3. 
+3. Dalam penggunaan interpolasi polinomial. Matriks dimasukkan dengan ketentuan berikut **Jumlah Kolom 2**, **Jumlah Baris merupakan banyak titik ditambah satu (n + 1)**, **Baris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol**. 
+
+
+Example:
+Banyak Titik : 2 <br>
+Nilai yang ingin diaproksimasi: 12 <br>
+```
+1 2
+3 4
+12
+```
 
 ## Program Structure
