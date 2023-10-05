@@ -30,15 +30,14 @@ Untuk menjalankan program ini kalian dapat,
 
 ## Format File Masukan
 
-1. Setiap file masukan harus diakhiri newline
-2. Untuk penggunaan program SPL,determinan, dan matriks balikan format matriks adalah matriks augmented (Ax = B) dengan kolom terakhir adalah B.
+1. Untuk penggunaan program SPL input adalah Matriks Augmented. Untuk SPL, Determinan, dan Matriks balikan input pada file seperti:
 ```
 1 1 -1 -1 1
 2 5 -7 -5 -2
 2 -1 1 3 4
 5 2 -4 2 6
 ```
-3. Dalam penggunaan interpolasi polinomial. Matriks dimasukkan dengan ketentuan berikut **Jumlah Kolom 2**, **Jumlah Baris merupakan banyak titik ditambah satu (n + 1)**, **Baris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol**. 
+2. Dalam penggunaan interpolasi polinomial. Matriks dimasukkan dengan ketentuan berikut **Jumlah Kolom 2**, **Jumlah Baris merupakan banyak titik ditambah satu (n + 1)**, **Baris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol**. 
 
 
 Example:
@@ -50,7 +49,7 @@ Nilai yang ingin diaproksimasi: 12 <br>
 12
 ```
 
-4. Sub program interpolasi bicubic digunakan dengan cara memasukkan matriks berukuran 4 x 4 dengan nilai f(x,y), fx(x,y), fy(x,y), dan fxy(x,y) di titik (0,0),
+3. Sub program interpolasi bicubic digunakan dengan cara memasukkan matriks berukuran 4 x 4 dengan nilai f(x,y), fx(x,y), fy(x,y), dan fxy(x,y) di titik (0,0),
    (0,1), (1,0), dan (1,1). Matrik kemudian diikuti 2 nilai yang merupakan nilai x dan y yang akan ditaksir dari hasil interpolasi bicubic.
 
    Format masukan:
@@ -61,7 +60,7 @@ Nilai yang ingin diaproksimasi: 12 <br>
    fxy(0,0) fxy(1,0) fxy(0,1) fxy(1,1)
    tx ty
    ```
-5. Sub program regresi linear akan menerima 1 atau 2 matriks masukan (diambil secara terpisah). Matriks pertama akan menerima data yang akan dijadikan acuan untuk membentuk persamaan regresi.
+4. Sub program regresi linear akan menerima 1 atau 2 matriks masukan (diambil secara terpisah). Matriks pertama akan menerima data yang akan dijadikan acuan untuk membentuk persamaan regresi.
    Kemudian jika ada nilai yang ingin ditaksir, akan diambil matriks kedua yang berukuran 1 x n-1 dimana n adalah jumlah kolom dari matriks pertama.
    
    Contoh:
