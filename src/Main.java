@@ -4,11 +4,6 @@ import java.util.Scanner;
 import src.Matrix;
 import src.Image_upscale;
 public class Main {
-
-
-
-    
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String inpmain;
@@ -154,7 +149,10 @@ public class Main {
 
     public static void intPol(){
         // Interpolasi Polinomial (Rafly)
-        Matrix.chooseWriteInterpolasi();
+        Matrix m = new Matrix();
+        m = Matrix.chooseNGetMatrix(false);
+        m = m.interpolasiPolinomial();
+        m.chooseWriteInterpolasi(); 
         return;
     }
 
