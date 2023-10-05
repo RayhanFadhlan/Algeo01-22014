@@ -512,7 +512,7 @@ public class Matrix {
             b.matrix[i][0] = sc.nextDouble();
         }
 
-        Matrix inverseA = a.inverseMatrix(a);
+        Matrix inverseA = a.inverseMatrixIdentity();
         System.out.println("Inverse A:");
         inverseA.printMatriks();
         System.out.println("Matriks b:");
@@ -787,11 +787,11 @@ public class Matrix {
     }
 
     /* MAIN OPERATION */
-    public Matrix inverseMatrix(Matrix par) {
+    public Matrix inverseMatrixIdentity() {
         // Metode Identitas
         Matrix m = new Matrix();
-        m.setMatrix(par.row, par.col);
-        m = copyMatrix(par);
+        m.setMatrix(this.row, this.col);
+        m = copyMatrix(this);
         Matrix identMatrix;
         identMatrix = new Matrix();
         identMatrix.setMatrix(m.row, m.col);
@@ -877,143 +877,114 @@ public class Matrix {
     //OPERASI INT POLINOMIAL
     //OPERASI INT POLINOMIAL
 
-    public static String interpolasiToString(){
-        String basis = "";
+    public String interpolasiToString(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        Matrix interpMatrix = this;
+        String base = "";
+
+        // "(%.2f)x^%d"
+
+        base += "f(x) = ";
+        for (int i = 0; i < interpMatrix.col - 2; i++) {
+            base += "(";
+            base += df.format(interpMatrix.matrix[0][i]);
+            base += ")x^";
+            base += ""+i;
+            if (!(i == interpMatrix.col - 3)){
+                base += " + ";
+            }
+
+        }
+        base += "\n";
+
+        // f(nilai) = tafsir
+        base += "f(";
+        base += ""+interpMatrix.matrix[0][interpMatrix.col-2];
+        base += ") = ";
+        base += ""+interpMatrix.matrix[0][interpMatrix.col-1];
 
 
-        return basis;
+        return base;
     }
 
-    public static void interpolasiPolinomial(boolean writeFile) {
-        Scanner sc = new Scanner(System.in);
-        int banyakTitik;
-        System.out.println("Masukkan Banyak Titik:");
-        banyakTitik = sc.nextInt();
-        if (writeFile == false) {
+    public Matrix interpolasiPolinomial() {
+        // try {
+            // Deklarasi Class
+            Scanner sc = new Scanner(System.in);
+            DecimalFormat df = new DecimalFormat("0.00");
+            int banyakTitik;
+            String base = "";
+
+            banyakTitik = this.row - 1;
+            System.out.println("Banyaknya titik adalah : " + banyakTitik);
     
             Matrix tabelMatrix = new Matrix();
+            // Matrix tabelMatrix = this;
             tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
-            tabelMatrix.printMatriks();
             for (int i = 0; i < banyakTitik; i++) {
-                System.out.println("Titik X:");
-                float x = sc.nextFloat();
-                System.out.println("Titik Y:");
-                float y = sc.nextFloat();
                 for (int j = 0; j < tabelMatrix.col; j++) {
                     if (j != tabelMatrix.col - 1) {
-                        tabelMatrix.matrix[i][j] = Math.pow(x, j);
+                        tabelMatrix.matrix[i][j] = Math.pow(this.matrix[i][0], j);
                     } else {
-                        tabelMatrix.matrix[i][j] = y;
+                        tabelMatrix.matrix[i][j] = this.matrix[i][1];
                     }
                 }
             }
+
+
             Matrix resultMatrix = new Matrix();
+            Matrix outputMatrix = new Matrix();
             resultMatrix = copyMatrix(tabelMatrix);
             resultMatrix = gaussJordan(tabelMatrix);
+            outputMatrix.setMatrix(1, resultMatrix.row + 2);
     
             // Cetak Persamaan di Consolenya
             System.out.printf("f(x) = ");
+            base += "f(x) = ";
             for (int i = 0; i < resultMatrix.row; i++) {
                 for (int j = 0; j < resultMatrix.col - 1;j++) {
                     if (resultMatrix.matrix[i][j] != 0) {
                         System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
+                        outputMatrix.matrix[0][j] = resultMatrix.matrix[i][resultMatrix.col-1];
+
+                        String konstanta = df.format(resultMatrix.matrix[i][resultMatrix.col-1]);
+                        String variabel = Integer.toString(j);
+                        base += "(";
+                        base += konstanta;
+                        base += ")x^";
+                        base += variabel;
+
                         if (i != resultMatrix.row -1) {
                             System.out.printf(" + ");
+                            base += " + ";
                         }
                     }
                 }
             }
             System.out.println();
-    
-            System.out.println("Masukkan nilai yang ingin ditafsir:");
-            float inputX = sc.nextFloat();
-            float result;
+            base += "\n";
+            double inputX = this.matrix[this.row-1][0];
+            System.out.println("Nilai yang ingin ditafsir adalah: " + inputX);
+
+            outputMatrix.matrix[0][resultMatrix.row] = inputX;
+            double result;
             result = 0;
             for (int i = 0; i < banyakTitik; i++) {
                 result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
             }
-
             System.out.printf("Result: %f\n", result);
-        } else {
-            try {
-                String namaFile;
-                DecimalFormat df = new DecimalFormat("0.00");
-                System.out.println("Masukan nama file");
-                sc.nextLine();
-                namaFile = sc.nextLine();
-                buatFile(namaFile);
-                FileWriter penulis = new FileWriter(namaFile + ".txt");
-        
-                Matrix tabelMatrix = new Matrix();
-                tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
-                tabelMatrix.printMatriks();
-                for (int i = 0; i < banyakTitik; i++) {
-                    System.out.println("Titik X:");
-                    float x = sc.nextFloat();
-                    System.out.println("Titik Y:");
-                    float y = sc.nextFloat();
-                    for (int j = 0; j < tabelMatrix.col; j++) {
-                        if (j != tabelMatrix.col - 1) {
-                            tabelMatrix.matrix[i][j] = Math.pow(x, j);
-                        } else {
-                            tabelMatrix.matrix[i][j] = y;
-                        }
-                    }
-                }
-                Matrix resultMatrix = new Matrix();
-                resultMatrix = copyMatrix(tabelMatrix);
-                resultMatrix = gaussJordan(tabelMatrix);
-        
-                // Cetak Persamaan di Consolenya
-                System.out.printf("f(x) = ");
-                penulis.write("f(x) = ");
-                for (int i = 0; i < resultMatrix.row; i++) {
-                    for (int j = 0; j < resultMatrix.col - 1;j++) {
-                        if (resultMatrix.matrix[i][j] != 0) {
-                            System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
+            outputMatrix.matrix[0][resultMatrix.row + 1] = result;
 
-                            String konstanta = df.format(resultMatrix.matrix[i][resultMatrix.col-1]);
-                            String variabel = Integer.toString(j);
-                            penulis.write("(");
-                            penulis.write(konstanta);
-                            penulis.write(")");
-                            penulis.write("x^");
-                            penulis.write(variabel);
-                            if (i != resultMatrix.row -1) {
-                                System.out.printf(" + ");
-                                penulis.write(" + ");
-                            }
-                        }
-                    }
-                }
-                System.out.println();
-                penulis.write("\n");
-        
-                System.out.println("Masukkan nilai yang ingin ditafsir:");
-                float inputX = sc.nextFloat();
-                float result;
-                result = 0;
-                for (int i = 0; i < banyakTitik; i++) {
-                    result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
-                }
-                System.out.printf("Result: %f\n", result);
+            String inputXStr = df.format(inputX);
+            String resultStr = df.format(result);
+            base += "f(";
+            base += inputXStr;
+            base += ") = ";
+            base += resultStr;
 
-                String inputXStr = df.format(inputX);
-                String resultStr = df.format(result);
-                penulis.write("f(");
-                penulis.write(inputXStr);
-                penulis.write(") = ");
-                penulis.write(resultStr);
+            return outputMatrix;
 
-                // sc.nextLine();
-                penulis.close();
-            } catch(IOException e) {
-                System.out.println("Input ada yang tidak jelas.");
-                e.printStackTrace();
-            }
-        }
-        
-    }
+    };
 
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
     // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
