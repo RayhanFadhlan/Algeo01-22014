@@ -1187,7 +1187,7 @@ public class Matrix {
         if (lokasi == "") {
             System.out.printf("Masukkan nama file: ");
             lokasi = sc.nextLine();
-            lokasi = "datainput\\"+lokasi;
+            lokasi = "test\\"+lokasi;
             File ada = new File(lokasi);
             while (!(ada.exists() && !ada.isDirectory())) { 
                 System.out.println("File tidak ditemukan");
