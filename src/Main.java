@@ -168,7 +168,6 @@ public class Main {
         String sAns;
         Scanner sc = new Scanner(System.in);
 
-        twrite = Matrix.isToFile();
         /* membuat matriks X dan inversnya */
         xBic = xBic.matrixBicubicSpline();
         invxBic = xBic.inverseMatrix(xBic);
@@ -180,6 +179,8 @@ public class Main {
         // hitung hasil
         hasil = yBic.bicMeasure(aBic);
         sAns = String.format("%.3f",hasil)+"\n";
+
+        twrite = Matrix.isToFile();
         if(twrite){
             Matrix.writeStringToFile(sAns);
         }
@@ -197,9 +198,6 @@ public class Main {
         Matrix mAns = new Matrix();
         boolean twrite;
         String sAns="";
-
-        //pilih keluaran
-        twrite = Matrix.isToFile();
 
         //mengambil masukan matriks dan membentuk matriks untuk regresi
         mInp=Matrix.chooseNGetMatrix(false);
@@ -224,6 +222,9 @@ public class Main {
             sAns += "Nilai Aproksimasi yang didapat adalah "+Matrix.regMeasure(mMea,mAns)+"\n";
         }
 
+
+        //pilih keluaran
+        twrite = Matrix.isToFile();
         //output
         if(twrite){
             Matrix.writeStringToFile(sAns);
