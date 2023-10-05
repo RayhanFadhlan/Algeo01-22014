@@ -13,7 +13,7 @@ Rayendra Althaf Taraka Noor - 13522107 <br>
 
 Untuk menjalankan program ini kalian dapat,
 
-1. Masuk kedalam folder class
+1. Masuk kedalam folder bin
 ```
   $ cd bin
 ```
@@ -50,4 +50,3 @@ Nilai yang ingin diaproksimasi: 12 <br>
 12
 ```
 
-## Program Structure
