@@ -634,6 +634,8 @@ public class Matrix {
                         this.matrix[cnt][0] = srow.nextDouble();
                     }
                     else{
+                        // Apabila input kolom matriks tidak sesuai dengan ukurannya, maka secara otmatis
+                        // kolom akan diisin dengan nol.
                         try {
                             this.matrix[i][j] = srow.nextDouble();
                         } catch (NoSuchElementException e) {
