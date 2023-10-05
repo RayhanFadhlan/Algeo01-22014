@@ -132,11 +132,12 @@ public class Main {
         switch (inp) {
             case "1":
                 // Identity (Rafly)
-                m = m.printInverseCofactor();
+                m = m.inverseMatrixIdentity();
                 System.out.println();
                 m.chooseWriteMatrix();
                 break;
             case "2":
+                // Metode Ekspansi Kofaktor - Adjoin
                 m = m.printInverseAdjoin();
                 System.out.println();
                 m.chooseWriteMatrix();

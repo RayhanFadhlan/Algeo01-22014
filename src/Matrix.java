@@ -328,11 +328,11 @@ public class Matrix {
     }
 
     /* MAIN OPERATION */
-    public Matrix inverseMatrix(Matrix par) {
+    public Matrix inverseMatrixIdentity() {
         // Metode Identitas
         Matrix m = new Matrix();
-        m.setMatrix(par.row, par.col);
-        m = copyMatrix(par);
+        m.setMatrix(this.row, this.col);
+        m = copyMatrix(this);
         Matrix identMatrix;
         identMatrix = new Matrix();
         identMatrix.setMatrix(m.row, m.col);
@@ -1302,7 +1302,7 @@ public class Matrix {
             b.matrix[i][0] = sc.nextDouble();
         }
 
-        Matrix inverseA = a.inverseMatrix(a);
+        Matrix inverseA = a.inverseMatrixIdentity();
         System.out.println("Inverse A:");
         inverseA.printMatriks();
         System.out.println("Matriks b:");
