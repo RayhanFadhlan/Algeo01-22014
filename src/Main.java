@@ -171,7 +171,7 @@ public class Main {
         twrite = Matrix.isToFile();
         /* membuat matriks X dan inversnya */
         xBic = xBic.matrixBicubicSpline();
-        invxBic = xBic.inverseMatrix(xBic);
+        invxBic = xBic.inverseMatrixIdentity();
 
         //membuat matriks a
         yBic = Matrix.chooseNGetMatrix(true);

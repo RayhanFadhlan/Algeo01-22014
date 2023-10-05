@@ -460,13 +460,6 @@ public class Matrix {
         writeStringToFile(mat);
     }
 
-    public void writeDeterminantToFile(double determinan) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        String determinanStr = df.format(determinan);
-        writeStringToFile(determinanStr);
-    }
-
-
     public static void writeStringToFile(String valueString) {
         // Fungsi ini hanya digunakan untuk menulis string kedalam file baru.
         // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil fungsi ini.
