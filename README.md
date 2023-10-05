@@ -19,7 +19,7 @@ Untuk menjalankan program ini kalian dapat,
 ```
 2. Run file Main
 ```
-java src.Main
+  $ java src.Main
 ```
 
 
