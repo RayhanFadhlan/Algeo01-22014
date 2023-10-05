@@ -17,12 +17,21 @@ Untuk menjalankan program ini kalian dapat,
 2. [Step 2]
 3. [Step 3]
 
+## Disclaimer
+1. Pastikan jika ingin menginput dari file, file .txt tersebut berada di dalam folder test.
+2. Jika ingin print output ke file, hasil file tersebut berada dalam folder dataoutput.
+
 
 ## Format File Masukan
 
 1. Setiap file masukan harus diakhiri newline
-2. Untuk penggunaan program SPL, format matriks adalah matriks augmented (Ax = B) dengan kolom terakhir adalah B.
+2. Untuk penggunaan program SPL,determinan, dan matriks balikan format matriks adalah matriks augmented (Ax = B) dengan kolom terakhir adalah B.
+```
 1 1 -1 -1 1
 2 5 -7 -5 -2
 2 -1 1 3 4
 5 2 -4 2 6
+```
+3. 
+
+## Program Structure
