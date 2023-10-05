@@ -454,6 +454,10 @@ public class Matrix {
         }
         return basis;
     }
+    public void matrixToCLI(){
+        //print this string
+        System.out.println(this);
+    }
 
     public void matrixToFile() {
         String mat = this.matrixToString();
@@ -801,7 +805,7 @@ public class Matrix {
             result.setMatrix(this.row, 1);
             result = this.getCramerSol();
             for (int i = 0; i < result.row; i++) {
-                System.out.printf("x%d = %.2f\n", i + 1, result.matrix[i][0]);
+                
                 res += "x" + (i + 1) + " = " + result.matrix[i][0] + "\n";
             }
         }
@@ -893,6 +897,7 @@ public class Matrix {
         String[] param = createArrayofParam();
         Matrix augmented = new Matrix();
         augmented = copyMatrix(this);
+        augmented.printMatriks();
         String result = "";
         if (!this.isMatrixAugmented()) {
             augmented = createNewRow(augmented.col - 1 - (augmented.row));
@@ -907,6 +912,7 @@ public class Matrix {
                 swaprow(augmented, i, findLeading1(augmented, i));
             }
         }
+        augmented.printMatriks();
         for (int i = 0; i < augmented.col - 1; i++) {
             if (augmented.isSolParam(i)) {
                 if(isRow0(augmented, i)){
@@ -916,8 +922,8 @@ public class Matrix {
                 else{
                     System.out.printf("x%d = ", i+1);
                     result += "x" + (i+1) + " = ";
+                    int counter = 0;
                     for(int j = findLeading1(augmented,i)+1; j < this.col -1;j++){
-                        int counter = 0;
                         if(augmented.matrix[i][j]!=0){
                             if(counter!=0){
                                 System.out.print("+ ");
@@ -928,7 +934,7 @@ public class Matrix {
                             counter++;
                         }
                         }
-                    if(augmented.matrix[i][augmented.col-1]!= 0){
+                    if(augmented.matrix[i][augmented.col-1]!= 0 || counter == 0){
                         System.out.printf("+ %.2f",augmented.matrix[i][augmented.col-1]);
                         result += "+ " + augmented.matrix[i][augmented.col-1];
                     }
@@ -949,7 +955,6 @@ public class Matrix {
     public String printSPLSol(Matrix m) {
         String result = "";
          if (isSPLInvalidValue(m)) {
-            System.out.println("SPL Tidak ada solusi.");
             result = "SPL Tidak ada solusi.";
             
         }
@@ -960,9 +965,9 @@ public class Matrix {
             
             for (int i = 0; i < m.col - 1; i++) {
                 
-                System.out.printf("x%d = %.2f\n", solCounter, m.matrix[i][m.col - 1]);
-                solCounter++;
+                
                 result+= "x" + solCounter + " = " + m.matrix[i][m.col - 1] + "\n";
+                solCounter++;
             }
         } 
         
@@ -970,49 +975,10 @@ public class Matrix {
             result =  m.printSPLInfSol();
             
 
-            
-            // int variable = 115;
-            // Matrix freeVariables = new Matrix();
-            // freeVariables.setMatrix(1, m.col);
-            // for (int i = 0; i < m.col - 1; i++) {
-            //     int idxLeadingOne = findLeading1(m, i);
-            //     freeVariables.matrix[0][idxLeadingOne] += 1;
-            //     printParametricValue(m, i);
-            // }
-
-            // for (int j = 0; j < m.col - 1; j++) {
-            //     if (freeVariables.matrix[0][j] == 0) {
-            //         System.out.printf("x%d = %c\n", j + 1, (char) variable + j);
-            //         // variable += 1;
-            //     }
-            // }
-
-            // variable = 115;
-            // for (int j = 1; j < m.col - 1; j++) {
-            //     if (freeVariables.matrix[0][j] == 0) {
-            //         System.out.printf("%c ", (char) variable + j);
-            //     }
-            // }
-            // System.out.printf("Memiliki nilai real yang bebas.");
         } 
         return result;
     }
 
-    public static void printParametricValue(Matrix m, int nRow) {
-        if (!isRow0New(m, nRow)) {
-            int variable = 115;
-            int leadingOneIdx = findLeading1(m, nRow);
-            System.out.printf("x%d = ", leadingOneIdx + 1);
-            for (int i = 0; i < m.col - 1; i++) {
-                if (m.matrix[nRow][i] != 0 && i != leadingOneIdx) {
-                    System.out.printf("(%.2f)%c + ", m.matrix[nRow][i], (char) variable + i - 2);
-                }
-                variable += 1;
-            }
-            System.out.printf("(%.2f)", m.matrix[nRow][m.col - 1]);
-            System.out.println();
-        }
-    }
 
     public static Matrix multiplyAfterLeading1byNeg1(Matrix m) {
         for (int i = 0; i < m.row; i++) {
@@ -1095,7 +1061,6 @@ public class Matrix {
 
         result = this.getAdjoin();
 
-        // print determinantcofac
         double detpowermin1 = 1 / this.getDeterminantCofactor();
         result = result.perkalianWithSkalar(detpowermin1);
         return result;
@@ -1116,7 +1081,7 @@ public class Matrix {
     public String printInverseSPLSol() {
         String result = "";
         if (!this.isSPLInverseable()) {
-            System.out.println("Tidak dapat dicari invers dari matriks, gunakan metode gauss atau gauss jordan");
+            
             result = "Tidak dapat dicari invers dari matriks, gunakan metode gauss atau gauss jordan";
         } else {
             Matrix inversed = new Matrix();
@@ -1132,7 +1097,7 @@ public class Matrix {
             sol = perkalianMatrix(inversed, matrixB);
             sol.printMatriks();
             for (int i = 0; i < sol.row; i++) {
-                System.out.printf("x%d = %.2f\n", i + 1, sol.matrix[i][0]);
+                
                 result += "x" + (i+1) + " = " + sol.matrix[i][0] + "\n";
             }
         }
@@ -1394,6 +1359,25 @@ public class Matrix {
         input = sc.nextInt();
         if (input == 1) {
             this.matrixToFile();
+        }
+    }
+    public void printstring(String s){
+        System.out.println(s);
+    }
+  
+
+    public void chooseWriteSPL(String s){
+        Scanner sc = new Scanner (System.in);
+        int input;
+        System.out.println("Apakah SPL ingin di cetak di File atau Commandline?");
+        System.out.println("1. File");
+        System.out.println("2. Commandline");
+        input = sc.nextInt();
+        if (input == 1) {
+            writeStringToFile(s);
+        }
+        else if (input == 2) {
+            printstring(s);
         }
     }
 

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.lang.Math;
 import javax.imageio.ImageIO;
 import java.util.Scanner;
+import src.Matrix;
 
 public class Image_upscale {
 
@@ -210,6 +211,16 @@ public class Image_upscale {
         }
 
     }
+    public static double[][] copyMat(Matrix m){
+        double[][] temp = new double[m.row][m.getCol()];
+        for(int i=0;i<m.row;i++){
+            for(int j=0;j<m.col;j++){
+                temp[i][j] = m.matrix[i][j];
+            }
+        }
+        return temp;
+    }
+
     public static int[][][] upscale(int[][][] inputImage, float ratio) {
         int width = inputImage.length;
         int height = inputImage[0].length;
@@ -224,31 +235,16 @@ public class Image_upscale {
             }
         }
         
-
-        double[][] MInv = {
-                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { -3, 3, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 2, -2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, -3, 3, 0, 0, -2, -1, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 2, -2, 0, 0, 1, 1, 0, 0 },
-                { -3, 0, 3, 0, 0, 0, 0, 0, -2, 0, -1, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, -3, 0, 3, 0, 0, 0, 0, 0, -2, 0, -1, 0 },
-                { 9, -9, -9, 9, 6, 3, -6, -3, 6, -6, 3, -3, 4, 2, 2, 1 },
-                { -6, 6, 6, -6, -3, -3, 3, 3, -4, 4, -2, 2, -2, -2, -1, -1 },
-                { 2, 0, -2, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 2, 0, -2, 0, 0, 0, 0, 0, 1, 0, 1, 0 },
-                { -6, 6, 6, -6, -4, -2, 4, 2, -3, 3, -3, 3, -2, -1, -2, -1 },
-                { 4, -4, -4, 4, 2, 2, -2, -2, 2, -2, 2, -2, 1, 1, 1, 1 }
-        };
+        Matrix mBic = new Matrix();
+        mBic = mBic.matrixBicubicSpline();
+        mBic = mBic.inverseMatrix(mBic);
+        double[][] MInv = copyMat(mBic);
+       
         int xNew, yNew;
         xNew = (int) Math.round(width * ratio);
         yNew = (int) Math.round(height * ratio);
 
-        // int xScale = xNew / (width - 1);
-        // int yScale = yNew / (height - 1);
+
         double xScale = ratio;
         double yScale = ratio;
         
@@ -258,7 +254,7 @@ public class Image_upscale {
             for (int j = 0 ; j < yNew; j++) {
                 for (int k = 0; k < 3; k++) {
 
-                    double W = -(((i / xScale) - Math.round(i / xScale)) -1 ); // -1 diakhir diapus buat testing
+                    double W = -(((i / xScale) - Math.round(i / xScale)) -1 ); 
                     double H = -(((j / yScale) - Math.round(j / yScale)) -1 );
 
                     double ix = i / xScale;
