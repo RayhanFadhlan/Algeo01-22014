@@ -400,7 +400,6 @@ public class Image_upscale {
         while(!checkImageExist(pathcek)){
             System.out.println("File tidak ditemukan, silahkan masukkan alamat file yang benar");
             //print pathcek
-            System.out.println(pathcek);
             imgname = sc.nextLine();
             pathcek = path + "\\" + imgname;
         }
