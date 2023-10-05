@@ -2,6 +2,8 @@ package src;
 // import src.matrix;
 // import java.util.Scanner;
 
+import src.lib.Matrix.Matrix;
+
 public class udin {
     public static void main(String[] args){
         Matrix n;

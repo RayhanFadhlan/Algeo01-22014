@@ -1,4 +1,4 @@
-package src;
+package src.lib.Matrix;
 
 import java.io.File;
 import java.util.NoSuchElementException;

@@ -1,10 +1,10 @@
-package src;
+package src.lib.Matrix;
 import java.io.*;
 import java.awt.image.BufferedImage;
 import java.lang.Math;
 import javax.imageio.ImageIO;
+
 import java.util.Scanner;
-import src.Matrix;
 
 public class Image_upscale {
 

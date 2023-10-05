@@ -1,6 +1,8 @@
-package src;
+package src.lib.Matrix;
 
 import java.util.Scanner;
+
+import src.Menu;
 
 public class Function {
     public static void spl() {

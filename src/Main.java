@@ -1,8 +1,10 @@
 package src;
-import src.Function;
+import src.lib.Matrix.Function;
+import src.lib.Matrix.Image_upscale;
+
 import java.util.Scanner;
-import src.Matrix;
-import src.Image_upscale;
+// import src.Matrix;
+// import src.Image_upscale;
 public class Main {
     public static void main  (String[] args) {
         Scanner sc = new Scanner(System.in);
