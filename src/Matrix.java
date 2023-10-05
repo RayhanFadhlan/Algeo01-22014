@@ -2,16 +2,11 @@ package src;
 
 import java.io.File;
 import java.util.NoSuchElementException;
-//import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.lang.Math;
-//import java.nio.file.Files;
 import java.text.DecimalFormat;
-//import java.util.Arrays;
-//import javax.swing.plaf.BorderUIResource.MatteBorderUIResource;
-//import javax.swing.plaf.synth.SynthSpinnerUI;
 
 public class Matrix {
     double[][] matrix;
@@ -74,7 +69,7 @@ public class Matrix {
 
     /* OPERASI MATRIKS */
     public Matrix add(Matrix m) {
-        // Menjumlahkan matrik dengan elemennya sendiri
+        // Menjumlahkan matrik dengan matriks lain
         Matrix result = new Matrix();
         result.setMatrix(row, col);
         for (int i = 0; i < row; i++) {
