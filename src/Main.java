@@ -136,17 +136,32 @@ public class Main {
         switch (inp) {
             case "1":
                 // Identity (Rafly)
-                m = m.inverseMatrixIdentity();
-                m.printMatriks();
-                System.out.println();
-                m.chooseWriteMatrix();
+                if(!m.isSquare() || m.determinantGaussMatriks() == 0){
+                    System.out.println("Matriks tidak berukuran nxn atau determinan = 0. tidak dapat dicari invers.");
+                  
+                }
+                else{
+                    m = m.inverseMatrixIdentity();
+                    System.out.println("Matriks invers: ");
+                    m.printMatriks();
+                    System.out.println();
+                    m.chooseWriteMatrix();
+                }
                 break;
             case "2":
                 // Metode Ekspansi Kofaktor - Adjoin
-                m = m.printInverseCofactor();
-                m.printMatriks();
-                System.out.println();
-                m.chooseWriteMatrix();
+                if(!m.isSquare() || m.determinantGaussMatriks() == 0){
+                    System.out.println("Matriks tidak berukuran nxn atau determinan = 0. tidak dapat dicari invers.");
+                  
+                }
+                else{
+
+                    m = m.printInverseCofactor();
+                    System.out.println("Matriks invers: ");
+                    m.printMatriks();
+                    System.out.println();
+                    m.chooseWriteMatrix();
+                }
                 break;
             default:
                 System.out.println("Masukkan tidak valid, kembali ke main menu.");

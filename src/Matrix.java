@@ -14,22 +14,20 @@ public class Matrix {
     int col;
     double tx, ty;
 
+    // DAFTAR ISI GARIS BESAR PROGRAM
+    // PRIMITIF line 30
+    // OPERASI MATRIKS DASAR line 135
+    // OPERASI MATRIKS LANJUTAN line 314
+    // OPERASI SPL line 504
+    // OPERASI DETERMINAN line 666
+    // OPERASI INVERSE line 751
+    // OPERASI INT POLINOMIAL line 877
+    // OPERASI INT BICUBIC line 1023
+    // OPERASI REGRESI LINEAR line 1093
 
-//DAFTAR ISI GARIS BESAR PROGRAM
-    //PRIMITIF line 30
-    //OPERASI MATRIKS DASAR line 135
-    //OPERASI MATRIKS LANJUTAN line 314
-    //OPERASI SPL line 504
-    //OPERASI DETERMINAN line 666
-    //OPERASI INVERSE line 751
-    //OPERASI INT POLINOMIAL line 877
-    //OPERASI INT BICUBIC line 1023
-    //OPERASI REGRESI LINEAR line 1093
-
-
-    //PRIMITIF
-    //PRIMITIF
-    //PRIMITIF
+    // PRIMITIF
+    // PRIMITIF
+    // PRIMITIF
     // Constructor
     public Matrix() {
         this.row = 0;
@@ -127,14 +125,16 @@ public class Matrix {
         }
     }
 
-// BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-// BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-// BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-
-// OPERASI MATRIKS DASAR
-// OPERASI MATRIKS DASAR
-// OPERASI MATRIKS DASAR
+    // OPERASI MATRIKS DASAR
+    // OPERASI MATRIKS DASAR
+    // OPERASI MATRIKS DASAR
 
     public Matrix removeCol(int col) {
         Matrix result = new Matrix();
@@ -150,13 +150,13 @@ public class Matrix {
         return result;
     }
 
-    //mengcopy matriks dengan menghapus kolom terakhir
+    // mengcopy matriks dengan menghapus kolom terakhir
     public Matrix createNewRow(int jumlrowditambah) {
         Matrix result = new Matrix();
         int currentrow = jumlrowditambah + this.row;
-        result.setMatrix(currentrow,this.col);
-        for(int i = 0;i<this.row;i++){
-            for(int j = 0;j<this.col;j++){
+        result.setMatrix(currentrow, this.col);
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
                 result.matrix[i][j] = this.matrix[i][j];
             }
         }
@@ -306,14 +306,16 @@ public class Matrix {
         return (this.row >= this.col - 1);
     }
 
-// BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-// BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-// BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-
-//OPERASI MATRIKS LANJUTAN
-//OPERASI MATRIKS LANJUTAN
-//OPERASI MATRIKS LANJUTAN
+    // OPERASI MATRIKS LANJUTAN
+    // OPERASI MATRIKS LANJUTAN
+    // OPERASI MATRIKS LANJUTAN
 
     public Matrix formMatrixfrom1Col(int col) {
         Matrix result = new Matrix();
@@ -477,16 +479,18 @@ public class Matrix {
         return sum;
     }
 
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // OPERASI SPL
+    // OPERASI SPL
+    // OPERASI SPL
 
-    //OPERASI SPL
-    //OPERASI SPL
-    //OPERASI SPL
-
-    public String  getSPLGauss() {
+    public String getSPLGauss() {
         Matrix m = new Matrix();
         m = copyMatrix(this);
         m = gauss(m);
@@ -507,7 +511,7 @@ public class Matrix {
                     }
                 }
             }
-           String s =  printSPLSol(m);
+            String s = printSPLSol(m);
             return s;
         } else { // SPL inf sol
 
@@ -535,7 +539,7 @@ public class Matrix {
             return s;
         } else { // SPL have inf sol
             String s = printSPLSol(m);
-          
+
             return s;
         }
     }
@@ -619,14 +623,17 @@ public class Matrix {
         }
         return false;
     }
-    
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-    //OPERASI DETERMINAN
-    //OPERASI DETERMINAN
-    //OPERASI DETERMINAN
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+
+    // OPERASI DETERMINAN
+    // OPERASI DETERMINAN
+    // OPERASI DETERMINAN
 
     public boolean isMatrixCramerable() {
         if (this.row != this.col - 1) {
@@ -635,8 +642,6 @@ public class Matrix {
 
         else if (this.getEquationMat().getDeterminantCofactor() == 0) {
             return false;
-
-
 
         }
         return true;
@@ -705,21 +710,22 @@ public class Matrix {
         return result;
     }
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-    //OPERASI INVERSE
-    //OPERASI INVERSE
-    //OPERASI INVERSE
+    // OPERASI INVERSE
+    // OPERASI INVERSE
+    // OPERASI INVERSE
 
-
-    public Matrix printInverseCofactor(){
-        if(!this.isSquare() || this.determinantGaussMatriks() == 0){
+    public Matrix printInverseCofactor() {
+        if (!this.isSquare() || this.determinantGaussMatriks() == 0) {
             System.out.println("Matriks tidak berukuran nxn. tidak dapat dicari invers.");
             return null;
-        }
-        else{
+        } else {
             Matrix result = new Matrix();
             result.setMatrix(this.row, this.col);
             result = this.getAdjoin();
@@ -728,7 +734,6 @@ public class Matrix {
                     result.matrix[i][j] /= this.determinantGaussMatriks();
                 }
             }
-            result.printMatriks();
             return result;
         }
     }
@@ -816,15 +821,18 @@ public class Matrix {
         }
     }
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-    //OPERASI INT POLINOMIAL
-    //OPERASI INT POLINOMIAL
-    //OPERASI INT POLINOMIAL
+    // OPERASI INT POLINOMIAL
+    // OPERASI INT POLINOMIAL
+    // OPERASI INT POLINOMIAL
 
-    public String interpolasiToString(){
+    public String interpolasiToString() {
         DecimalFormat df = new DecimalFormat("0.00");
         Matrix interpMatrix = this;
         String base = "";
@@ -836,8 +844,8 @@ public class Matrix {
             base += "(";
             base += df.format(interpMatrix.matrix[0][i]);
             base += ")x^";
-            base += ""+i;
-            if (!(i == interpMatrix.col - 3)){
+            base += "" + i;
+            if (!(i == interpMatrix.col - 3)) {
                 base += " + ";
             }
 
@@ -846,100 +854,101 @@ public class Matrix {
 
         // f(nilai) = tafsir
         base += "f(";
-        base += ""+interpMatrix.matrix[0][interpMatrix.col-2];
+        base += "" + interpMatrix.matrix[0][interpMatrix.col - 2];
         base += ") = ";
-        base += ""+interpMatrix.matrix[0][interpMatrix.col-1];
-
+        base += "" + interpMatrix.matrix[0][interpMatrix.col - 1];
 
         return base;
     }
 
     public Matrix interpolasiPolinomial() {
         // try {
-            // Deklarasi Class
-            Scanner sc = new Scanner(System.in);
-            DecimalFormat df = new DecimalFormat("0.00");
-            int banyakTitik;
-            String base = "";
+        // Deklarasi Class
+        Scanner sc = new Scanner(System.in);
+        DecimalFormat df = new DecimalFormat("0.00");
+        int banyakTitik;
+        String base = "";
 
-            banyakTitik = this.row - 1;
-            System.out.println("Banyaknya titik adalah : " + banyakTitik);
-    
-            Matrix tabelMatrix = new Matrix();
-            // Matrix tabelMatrix = this;
-            tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
-            for (int i = 0; i < banyakTitik; i++) {
-                for (int j = 0; j < tabelMatrix.col; j++) {
-                    if (j != tabelMatrix.col - 1) {
-                        tabelMatrix.matrix[i][j] = Math.pow(this.matrix[i][0], j);
-                    } else {
-                        tabelMatrix.matrix[i][j] = this.matrix[i][1];
+        banyakTitik = this.row - 1;
+        System.out.println("Banyaknya titik adalah : " + banyakTitik);
+
+        Matrix tabelMatrix = new Matrix();
+        // Matrix tabelMatrix = this;
+        tabelMatrix.setMatrix(banyakTitik, banyakTitik + 1);
+        for (int i = 0; i < banyakTitik; i++) {
+            for (int j = 0; j < tabelMatrix.col; j++) {
+                if (j != tabelMatrix.col - 1) {
+                    tabelMatrix.matrix[i][j] = Math.pow(this.matrix[i][0], j);
+                } else {
+                    tabelMatrix.matrix[i][j] = this.matrix[i][1];
+                }
+            }
+        }
+
+        Matrix resultMatrix = new Matrix();
+        Matrix outputMatrix = new Matrix();
+        resultMatrix = copyMatrix(tabelMatrix);
+        resultMatrix = gaussJordan(tabelMatrix);
+        outputMatrix.setMatrix(1, resultMatrix.row + 2);
+
+        // Cetak Persamaan di Consolenya
+        System.out.printf("f(x) = ");
+        base += "f(x) = ";
+        for (int i = 0; i < resultMatrix.row; i++) {
+            for (int j = 0; j < resultMatrix.col - 1; j++) {
+                if (resultMatrix.matrix[i][j] != 0) {
+                    System.out.printf("(%.2f)x^%d", resultMatrix.matrix[i][resultMatrix.col - 1], j);
+                    outputMatrix.matrix[0][j] = resultMatrix.matrix[i][resultMatrix.col - 1];
+
+                    String konstanta = df.format(resultMatrix.matrix[i][resultMatrix.col - 1]);
+                    String variabel = Integer.toString(j);
+                    base += "(";
+                    base += konstanta;
+                    base += ")x^";
+                    base += variabel;
+
+                    if (i != resultMatrix.row - 1) {
+                        System.out.printf(" + ");
+                        base += " + ";
                     }
                 }
             }
+        }
+        System.out.println();
+        base += "\n";
+        double inputX = this.matrix[this.row - 1][0];
+        System.out.println("Nilai yang ingin ditafsir adalah: " + inputX);
 
+        outputMatrix.matrix[0][resultMatrix.row] = inputX;
+        double result;
+        result = 0;
+        for (int i = 0; i < banyakTitik; i++) {
+            result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
+        }
+        outputMatrix.matrix[0][resultMatrix.row + 1] = result;
 
-            Matrix resultMatrix = new Matrix();
-            Matrix outputMatrix = new Matrix();
-            resultMatrix = copyMatrix(tabelMatrix);
-            resultMatrix = gaussJordan(tabelMatrix);
-            outputMatrix.setMatrix(1, resultMatrix.row + 2);
-    
-            // Cetak Persamaan di Consolenya
-            System.out.printf("f(x) = ");
-            base += "f(x) = ";
-            for (int i = 0; i < resultMatrix.row; i++) {
-                for (int j = 0; j < resultMatrix.col - 1;j++) {
-                    if (resultMatrix.matrix[i][j] != 0) {
-                        System.out.printf("(%.2f)x^%d",resultMatrix.matrix[i][resultMatrix.col-1],j);
-                        outputMatrix.matrix[0][j] = resultMatrix.matrix[i][resultMatrix.col-1];
+        String inputXStr = df.format(inputX);
+        String resultStr = df.format(result);
+        System.out.println("Result: " + resultStr);
+        base += "f(";
+        base += inputXStr;
+        base += ") = ";
+        base += resultStr;
 
-                        String konstanta = df.format(resultMatrix.matrix[i][resultMatrix.col-1]);
-                        String variabel = Integer.toString(j);
-                        base += "(";
-                        base += konstanta;
-                        base += ")x^";
-                        base += variabel;
-
-                        if (i != resultMatrix.row -1) {
-                            System.out.printf(" + ");
-                            base += " + ";
-                        }
-                    }
-                }
-            }
-            System.out.println();
-            base += "\n";
-            double inputX = this.matrix[this.row-1][0];
-            System.out.println("Nilai yang ingin ditafsir adalah: " + inputX);
-
-            outputMatrix.matrix[0][resultMatrix.row] = inputX;
-            double result;
-            result = 0;
-            for (int i = 0; i < banyakTitik; i++) {
-                result += resultMatrix.matrix[i][banyakTitik] * Math.pow(inputX, i);
-            }
-            outputMatrix.matrix[0][resultMatrix.row + 1] = result;
-            
-            String inputXStr = df.format(inputX);
-            String resultStr = df.format(result);
-            System.out.println("Result: " + resultStr);
-            base += "f(";
-            base += inputXStr;
-            base += ") = ";
-            base += resultStr;
-
-            return outputMatrix;
+        return outputMatrix;
 
     };
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-    //OPERASI INT BICUBIC
-    //OPERASI INT BICUBIC
-    //OPERASI INT BICUBIC
+    // OPERASI INT BICUBIC
+    // OPERASI INT BICUBIC
+    // OPERASI INT BICUBIC
 
     public Matrix matrixBicubicSpline() {
         Matrix aBic = new Matrix();
@@ -1002,14 +1011,16 @@ public class Matrix {
         return hasil;
     }
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-
-    //OPERASI REGRESI LINEAR
-    //OPERASI REGRESI LINEAR
-    //OPERASI REGRESI LINEAR
+    // OPERASI REGRESI LINEAR
+    // OPERASI REGRESI LINEAR
+    // OPERASI REGRESI LINEAR
 
     public void formReglin(Matrix parxy) {
         Matrix xy = new Matrix();
@@ -1059,69 +1070,73 @@ public class Matrix {
 
     }
 
-    public static String regMeasure(Matrix a,Matrix b){
+    public static String regMeasure(Matrix a, Matrix b) {
         int sum = 0;
         sum += b.matrix[0][0];
-        for(int i =1;i<a.col;i++){
-            sum += (a.matrix[0][i]+b.matrix[i-1][i-1]);
+        for (int i = 1; i < a.col; i++) {
+            sum += (a.matrix[0][i] + b.matrix[i - 1][i - 1]);
         }
-        return sum+"\n";
+        return sum + "\n";
     }
 
-    public static String regToString(Matrix m){
+    public static String regToString(Matrix m) {
         String str = "y = ";
         boolean pert = true;
-        for(int i=0;i<m.row;i++){
-            if(m.matrix[i][m.col-1]!=0&&i!=0){
-                if(m.matrix[i][m.col-1]>0&&!pert) str += "+ ";
-                if(m.matrix[i][m.col-1]<0) str += "- ";
-                str+=(String.format("%.3f",Math.abs(m.matrix[i][m.col-1])));
-                if(i!=0) str+=("x"+(i));
-                str+=" ";
-                pert=true;
+        for (int i = 0; i < m.row; i++) {
+            if (m.matrix[i][m.col - 1] != 0 && i != 0) {
+                if (m.matrix[i][m.col - 1] > 0 && !pert)
+                    str += "+ ";
+                if (m.matrix[i][m.col - 1] < 0)
+                    str += "- ";
+                str += (String.format("%.3f", Math.abs(m.matrix[i][m.col - 1])));
+                if (i != 0)
+                    str += ("x" + (i));
+                str += " ";
+                pert = true;
             }
         }
         return str;
     }
 
-    public static Matrix wantMeasure(Matrix m){
+    public static Matrix wantMeasure(Matrix m) {
         Scanner sc = new Scanner(System.in);
         Matrix mMea = new Matrix();
         String sInp;
-        while (true){
+        while (true) {
             System.out.println("Apakah ada titik yang ingin diperkirakan dari regresi ini?\n1.Ya    2.Tidak");
             sInp = sc.nextLine();
-            switch (sInp){
+            switch (sInp) {
                 case "1":
-                    System.out.println("Masukkan variable dalam bentuk matriks n x 1"+
-                    "\ndimana n adalah jumlah variable dari masukkan pertama");
-                    while(mMea.row==0&&mMea.row==0){
-                        mMea=Matrix.chooseNGetMatrix(false);
-                        if(mMea.row!=1||mMea.col!=(m.col-1)){
+                    System.out.println("Masukkan variable dalam bentuk matriks n x 1" +
+                            "\ndimana n adalah jumlah variable dari masukkan pertama");
+                    while (mMea.row == 0 && mMea.row == 0) {
+                        mMea = Matrix.chooseNGetMatrix(false);
+                        if (mMea.row != 1 || mMea.col != (m.col - 1)) {
                             System.out.println("Ukuran Matriks tidak sesuai\nMencoba mengambil kembali matriks");
-                        }
-                        else{
+                        } else {
                             return mMea;
                         }
                         break;
                     }
                 case "2":
                     return mMea;
-                default :
+                default:
                     System.out.println("Masukkan tidak valid");
                     break;
             }
         }
     }
 
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-
-    //MISC and I/O
-    //MISC and I/O
-    //MISC and I/O
+    // MISC and I/O
+    // MISC and I/O
+    // MISC and I/O
 
     public void bacaFileMatrix(String parlokasi, boolean parbic) {
         int nrow = 0, ncol = 0;
@@ -1133,18 +1148,18 @@ public class Matrix {
         if (lokasi == "") {
             System.out.printf("Masukkan nama file: ");
             lokasi = sc.nextLine();
-            lokasi = "test\\"+lokasi;
+            lokasi = "../test/" + lokasi;
             File ada = new File(lokasi);
-            while (!(ada.exists() && !ada.isDirectory())) { 
+            while (!(ada.exists() && !ada.isDirectory())) {
                 System.out.println("File tidak ditemukan");
                 System.out.printf("Masukkan nama file: ");
                 lokasi = sc.nextLine();
-                lokasi = "datainput\\"+lokasi;
+                lokasi = "../test/" + lokasi;
                 ada = new File(lokasi);
             }
         }
-        if (bic){
-           nrow--;
+        if (bic) {
+            nrow--;
         }
         try {
             /* mengambil file */
@@ -1159,22 +1174,19 @@ public class Matrix {
                 cntcol.nextDouble();
             }
 
-
             /* menghitung baris */
             while (scf.hasNextLine()) {
                 scf.nextLine();
                 nrow++;
 
             }
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-      
-        if (bic){
+
+        if (bic) {
             setMatrix(16, 1);
-        }
-        else{
+        } else {
             setMatrix(nrow, ncol);
         }
         try {
@@ -1184,11 +1196,17 @@ public class Matrix {
             for (int i = 0; i < nrow; i++) {
                 Scanner srow = new Scanner(scf.nextLine());
                 for (int j = 0; j < ncol; j++) {
-                    if (bic){
+                    if (bic) {
                         this.matrix[cnt][0] = srow.nextDouble();
-                    }
-                    else{
-                        this.matrix[i][j] = srow.nextDouble();
+                    } else {
+                        try{
+                            this.matrix[i][j] = srow.nextDouble();
+                        } catch (NoSuchElementException e) {
+                     
+                            this.matrix[i][j] = 0;
+                            
+                        }
+                        
 
                     }
                     cnt++;
@@ -1200,22 +1218,21 @@ public class Matrix {
                 this.tx = srow.nextDouble();
                 this.ty = srow.nextDouble();
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public static void buatFile(String namaFile) {
-        File objekFile = new File("dataoutput/" + namaFile);
+        File objekFile = new File("../dataoutput/" + namaFile);
         System.out.println("File " + objekFile.getName() + " dibuat.");
     }
 
     public String matrixToString() {
         DecimalFormat df = new DecimalFormat("0.00");
         String basis = "";
-        for (int i=0; i<this.row;i++){
-            for (int j=0 ; j<this.col;j++){
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
                 String elemen = df.format(this.matrix[i][j]);
                 basis += elemen;
                 basis += " ";
@@ -1225,24 +1242,23 @@ public class Matrix {
         return basis;
     }
 
-
     public void matrixToFile() {
         String mat = this.matrixToString();
         writeStringToFile(mat);
     }
 
-
     public static void writeStringToFile(String valueString) {
         // Fungsi ini hanya digunakan untuk menulis string kedalam file baru.
-        // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil fungsi ini.
+        // Cara Penggunaan: Ubah output operasi menjadi kumpulan string, lalu panggil
+        // fungsi ini.
         try {
             String namaFile;
             System.out.println("Masukan nama file:");
             Scanner sc = new Scanner(System.in);
             namaFile = sc.nextLine();
             buatFile(namaFile);
-            FileWriter penulis = new FileWriter("dataoutput/"+namaFile + ".txt");
-            
+            FileWriter penulis = new FileWriter("../dataoutput/" + namaFile + ".txt");
+
             penulis.write(valueString);
             penulis.close();
         } catch (IOException e) {
@@ -1254,17 +1270,17 @@ public class Matrix {
     public String printCramerSol() {
         String res = "";
         if (!this.isMatrixCramerable()) {
-           
+
             res += "Matriks tidak dapat diselesaikan dengan metode Cramer, silakan menggunakan metode gauss atau gauss jordan.";
-        } 
-        
+        }
+
         else {
 
             Matrix result = new Matrix();
             result.setMatrix(this.row, 1);
             result = this.getCramerSol();
             for (int i = 0; i < result.row; i++) {
-                
+
                 res += "x" + (i + 1) + " = " + result.matrix[i][0] + "\n";
             }
         }
@@ -1293,18 +1309,19 @@ public class Matrix {
         Scanner sc = new Scanner(System.in);
         Matrix result = new Matrix();
         boolean inpValid = false;
-        while(!inpValid){
+        while (!inpValid) {
             System.out.println("Pilih cara input matriks" + newline + "1.File" + newline + "2.Keyboard");
             inp = sc.nextLine();
             switch (inp) {
                 case "1":
                     result.bacaFileMatrix("", bic);
-                    inpValid=true;
+                    inpValid = true;
                     break;
                 case "2":
-                    System.out.println("========= README! =========\nApabila menggunakan operasi interpolasi polinom, pastikan col = 2 dan row sebanyak n + 1 titik.\nBaris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol\n===========================");
+                    System.out.println(
+                            "========= README! =========\nApabila menggunakan operasi interpolasi polinom, pastikan col = 2 dan row sebanyak n + 1 titik.\nBaris terakhir merupakan nilai yang ingin diaproksimasi diikuti dengan nol\n===========================");
                     result.bacaMatriks(bic);
-                    inpValid=true;
+                    inpValid = true;
                     break;
                 default:
                     break;
@@ -1331,8 +1348,8 @@ public class Matrix {
         return determinantStr;
     }
 
-    public void chooseWriteDeterminant(double determinan){
-        Scanner sc = new Scanner (System.in);
+    public void chooseWriteDeterminant(double determinan) {
+        Scanner sc = new Scanner(System.in);
         int input;
         System.out.println("Apakah determinan ingin di cetak?");
         System.out.println("1. Yes");
@@ -1343,8 +1360,8 @@ public class Matrix {
         }
     }
 
-    public void chooseWriteInterpolasi(){
-        Scanner sc = new Scanner (System.in);
+    public void chooseWriteInterpolasi() {
+        Scanner sc = new Scanner(System.in);
         int input;
         System.out.println("Apakah interpolasi ingin di cetak?");
         System.out.println("1. Yes");
@@ -1353,27 +1370,26 @@ public class Matrix {
         if (input == 1) {
             // interpolasiPolinomial(true);
             String base = this.interpolasiToString();
-            writeStringToFile(base);   
+            writeStringToFile(base);
         }
     }
 
-    public static boolean isToFile(){
+    public static boolean isToFile() {
         Scanner sc = new Scanner(System.in);
         String sInp;
-        while (true){
+        while (true) {
             System.out.println("Pilih media output\n1.File    2.Layar");
             sInp = sc.nextLine();
-            switch (sInp){
+            switch (sInp) {
                 case "1":
                     return true;
                 case "2":
                     return false;
-                default :
+                default:
                     System.out.println("Masukkan tidak valid");
             }
         }
     }
-
 
     public double pangkat(double a, double b) {
         if (a == 0) {
@@ -1409,37 +1425,35 @@ public class Matrix {
         augmented.printMatriks();
         for (int i = 0; i < augmented.col - 1; i++) {
             if (augmented.isSolParam(i)) {
-                if(isRow0(augmented, i)){
-                    System.out.printf("x%d = %s\n", i+1,param[i]);
-                    result += "x" + (i+1) + " = " + param[i] + "\n";
-                }
-                else{
-                    System.out.printf("x%d = ", i+1);
-                    result += "x" + (i+1) + " = ";
+                if (isRow0(augmented, i)) {
+                    System.out.printf("x%d = %s\n", i + 1, param[i]);
+                    result += "x" + (i + 1) + " = " + param[i] + "\n";
+                } else {
+                    System.out.printf("x%d = ", i + 1);
+                    result += "x" + (i + 1) + " = ";
                     int counter = 0;
-                    for(int j = findLeading1(augmented,i)+1; j < this.col -1;j++){
-                        if(augmented.matrix[i][j]!=0){
-                            if(counter!=0){
+                    for (int j = findLeading1(augmented, i) + 1; j < this.col - 1; j++) {
+                        if (augmented.matrix[i][j] != 0) {
+                            if (counter != 0) {
                                 System.out.print("+ ");
                                 result += "+ ";
                             }
-                            System.out.printf("%.2f%s ",augmented.matrix[i][j]*-1 ,param[j]);
-                            result += augmented.matrix[i][j]*-1 + param[j] + " ";
+                            System.out.printf("%.2f%s ", augmented.matrix[i][j] * -1, param[j]);
+                            result += augmented.matrix[i][j] * -1 + param[j] + " ";
                             counter++;
                         }
-                        }
-                    if(augmented.matrix[i][augmented.col-1]!= 0 || counter == 0){
-                        System.out.printf("+ %.2f",augmented.matrix[i][augmented.col-1]);
-                        result += "+ " + augmented.matrix[i][augmented.col-1];
+                    }
+                    if (augmented.matrix[i][augmented.col - 1] != 0 || counter == 0) {
+                        System.out.printf("+ %.2f", augmented.matrix[i][augmented.col - 1]);
+                        result += "+ " + augmented.matrix[i][augmented.col - 1];
                     }
                     System.out.printf("\n");
                     result += "\n";
                 }
-                
-            }
-            else{
-                System.out.printf("x%d = %f",i+1,augmented.matrix[i][augmented.col-1]);
-                result += "x" + (i+1) + " = " + augmented.matrix[i][augmented.col-1] + "\n";
+
+            } else {
+                System.out.printf("x%d = %f", i + 1, augmented.matrix[i][augmented.col - 1]);
+                result += "x" + (i + 1) + " = " + augmented.matrix[i][augmented.col - 1] + "\n";
             }
         }
         return result;
@@ -1448,35 +1462,32 @@ public class Matrix {
 
     public String printSPLSol(Matrix m) {
         String result = "";
-         if (isSPLInvalidValue(m)) {
+        if (isSPLInvalidValue(m)) {
             result = "SPL Tidak ada solusi.";
-            
-        }
 
+        }
 
         else if (isSPLUnique(m)) {
             int solCounter = 1;
-            
+
             for (int i = 0; i < m.col - 1; i++) {
-                
-                
-                result+= "x" + solCounter + " = " + m.matrix[i][m.col - 1] + "\n";
+
+                result += "x" + solCounter + " = " + m.matrix[i][m.col - 1] + "\n";
                 solCounter++;
             }
-        } 
-        
-        else  { // if SPL inf sol
-            result =  m.printSPLInfSol();
-            
+        }
 
-        } 
+        else { // if SPL inf sol
+            result = m.printSPLInfSol();
+
+        }
         return result;
     }
 
     public String printInverseSPLSol() {
         String result = "";
         if (!this.isSPLInverseable()) {
-            
+
             result = "Tidak dapat dicari invers dari matriks, gunakan metode gauss atau gauss jordan";
         } else {
             Matrix inversed = new Matrix();
@@ -1491,16 +1502,19 @@ public class Matrix {
             sol.setMatrix(this.row, 1);
             sol = perkalianMatrix(inversed, matrixB);
             for (int i = 0; i < sol.row; i++) {
-                
-                result += "x" + (i+1) + " = " + sol.matrix[i][0] + "\n";
+
+                result += "x" + (i + 1) + " = " + sol.matrix[i][0] + "\n";
             }
         }
         return result;
 
     }
 
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
-    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
+    // BATAS SUCI BATAS SUCI BATAS SUCI BATAS SUCI
 
 }
